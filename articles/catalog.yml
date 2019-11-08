@@ -1,10 +1,17 @@
 PREDEF:
-  - preface.re
+# はじめに
+  - introduction.re
 
 CHAPS:
-  - article.re
+# とりあえず
+  - ssl.re
 
 APPENDIX:
+# 付録
+#  - loveIsSelfishSunshine.re
 
 POSTDEF:
+# あとがき
+  - postscript.re
+# 執筆者一覧
   - contributors.re
