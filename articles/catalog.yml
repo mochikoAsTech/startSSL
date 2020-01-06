@@ -3,6 +3,9 @@ PREDEF:
   - introduction.re
 
 CHAPS:
+# 使わなかったAlibaba Cloudのアカウント作成
+# - alibaba.re
+
 # とりあえず
   - ssl.re
 

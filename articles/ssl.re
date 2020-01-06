@@ -1,146 +1,92 @@
 = SSLのサイトを作ってみよう
 
-== Alibaba Cloudでアカウント登録
+SSLを理解するには、実際に手を動かしてやってみるのがいちばんです。実際にSSL証明書を取得して、HTTPSのサイトを作ってみましょう。
+
+HTTPSでサイトを作るのに必要な材料は次の3つです。
+
+* ウェブサーバ
+* ドメイン名
+* SSL証明書
+
+まずは1つめのウェブサーバを立ててみましょう。
+
+== ウェブサーバを立てよう
+
+=== サイトを作るのにどうしてサーバがいるの？
+
+これからウェブサーバを立てますが…どうしてサイトを作りたいだけなのに、ウェブサーバが必要なのでしょう？
+
+そもそもですが、サーバとは@<ttb>{クライアントに対してサービスを提供するもの}です。居酒屋にあるビアサーバに「ビールをください」というリクエストを投げる…つまりコックを「開」の方へひねると、ビールというレスポンスが返ってきます。同様にあなたがブラウザでURLを入力したり、リンクをクリックしたりして、ウェブサーバに対して「ウェブページを見せてください」というリクエストを投げたら、ウェブページというレスポンスが返ってきます。
+
+つまり、せっかくHTMLや画像でサイトのコンテンツを作っても、それを載せておくウェブサーバがなければ、サイトはあなたのパソコンの中でしか見られず、インターネットで公開できないのです。@<fn>{startAWS}
+
+//footnote[startAWS][サーバについては、はじめようシリーズの2冊目、「AWSをはじめよう」の「CHAPTER1 インフラとサーバってなに？」で、より詳しく解説しています。仮想サーバと物理サーバ、クラウドとオンプレミス、ホストサーバとゲストサーバなどサーバ周りの用語をもう少し理解したい！という方はそちらも併せて読んでみるのがお勧めです]
+
+というわけでウェブサイトを提供するために、まずはウェブサーバを立てましょう！
+
+=== サーバを立てるにはお金が必要？
+
+ウェブサイトを作るにはサーバが必要です。そしてサーバを立てるには、普通はお金がかかります。ですがオラクルがやっている「Oracle Cloud（オラクル クラウド）」というサービスなら、なんと有効期限なしでずっと無料で使える「Always Free」という枠があり、サーバも無料で立てて使えるので今回はそれを使おうね。
+
+Oracle CloudはOracleがやっているクラウドです。
+
+企業が「自社のウェブサイト作りたいなぁ・・・だからサーバが必要だ！」と思ったとき、@<ttb>{自分でサーバを買って自分で管理しなければいけないのがオンプレミス}で、従量課金で@<ttb>{すぐに使えて性能や台数の増減も簡単にできるのがクラウド}です。
+
+そしてようやく最初の話に戻ると、AWSとはAmazon Web Servicesの略で、欲しいものをぽちっとな！すると翌日には届くあの@<ttb>{Amazonがやっているクラウド}なのです。
+
+AWSがなんなのか、お分かりいただけましたでしょうか？
+
+
+=== なんでAWSじゃなくてOracleのクラウドを使うの？
+
+クラウドにはOracle Cloudの他に、Amazon Web Servicesとか、
+ところでクラウドはAWS以外にもGoogleのGoogle Cloud Platform@<fn>{gcp}、MicrosoftのAzure（アジュール）@<fn>{azure}、その他にも国内クラウドとしてさくらインターネットがやっているさくらのクラウド@<fn>{sakura}、お名前.comと同じGMOグループのGMOクラウド@<fn>{gmoCloud}などたくさんあります。
+
+//footnote[gcp][@<href>{https://cloud.google.com/}]
+//footnote[azure][@<href>{https://azure.microsoft.com/ja-jp/}]
+//footnote[sakura][@<href>{https://cloud.sakura.ad.jp/}]
+//footnote[gmoCloud][@<href>{https://www.gmocloud.com/}]
+
+その中でもなぜ「AWSがいい」と言われているのでしょうか？
+約40％のシェアをほぼ下げることなく維持
+IaaS＋PaaSクラウド市場、AWSの首位ゆるがず。AWS、Azure、Google、Alibabaの上位4社で市場の7割超。2019年第3四半期、Synergy Research Group － Publickey
+
+https://www.publickey1.jp/blog/19/iaaspaasawsawsazuregooglealibaba4720193synergy_research_group.html
+
+
+
+2018年時点、クラウド市場ではAWSがシェア33%でトップを独走中@<fn>{cloudShare}です。そのため他のクラウドと比べると、AWSなら使ったことがあり対応可能なエンジニアも多く、何か困ったときに調べて出てくる情報も多い、というのが、私がAWSを選ぶいちばんの理由です。それ以外だと、利益が出た分だけどんどん投資されてサービスが改良されていくため、細かな使い勝手がどんどん良くなっていく@<fn>{improve}、というところもポイントです。
+
+//footnote[cloudShare][2018年第1四半期、クラウドインフラ市場でAWSのシェアは揺るがず33％前後、マイクロソフト、Googleが追撃、IBMは苦戦中。Synergy Research － Publickey @<href>{https://www.publickey1.jp/blog/18/20181aws33googleibmsynergy_research.html}]
+//footnote[improve][画面や機能もどんどん変わっていくので、この後出てくる設定画面も、皆さんが手を動かしてやってみる頃には本著のキャプチャとは違うものになっているかも知れません。AWSのいいところでもあり、本やマニュアルを作って説明する側にとってはつらいところでもあります。]
+
+クラウドを選ぶ理由、その中でもAWSを選ぶ理由というのは、普遍的な何かがあるわけではなく、本来は使う人やその上で動かすサービスによって異なるはずです。あなたが動かしたいサービスによっては、AWSではなく他のVPSやオンプレミスの方がいいケースだってもちろんあるはずです。これから使ってみて、あなた自身がAWSの良いところを発見できたらいいですね。
+
+
+「AWSはAmazonがやっているクラウドです」と言われても、「クラウド」が分からないと結局AWSが何なのかよく分からないままですよね。
+
+クラウドって何なのでしょう？
+
+クラウドだけではありません。よくクラウドと一緒に並んでいるサーバやインフラという言葉がありますが、こちらも何だか分かりますか？IT系で働いていても、その辺って「なんか・・・ふんわり・・・なんか雲の向こう側にある・・・ウェブサイト作るための何か・・・？」という程度の認識で、クラウドってなに？とか、サーバってなに？と聞かれたときに、ちゃんと説明できる人は意外と少ないのではと思います。
+
+なので、先ずは「AWSはAmazonがやっているクラウド」という文章の意味が分かるよう、インフラ周りから順を追って学んでいきましょう。
+
+仮想サーバと物理サーバ、クラウドとオンプレミス、ホストサーバとゲストサーバ、パブリッククラウドとプライベートクラウド、
+
+== Oracle Cloudでアカウント登録
+
+
 
 === 無料でアカウントを作成
 
-Googleで［Alibaba Cloud Free Trial］を検索（@<img>{startSSL_1}）。したら、上から4つめの［Alibaba Cloud 無料トライアル - 40 以上のプロダクトをお試し ...］をクリックします。2つめにもよく似た［Alibaba Cloud 無料利用枠 -製品やサービスを無料で体験でき ...］がありますが、そちらはまた別のサイト@<fn>{SBCloud}なので、ぐっとこらえて@<code>{https://www.alibabacloud.com › campaign › free-trial}と書いてある4つめの方をクリックしてください。
+「Oracle Cloud 無料」で検索（@<img>{startSSL_27}）したら、いちばん上の［Oracle Cloud Free Tier | Oracle 日本］@<fn>{freeTier}をクリックします。
 
-//image[startSSL_1][［Alibaba Cloud Free Trial］を検索][scale=0.8]{
+//image[startSSL_27][「Oracle Cloud 無料」で検索][scale=0.8]{
 //}
 
-//footnote[SBCloud][@<code>{jp.alibabacloud.com}はSBクラウド（ソフトバンク株式会社とアリババグループの合弁会社）が日本国内向けに提供しているAlibaba Cloudで、@<code>{www.alibabacloud.com}はアリババグループがグローバルに提供しているAlibaba Cloudである（という理解を筆者はしています）。今回はグローバル向けの後者を使います。]
+//footnote[freeTier][@<href>{https://www.oracle.com/jp/cloud/free/}]
 
-［Alibaba Cloud 無料トライアル］@<fn>{freeTrial}のページを開いたら、［無料アカウントの作成］（@<img>{startSSL_2}）をクリックします。
 
-//footnote[freeTrial][@<href>{https://www.alibabacloud.com/ja/campaign/free-trial}]
-
-//image[startSSL_2][［無料アカウントの作成］をクリック][scale=0.8]{
-//}
-
-［Create a new Alibaba Cloud account］と書かれた英語のページが表示されます。右上の［Intl - English］から言語選択を開いて、［International］の［日本語］@<fn>{SBCloud2}を選択します。
-
-//footnote[SBCloud2][ちなみに［日本］の［日本語］を選ぶと、前述したSBクラウドの方のAlibaba Cloudでのアカウント作成ページに遷移してしまうのでご注意ください。]
-
-//image[startSSL_3][［無料アカウントの作成］をクリック][scale=0.8]{
-//}
-
-［新しい Alibaba Cloud アカウントを作成する］と書かれた日本語のページになりました。それでは次の情報を入力して、会員規約やプライバシーポリシー等を確認した上でチェックボックスにチェックを入れたら［登録］をクリックしましょう。後で分からなくならないように、登録した項目をメモしておきましょう。（@<table>{alibabaAccount}）
-
-//image[startSSL_4][入力してチェックを入れたら［登録］をクリック][scale=0.8]{
-//}
-
-//table[alibabaAccount][Alibaba Cloudに登録した情報]{
-項目	例	あなたが登録した情報　　　　　　　
-------------------------------------
-国	日本	
-メールアドレス	startdns.01@gmail.com	
-パスワード	自作のパスワード	
-//}
-
-登録したメールアドレス宛てに確認コードを送信するよう書いてあるので［通知］をクリックします。
-
-//image[startSSL_5][メールアドレスを確認して［通知］をクリック][scale=0.6]{
-//}
-
-［Alibaba Cloud Email Verification］という件名でメールが届きます。メールの本文に書かれているCodeをコピーしましょう。
-
-//image[startSSL_9][Alibaba Cloudからメールが届いたらCodeをコピー][scale=0.6]{
-//}
-
-メールからコピーしたCodeを、［2.Please enter the verification code below.］の下の欄にペーストします。［認証］をクリックしてください。
-
-//image[startSSL_7][メールからコピーしたCodeをペーストして［認証］をクリック][scale=0.6]{
-//}
-
-もし迷惑メールフィルタなどが原因でメールが届かないときは、［Use phone instead］をクリックすれば、メールアドレスの代わりに携帯電話の番号を登録して、SMSで確認コードを受信する方法でも認証できます。
-
-//image[startSSL_8][携帯電話の番号を入力して［SMSで通知］をクリック][scale=0.6]{
-//}
-
-//image[startSSL_10][SMSでCodeが届いた][scale=0.6]{
-//}
-
-無事に認証が完了したらログインページが表示されます。先ほど登録したメールアドレスとパスワードを入力したら、［サインイン］をクリックします。
-
-//image[startSSL_11][メールアドレスとパスワードを入力して［サインイン］][scale=0.6]{
-//}
-
-=== 作ったアカウントでサインインする
-
-サインインできたら、最上部の［Alibaba Cloud を始めるため、もう 1 つステップが必要です。請求先住所と支払い方法を追加してください。］の隣にある［進む  >>］をクリックします。
-
-//image[startSSL_12][サインインできたら、最上部の［進む  >>］をクリック][scale=0.8]{
-//}
-
-ここからは無料トライアルを使うために必要な情報を入力していきます。
-
-==== Basic information
-
-===== Account Type（アカウントの種類）
-
-このアカウントは業務用ではなく、個人的な勉強のために使うので、Account Typeは［Personal account］を選択します。
-450ドル相当のフリートライアルが可能だそうです。すごい。
-
-//image[startSSL_13][Account Typeは［Personal account］を選択][scale=0.8]{
-//}
-
-===== Billing address（請求先住所）
-
-続いて請求先の郵便番号、住所、氏名を入力します。@<fn>{address}
-
-//footnote[address][キャプチャでは、郵便番号と住所はSBクラウドのオフィスをサンプルとして入力しています。実際はご自身の住所やお名前をきちんと登録してください。]
-
-//image[startSSL_14][郵便番号、住所、氏名を入力する][scale=0.8]{
-//}
-
-===== Identity verification by phone（電話認証）
-
-最後に携帯電話の番号を入力したら、［Verify］をクリックします。
-
-//image[startSSL_15][携帯電話の番号を入力したら［Verify］をクリック][scale=0.8]{
-//}
-
-［Ali SMS］からSMSが届きます。
-
-//image[startSSL_16][SMSでCodeが届いた][scale=0.6]{
-//}
-
-SMSに書いてあったCodeを、［Verification］の下の欄に入力します。［Verify］をクリックしてください。
-
-//image[startSSL_17][SMSに書いてあったCodeを入力して［Veirfy］をクリック][scale=0.6]{
-//}
-
-［Verified］と表示されたら電話認証は完了です。もしこの番号で営業電話を受けたくなければ、［Alibaba Cloud may not call me to discuss deals and offers.］にもチェックを入れておきましょう。［Submit］をクリックします。
-
-//image[startSSL_18][［Verified］と表示されたことを確認して［Submit］をクリック][scale=0.8]{
-//}
-
-===== Add a payment method（支払い方法の追加）
-
-続いて支払い方法を追加します。Alibaba Cloudでは、AWSと同じように使った分だけ請求が来ます。本著では無料トライアルの範囲内でAlibaba Cloudを使っていきますが、支払い方法は登録しておく必要があります。
-
-［Add］をクリックして、クレジットカードの情報を登録しましょう。
-
-//image[startSSL_19][［Add］をクリックしてクレジットカードの情報を登録][scale=0.8]{
-//}
-
-カード情報を入力したら［Submit］をクリックします。
-
-//image[startSSL_20][カード情報を入力したら［Submit］をクリック][scale=0.8]{
-//}
-
-こんな感じで「ちょっと待ってね…」と表示されたのちに…
-
-//image[startSSL_21][ちょっと待ってね…の表示][scale=0.8]{
-//}
-
-［Success］と表示されたら、請求先住所と支払い方法の登録は完了です。これで無料トライアルが使えるようになりました！早速［Free Trial］をクリックして、HTTPSのサイトを乗っけるサーバを立ててみましょう。
-
-//image[startSSL_22][［Success］と表示されたら登録完了][scale=0.8]{
-//}
-
-== Alibaba Cloudでサーバを立てよう
 
 == ドメイン名の設定
 
