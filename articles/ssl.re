@@ -1,223 +1,191 @@
-= SSLのサイトを作ってみよう
+= Oracle Cloudでサーバを立てよう
 
-SSLを理解するには、実際に手を動かしてやってみるのがいちばんです。実際にSSL証明書を取得して、HTTPSのサイトを作ってみましょう。
+この章では実際にOracle Cloudでサーバを立てます。
 
-HTTPSでサイトを作るのに必要な材料は次の3つです。
+インフラエンジニアのお仕事体験みたいできっと楽しいですよ！
 
- * ウェブサーバ
- * ドメイン名
- * SSL証明書
+//pagebreak
 
-まずは1つめのウェブサーバを立ててみましょう。
+== 事前準備
 
-== ウェブサーバを立てよう
+=== お使いのパソコンがWindowsの場合
 
-=== サイトを作るのにどうしてサーバがいるの？
+==== RLoginのインストール
 
-これからウェブサーバを立てますが…どうしてサイトを作りたいだけなのに、ウェブサーバが必要なのでしょう？
+Windowsのパソコンを使っている方は、サーバを立てる前に「ターミナル」と呼ばれる黒い画面のソフトをインストールしておきましょう。サーバに接続するときにはこのターミナルを使うのですが、ターミナルのソフトには色々な種類があります。
 
-そもそもですが、サーバとは@<ttb>{クライアントに対してサービスを提供するもの}です。居酒屋にあるビアサーバに「ビールをください」というリクエストを投げる…つまりコックを「開」の方へひねると、ビールというレスポンスが返ってきます。同様にあなたがブラウザでURLを入力したり、リンクをクリックしたりして、ウェブサーバに対して「ウェブページを見せてください」というリクエストを投げたら、ウェブページというレスポンスが返ってきます。（@<img>{beerServerAndWebServer}）
+ * RLogin（@<href>{http://nanno.dip.jp/softlib/man/rlogin/}）
+ * Poderosa（@<href>{https://ja.poderosa-terminal.com/}）
+ * Tera Term（@<href>{https://ja.osdn.net/projects/ttssh2/}）
+ * PuTTYjp（@<href>{http://hp.vector.co.jp/authors/VA024651/PuTTYkj.html}）@<fn>{PuTTYjp}
 
-//image[beerServerAndWebServer][ビアサーバもウェブサーバもリクエストしたらサービスが提供される][scale=0.8]{
+//footnote[PuTTYjp][PuTTYjpを使う場合、.pemの秘密鍵をPuTTYgenで.ppkに変換する必要が出てくるため、他のターミナルソフトに比べると一手間余計にかかります。]
+
+//image[rlogin][RLogin][scale=0.8]{
 //}
 
-つまり、せっかくHTMLや画像でサイトのコンテンツを作っても、それを載せておくウェブサーバがなければ、サイトはあなたのパソコンの中でしか見られず、インターネットで公開できないのです。@<fn>{startAWS}
+本著ではいちばん上のRLogin（@<img>{rlogin}）を使って説明していきますので、特にこだわりがなければRLoginを使うことをお勧めします。RLoginの「実行プログラム(64bit)@<fn>{64bit}」（@<img>{downloadRLogin01}）のURL、@<href>{http://nanno.dip.jp/softlib/program/rlogin_x64.zip}をクリックしてください。
 
-//footnote[startAWS][サーバについては、はじめようシリーズの2冊目、「AWSをはじめよう」の「CHAPTER1 インフラとサーバってなに？」で、より詳しく解説しています。仮想サーバと物理サーバ、クラウドとオンプレミス、ホストサーバとゲストサーバなどサーバ周りの用語をもう少し理解したい！という方はそちらも併せて読んでみるのがお勧めです]
+//footnote[64bit][もしパソコンのWindowsが32bit版だった場合は「実行プログラム(32bit)」のURLをクリックしてください。]
 
-というわけでウェブサイトを提供するために、まずはウェブサーバを立てましょう！
-
-=== サーバを立てるにはお金が必要？
-
-ウェブサイトを作るにはサーバが必要です。そしてサーバを立てるには、普通はお金がかかります。ですがオラクルがやっている「Oracle Cloud（オラクル クラウド）」というサービスなら、なんと有効期限なしでずっと無料で使える「Always Free」という枠があります。「Always Free」の範囲内であれば、サーバも無料で立てて使えるので今回はそれを使いましょう。
-
-オラクルがやっているクラウド、と言われても、そもそもクラウドがなんだか分からないといまいちピンと来ないかもしれません。あなたが「ウェブサイト作りたいなぁ…だからサーバが必要だ！」と思ったとき、@<ttb>{自分でサーバを買って自分で管理しなければいけないのがオンプレミス}で、従量課金で@<ttb>{すぐに使えて性能や台数の増減も簡単にできるのがクラウド}です。
-
-Oracle Cloudとはオラクルがやっているクラウドなので、ブラウザでぽちぽちとスペックを選んでいくだけで、すぐにサーバが使えます。
-
-=== なんでAWSじゃなくてOracleのクラウドを使うの？
-
-クラウドはOracle Cloudだけではありません。かの有名なAWSことAmazon Web Servicesや、GoogleのGoogle Cloud Platform@<fn>{gcp}、MicrosoftのAzure（アジュール）@<fn>{azure}、その他にも国内クラウドとしてさくらインターネットがやっているさくらのクラウド@<fn>{sakura}、お名前.comでお馴染みGMOグループのGMOクラウド@<fn>{gmoCloud}などたくさんあります。
-
-//footnote[gcp][@<href>{https://cloud.google.com/}]
-//footnote[azure][@<href>{https://azure.microsoft.com/ja-jp/}]
-//footnote[sakura][@<href>{https://cloud.sakura.ad.jp/}]
-//footnote[gmoCloud][@<href>{https://www.gmocloud.com/}]
-
-2019年11月時点、クラウド市場ではAWSがシェア約40%でトップを独走中@<fn>{cloudShare}です。そのため仕事でAWSを使ったことがある、あるいはこれから使う予定だ、というエンジニアも多いと思います。
-
-//footnote[cloudShare][IaaS＋PaaSクラウド市場、AWSの首位ゆるがず。AWS、Azure、Google、Alibabaの上位4社で市場の7割超。2019年第3四半期、Synergy Research Group － Publickey @<href>{https://www.publickey1.jp/blog/19/iaaspaasawsawsazuregooglealibaba4720193synergy_research_group.html}]
-
-しかし最近は、Alibaba CloudやTencent Cloudといった中国のクラウド事業者も追い上げを見せています。こうした新興のクラウドは、先を行くAWSを見て学んだ上で生まれてきているだけあって、よりスマートな作りになっているのがいいところです。
-
-たくさんのクラウドがある中でどこを選ぶのか、その理由は、本来であれば使う人やその上で動かすサービスによって異なるはずです。あなたが動かしたいサービスには、いったいどのクラウドが適しているのでしょうか？
-
-本著では以下を目的としていますので、それに適したOracle Cloudで学びを進めていきたいと思います。
-
- * SSL証明書を自分で取得して設置する一通りの流れを試したい
- * お金をかけずに無料で試したい
-
-== Oracle Cloudでアカウント登録
-
-先ずはOracle Cloudのアカウントを作りますので次の2つを用意してください。
-
- * クレジットカード
- * SMS受信が可能な携帯電話（電話番号認証で使用するため）@<fn>{sms}
-
-なおOracle Cloudを利用する際は、前述のとおりAlways Freeという無料枠@<fn>{alwaysFree}があります。
-
-//footnote[sms][ショートメッセージサービスの略。宛先に電話番号を指定してメッセージを送れるサービス]
-//footnote[alwaysFree][期限なしでずっと無料ですが、無料で利用できる範囲は決まっていて、何をどれだけ使っても無料という訳ではありませんので注意してください。Always Freeの他に、30日間だけ有効な300ドル分の無償クレジットも付いてきますので、Always Freeの範囲外のサービスはそちらで試せます。詳細は@<href>{https://www.oracle.com/jp/cloud/free/}を確認してください]
-
-=== 無料でアカウントを作成
-
-「Oracle Cloud 無料」で検索（@<img>{startSSL_27}）したら、いちばん上の［Oracle Cloud Free Tier | Oracle 日本］@<fn>{freeTier}をクリックします。
-
-//image[startSSL_27][「Oracle Cloud 無料」で検索][scale=0.8]{
+//image[downloadRLogin01][「実行プログラム(64bit)」のURLをクリックしてダウンロード][scale=0.8]{
 //}
 
-//footnote[freeTier][@<href>{https://www.oracle.com/jp/cloud/free/}]
+ダウンロードしたZIPファイルを保存（@<img>{downloadRLogin02}）します。保存場所はどこでも構いませんが、後でどこに置いたか分からなくなりそうな人はデスクトップに保存しておきましょう。
 
-［今すぐ始める（無償）］をクリックします。（@<img>{startSSL_28}）
-
-//image[startSSL_28][［今すぐ始める（無償）］をクリック][scale=0.8]{
+//image[downloadRLogin02][「ファイルを保存する」でパソコンに保存][scale=0.8]{
 //}
 
-「Oracle Cloud へのサインアップ」と表示されました。それでは次の情報を入力して、使用条件を確認した上で［次］をクリックしましょう。（@<img>{startSSL_29}）後で分からなくならないように、登録した項目をメモしておきましょう。（@<table>{oracleAccount}）
+デスクトップのZIPファイル（rlogin_x64.zip）を右クリック（@<img>{downloadRLogin03}）して、［解凍＞デスクトップに解凍］@<fn>{lhaplus}をクリックします。
 
-//image[startSSL_29][入力したら［次］をクリック][scale=0.8]{
+//image[downloadRLogin03][ZIPファイルを右クリックして解凍＞デスクトップに解凍][scale=0.8]{
 //}
 
-//table[oracleAccount][Oracle Cloudに登録した情報]{
-項目	例	あなたが登録した情報　　　　　　　
-------------------------------------
-電子メール・アドレス	startdns.01@gmail.com	
-国/地域	日本	
+//footnote[lhaplus][ZIPファイルを右クリックしても「解凍」が見当たらないときは、圧縮・解凍の定番ソフトであるLhaplusをインストールしましょう。 @<href>{https://forest.watch.impress.co.jp/library/software/lhaplus/}]
+
+解凍したら、デスクトップにできた「rlogin_x64」というフォルダの中にある「RLogin.exe」@<fn>{filenameExtension}（@<img>{downloadRLogin04}）をダブルクリックすればRLoginが起動（@<img>{downloadRLogin05}）します。
+
+//footnote[filenameExtension][フォルダの中にRLoginはあるけどRLogin.exeなんて見当たらない・・・という場合、ファイルの拡張子が非表示になっています。この後も拡張子を含めてファイル名を確認する場面が何度かでてきますので、表示されていない人は「拡張子 表示」でGoogle検索して拡張子が表示されるように設定変更しておきましょう。]
+
+//image[downloadRLogin04][RLogin.exeをダブルクリック][scale=0.6]{
 //}
 
-次は「アカウント詳細の入力」です。（@<table>{oracleAccountType}）今回は仕事ではなく個人での利用ですので［アカウント・タイプ］は［個人使用］を選択してください。［クラウド・アカウント名］には任意のアカウント名を入力します。［クラウド・アカウント名］には英字小文字と数字のみ使えます。記号や英字大文字は使えないので注意してください。筆者は@<code>{startdns01}にしました。この［クラウド・アカウント名］は、後で管理画面にサインインするときのアカウントURLになります。（@<img>{startSSL_30}）
-
-［ホーム・リージョン］は［日本東部(東京)］を選択してください。Oracle Cloudは世界の各地域にデータセンターを所有しており、サーバはそのデータセンターの中で元気に動いています。この［ホーム・リージョン］とは、@<ttb>{各地域の中でどこを使うか？を指定するもの}です。ウェブサイトにアクセスするとき、パソコンのある場所からサーバまで物理的に距離が遠いと、それだけ通信にも時間がかかって応答時間も遅くなりますので、日本国内向けにウェブサイトを開設する場合は基本的にこの「東京リージョン」を選びましょう。ただしOracle Cloudのサービスによってはまだ東京リージョンが使えないものもあります。その場合は次点として「米国東部(アッシュバーン)」を選択してください。
-
-//table[oracleAccountType][Oracle Cloudに登録した情報]{
-項目	例	あなたが登録した情報　　　　　　　
-------------------------------------
-アカウント・タイプ	個人使用	-
-クラウド・アカウント名	startdns01	
-ホーム・リージョン	日本東部(東京) 	-
+//image[downloadRLogin05][RLoginが起動した][scale=0.8]{
 //}
 
-//image[startSSL_30][［クラウド・アカウント名］には好きな名前を入力][scale=0.8]{
+これでRLoginのインストールは完了です。
+
+==== WindowsでSSHのキーペア（秘密鍵・公開鍵）を作成する
+
+Windowsの方は、起動したRLoginで［新規(N)］をクリックします。
+
+//image[startSSL_45][［新規(N)］をクリック][scale=0.8]{
 //}
 
-続いて名前や住所を入力していきます。入力内容は日本語表記で構いません。個人利用なのですが［部門名］が必須であるため、ここでは「個人」と入力しておきましょう。［名］・［姓］・［部門名］・［住所］・［市区町村］・［都道府県］・［郵便番号］をすべて入力できましたか？（@<img>{startSSL_31}）
+左メニューの［サーバー>プロトコル］を選択して、［認証キー(K)］をクリックします。
 
-//image[startSSL_31][名前や住所を入力][scale=0.8]{
+//image[startSSL_47][［サーバー>プロトコル］を選択して［認証キー(K)］をクリック][scale=0.8]{
 //}
 
-では最後に［モバイル番号］です。国番号は［日本(81)］を選択して、自分の携帯電話番号を入力します。このとき電話番号の先頭の0は不要です。例えば「090-○○○○-○○○○」という携帯電話番号であれば「90-○○○○-○○○○」と入力してください。携帯電話番号を入力したら［次: モバイル番号の確認］をクリックしてください。（@<img>{startSSL_32}）
+［任意の名前が指定できます］に［startSSLKey］を入力して、［作成］をクリックします。
 
-//image[startSSL_32][携帯電話の番号を入力][scale=0.8]{
+//image[startSSL_48][［startSSLKey］を入力して［作成］をクリック][scale=0.8]{
 //}
 
-数分以内に［Your Oracle Cloud verification code is ○○○○○○○.］と書かれたSMSが届きます。（@<img>{startSSL_34}）
+［パスフレーズ］と［パス再入力］には何も入力せず、［OK］をクリックします。@<fn>{whatIsPassPhrase}
 
-//image[startSSL_34][コードの書かれたSMSが届いた][scale=0.6]{
+//footnote[whatIsPassPhrase][「p@$sw0rd」や「@dm1ni$trat0r」のように、ひとつの単語でできているのがパスワードです。それに対して「This 1s P@s$ Phrase.」のように空白を挟んだ文章（フレーズ）で構成されているのものをパスフレーズと呼びます]
+
+//image[startSSL_49][何も入力せず［OK］をクリック][scale=0.8]{
 //}
 
-SMSで届いた「○○○○○○○」の数字を［コード］に入力して、［コードの確認］をクリックします。（@<img>{startSSL_33}）
+［空のパスフレーズを指定しています。空のままで処理を続行しますか？］と表示されますが、そのまま［OK］をクリックします。
 
-//image[startSSL_33][SMSで届いた数字を［コード］に入力して［コードの確認］をクリック][scale=0.8]{
+//image[startSSL_50][［OK］をクリック][scale=0.8]{
 //}
 
-===[column] 【コラム】どうしてもSMSが届かない！そんなときは？
+［認証キーリスト］に、今作った［startSSLKey］が表示されたら、キーペア（秘密鍵・公開鍵）の作成は完了です。（@<img>{downloadRLogin04}）
 
-電話番号を入力したのにSMSが届かないときは、まず自分が契約している携帯キャリアの迷惑メール設定で、SMSをスパムとしてはじく設定をしていないか確認してみましょう。たとえば海外の事業者から送信されたSMSを拒否する設定になっていたり、海外からの着信を拒否する設定になっていると、SMSが届かないことがあるようです。@<fn>{smsFromOversea}
+//image[startSSL_51][キーペアが出来たら［キャンセル］してRLoginを閉じよう][scale=0.8]{
+//}
 
-ちなみに筆者の場合は、特に設定変更をせず同じ番号で2回試してみたのですが、1回目は届かず、もう1回試してようやく届きました。
+［キャンセル］を繰り返し3回クリックして、起動中のRLoginはいったん閉じてしまって構いません。RLoginはまた後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。
 
-迷惑メールの設定を確認して何回か試して、それでもSMSが届かなかったら、ページ下部の［サポートが必要ですか。ご連絡ください: チャット・サポート］からサポートにチャットで問い合わせてみましょう。
+===[column] 【コラム】パスフレーズは設定すべき？しなくてもいい？
 
-残念ながら英語でしか対応してもらえませんが、"I am trying to register on Oracle Cloud. But I can't receive SMS. What should I do?"（アカウント登録しようとしてるけどSMSが届かないの、どうしたらいい？）という感じで聞いてみると、「じゃあ登録情報をこのチャットで教えて。そうしたらこちらでコードを発行して、チャットで伝えてあげる」（意訳）という感じでサポートしてもらえます。
+秘密鍵に［パスフレーズ］を設定しておくと、鍵を使ってサーバに入ろうとしたとき、「鍵を発動するにはパスフレーズを叫べ…！」という感じでパスフレーズを聞かれます。
+
+つまり、もしあなたの秘密鍵が盗まれて勝手に使われそうになっても、パスフレーズを設定していれば鍵の悪用が防げます。スマホが盗まれてしまっても、パスワードが分からなければロック画面が解除できず、勝手に使えないのと同じです。
+
+ただ「パスワード認証じゃなくて鍵認証なのに、パスフレーズも要るの…？」という点で、初心者を混乱に陥れやすいので、本著では秘密鍵をパスフレーズなしで作って使います。
+
+パスフレーズを設定していれば絶対に安心！というものではありませんが、上記の理由から、本来であれば設定した方がいいものです。
 
 ===[/column]
 
-//footnote[smsFromOversea][「Oracle CloudのSMSは海外の事業者から届く」という確証がある訳ではないです。あくまでSMSが届かないときによくある話と思ってください]
+起動したRLoginはいったん「キャンセル」をクリックして閉じてしまって構いません。また後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。
 
-正しいコードが入力できたら、［パスワードの入力］と表示されます。［パスワード］と［パスワードの確認］を入力して、［次: 支払情報］をクリックします。（@<img>{startSSL_35}）
+=== お使いのパソコンがMacの場合
 
-//image[startSSL_35][パスワードを入力して［次: 支払情報］をクリック][scale=0.8]{
+Macを使っている方は、最初から「ターミナル」（@<img>{mac02}）というソフトがインストールされていますのでそちらを利用しましょう。
+
+//image[mac02][最初からインストールされている「ターミナル」を使おう][scale=0.8]{
 //}
 
-パスワードを入力すると、今度は［支払情報］のページが表示されます。（@<img>{startSSL_36}）繰り返しお伝えしているとおり、Oracle CloudにはAlways Freeという無料枠があり、本著ではその無料枠の範囲内でOracle Cloudを使っていくつもりですが、それでもクレジットカードは登録しておく必要があります。記載されているとおり、この後、管理画面で［アカウントのアップグレード］という作業をしない限り、請求は発生しませんので安心してカード情報を登録してください。［クレジット・カード詳細の追加］をクリックします。
+ターミナルがどこにあるのか分からないときは、Macの画面で右上にある虫眼鏡のマークをクリックして、Spotlightで「ターミナル」と検索（@<img>{mac01}）すれば起動できます。
 
-//image[startSSL_36][［クレジット・カード詳細の追加］をクリック][scale=0.8]{
+//image[mac01][どこにあるのか分からなかったらSpotlightで「ターミナル」と検索][scale=0.8]{
 //}
 
-［ご注文者様情報］はそのままで変更不要です。［カード情報］の［カードの種類］を選択し、［カードの番号］・［有効期限］・［CVN］を入力したら［Finish］をクリックします。（@<img>{startSSL_37}）@<fn>{creditCard}
+==== MacでSSHのキーペア（秘密鍵・公開鍵）を作成する
 
-//footnote[creditCard][Oracle Cloudでは、クレジットカード登録時に「1ドル認証」と呼ばれる認証方法で、そのクレジットカードが決済可能かをチェックしています。クレジットカードによってはこの1ドル認証を不審な決済と判断して通さないため、それによってエラーが発生することがあるようです。その場合は別のクレジットカードで試すか、Oracle Cloudのチャット・サポートで問い合わせてみてください]
+Macの方は、ターミナルで次のコマンドを実行してください。
 
-//image[startSSL_37][カード情報を入力して［Finish］][scale=0.6]{
+//cmd{
+ssh-keygen -f ~/startSSLKey
 //}
 
-［クレジット・カード詳細をご提供いただきありがとうございます。］と表示（@<img>{startSSL_38}）されたら、支払い情報の登録は完了です。Oracle CloudのService Agreement@<fn>{serviceAgreement}を確認した上で、チェックボックスにチェックを入れて、［サインアップの完了］をクリックします。
+すると次のように、パスフレーズの入力待ち状態になります。何も入力せずに、2回Enterを押してください。
 
-//footnote[serviceAgreement][@<href>{https://www.oracle.com/goto/oraclecsa-jp-en}]
-
-//image[startSSL_38][チェックを入れて［サインアップの完了］をクリック][scale=0.8]{
+//cmd{
+$ ssh-keygen -f ~/startSSLKey
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 　←何も入力せずにEnter
+Enter same passphrase again: 　←何も入力せずにEnter
 //}
 
-これでアカウント登録の手続きはおしまいです。［アカウントの設定が完了するまでお待ちください。］と表示（@<img>{startSSL_40}）されます。準備が整うとサインイン画面にリダイレクトされますが、この［アカウントの設定が完了するまでお待ちください。］の画面でかなり時間がかかるので一度ブラウザを閉じてしまって構いません。頑張った自分を褒めて一旦休みましょう。
+次のように表示されたらキーペア（秘密鍵・公開鍵）の作成は完了です。
 
-//image[startSSL_40][アカウント登録の手続きはおしまい][scale=0.8]{
+//cmd{
+$ ssh-keygen -f ~/startSSLKey
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/mochikoAsTech/startSSLKey.
+Your public key has been saved in /home/mochikoAsTech/startSSLKey.pub.
+The key fingerprint is:
+a2:52:43:dd:70:5d:a8:4f:77:47:ca:f9:69:79:14:48 mochikoAsTech@ghana
+The key's randomart image is:
++--[ RSA 2048]----+
+|      . .. ooE.  |
+|     . +  o  . ..|
+|    . . ..   . +.|
+|   .    . . . = o|
+|    o . So . . +o|
+|   . o .  .    +o|
+|  . .         . .|
+|   .             |
+|                 |
++-----------------+
 //}
 
-数時間後@<fn>{2hours}、［Your Oracle Cloud Account is Fully Provisioned］という件名で、準備完了を知らせるメールが届きます。メールの［Sign In to Oracle Cloud］をクリックしましょう。（@<img>{startSSL_39}）
+ホームディレクトリに秘密鍵（startSSLKey）と、公開鍵（startSSLKey.pub）ができあがっているはずです。
 
-//footnote[2hours][筆者の場合は、メールが届くまで2時間半かかりました]
+以上で事前準備は完了です。お待たせしました。いよいよサーバを立てましょう。
 
-//image[startSSL_39][準備完了を知らせるメールが届いた][scale=0.8]{
+== コンピュートでサーバを立てる
+
+コンソールにサインインしたら、さっそくサーバを立てましょう。［VMインスタンスの作成］をクリックします。（@<img>{startSSL_46}）
+
+//image[startSSL_46][［VMインスタンスの作成］をクリック][scale=0.8]{
 //}
 
-=== Oracle Cloudのコンソールにサインイン
+［インスタンスの命名］に［startSSLInstance］と入力します。
 
-メールの［Sign In to Oracle Cloud］をクリックすると、コンソールへのサインイン@<fn>{SignInLogIn}画面が表示されます。（@<img>{startSSL_41}）［ユーザー名］には先ほど登録したメールアドレスを入力します。@<fn>{username}［パスワード］を入力して、［サイン・イン］をクリックしてください。
+パソコンにはOSという基本ソフトが入っていて、WordやExcel、ChromeといったソフトはそのOSの上で動いています。皆さんのパソコンにも「Windows 10」や「Mac OS X Lion」などのOSが入っていますよね。
 
-//footnote[SignInLogIn][日本語だとログインの方が馴染みがあるかも知れませんが、サインインはログインと同じ意味です。]
-//footnote[username][メールにも書いてありますが、ここでの［ユーザー名］とは［クラウド・アカウント名］（筆者の場合は@<code>{startdns01}）ではなく、［メールアドレス］のことです。紛らわしいのでご注意ください]
+そしてパソコンと同じようにサーバにも「Linux」や「Windows Server」といったサーバ用のOSがあります。サーバを立てるときにはLinuxを選択することが多いのですが、このLinuxの中にもさらに「RHEL（Red Hat Enterprise Linux）」や「CentOS」、「Ubuntu」などいろいろなディストリビューション（種類）があります。
 
-//image[startSSL_41][［ユーザー名］と［パスワード］を入力して［サイン・イン］][scale=0.8]{
-//}
+今回は、OSはデフォルトの［Oracle Linux 7.7］を使います。Oracle LinuxならOracle Cloudのツールがあらかじめ入っていますので、@<ttb>{Oracle Linuxでサーバを立てるときはOSはOralce Linuxにする}ことをお勧めします。Oracle LinuxはRed Hat系のディストリビューションですので、RHELやCentOSのサーバを使ったことがある方なら違和感なく使えると思います。
 
-おめでとうございます！これでコンソールにサインインできました。
+Oracle Linuxには2020年1月時点で
 
-//image[startSSL_42][コンソールにサインインできた！][scale=0.8]{
-//}
+ * Oracle Linux 6.10
+ * Oracle Linux 7.7
 
-なお今後、コンソールにサインインしたくなったら、いちいちメールを探してリンクを踏む必要はありません。まずはOracleのトップページ@<fn>{oracleSite}を開いて、右上の人物マークから［クラウドにサインイン］をクリックしましょう。
-
-//footnote[oracleSite][@<href>{https://www.oracle.com/jp/}]
-
-//image[startSSL_44][右上の人物マークから［クラウドにサインイン］をクリック][scale=0.8]{
-//}
-
-サインインのページ@<fn>{signIn}で［Account］の欄にクラウド・アカウント名@<fn>{cloudAccount}を入力して［Next］をクリックすれば、メールのリンクを踏んだときと同じ［サイン・イン］のページにたどり着けます。あとは同じように［ユーザー名］にはメールアドレスを、［パスワード］にはパスワードを入力して、［サイン・イン］をクリックするだけです。
-
-//footnote[signIn][@<href>{https://www.oracle.com/cloud/sign-in.html}]
-//footnote[cloudAccount][筆者の場合は@<code>{startdns01}です。アカウント登録時に、あなたの［クラウド・アカウント名］をメモしているはずですので、数ページ戻って確認してみましょう]
-
-//image[startSSL_43][［Account］の欄にクラウド・アカウント名を入力して［Next］をクリック][scale=0.8]{
-//}
-
-== サーバを立てよう
-
-
+の2種類があります。名前のとおり、Oracle Linux 6.10はCentOS 6と同じRHEL6系、Oracle Linux 7.7はCentOS 7と同じRHEL7系なので、使い勝手はほぼ同じです。本著ではOracle Linux 7.7を使用します。
 
 https://docs.oracle.com/cd/E83857_01/get-started/subscriptions-cloud/csgsg/sign-your-account-oracle-cloud-website.html
-
-
-
 
 == ドメイン名の設定
 

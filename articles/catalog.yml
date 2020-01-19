@@ -6,7 +6,10 @@ CHAPS:
 # 使わなかったAlibaba Cloudのアカウント作成
 # - alibaba.re
 
-# とりあえず
+# Oracle Cloudのアカウントを作ろう
+  - oracleAccount.re
+
+# Oracle Cloudでサーバを立てよう
   - ssl.re
 
 APPENDIX:
