@@ -84,12 +84,19 @@ Windowsの方は、起動したRLoginで［新規(N)］をクリックします�
 //image[startSSL_50][［OK］をクリック][scale=0.8]{
 //}
 
-［認証キーリスト］に、今作った［startSSLKey］が表示されたら、キーペア（秘密鍵・公開鍵）の作成は完了です。（@<img>{downloadRLogin04}）
+［認証キーリスト］に、今作った［startSSLKey］が表示されたら、キーペア（秘密鍵・公開鍵）が無事できています。［公開鍵］をクリックしてください。（@<img>{downloadRLogin04}）
 
 //image[startSSL_51][キーペアが出来たら［キャンセル］してRLoginを閉じよう][scale=0.8]{
 //}
 
-［キャンセル］を繰り返し3回クリックして、起動中のRLoginはいったん閉じてしまって構いません。RLoginはまた後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。
+この後すぐに使いますので、表示された公開鍵（ssh-rsaから始まる文字列）をまるごとコピーして、メモ帳などにペーストしておきましょう。
+
+//footnote[windowsComment][mochikoAsTech@の部分には、<Windowsのユーザ名>@が入ります]
+
+//image[startSSL_52][表示された公開鍵（文字列）はまるごとコピーしてメモ帳にペーストしておこう][scale=0.8]{
+//}
+
+公開鍵をメモしたら［キャンセル］を繰り返し4回クリックして、起動中のRLoginはいったん閉じてしまって構いません。RLoginはまた後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。
 
 ===[column] 【コラム】パスフレーズは設定すべき？しなくてもいい？
 
@@ -119,7 +126,9 @@ Macを使っている方は、最初から「ターミナル」（@<img>{mac02}�
 
 ==== MacでSSHのキーペア（秘密鍵・公開鍵）を作成する
 
-Macの方は、ターミナルで次のコマンドを実行してください。
+Macの方は、ターミナルで次のコマンドを実行してください。@<fn>{tilde}
+
+//footnote[tilde][@<code>{ssh-keygen}コマンドは名前のとおり、SSHの鍵（key）を生成（generate）するコマンドです。-fオプションでは、生成する鍵のファイル名を指定しています。~（チルダ）はホームディレクトリを表しますので、@<code>{-f ~/startSSLKey}は「/Users/<ユーザ名>/startSSLKey」という鍵を作って、という意味です]
 
 //cmd{
 ssh-keygen -f ~/startSSLKey
@@ -159,9 +168,31 @@ The key's randomart image is:
 +-----------------+
 //}
 
-ホームディレクトリに秘密鍵（startSSLKey）と、公開鍵（startSSLKey.pub）ができあがっているはずです。
+ホームディレクトリに秘密鍵（startSSLKey）と、公開鍵（startSSLKey.pub）ができあがっているはずです。cat（キャット）コマンド@<fn>{cat}で公開鍵を表示してみましょう。
+
+//footnote[cat][catは猫ではなく「conCATenate files and print on the standard output」の略です]
+
+//cmd{
+$ cat ~/startSSLKey.pub
+ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Air.local
+//}
+
+//footnote[macComment][mochikoAsTech@hostnameの部分は、<Macのユーザ名>@<Macのホスト名>が入るので人によって異なります]
+
+この後すぐに使いますので、表示された公開鍵（ssh-rsaから始まる文字列）をまるごとコピーして、メモ帳などにペーストしておきましょう。
 
 以上で事前準備は完了です。お待たせしました。いよいよサーバを立てましょう。
+
+===[column] 【コラム】ターミナルでコピー＆ペーストするには？
+
+ターミナルで表示されている内容をコピーしたいときは、コピーしたい部分を@<ttb>{マウスで選択するだけ}です。（@<img>{startSSL_53}）選択してからCtrl+cを押す必要はありません。
+
+//image[startSSL_53][マウスで選択するだけでコピーできる][scale=0.8]{
+//}
+
+逆にコピーした内容をターミナルへペーストしたいときはターミナル上で@<ttb>{右クリックするだけ}です。Ctrl+pは使えないので注意してください。
+
+===[/column]
 
 == コンピュートでサーバを立てる
 
@@ -170,7 +201,12 @@ The key's randomart image is:
 //image[startSSL_46][［VMインスタンスの作成］をクリック][scale=0.8]{
 //}
 
-［インスタンスの命名］に［startSSLInstance］と入力します。
+［インスタンスの命名］に［startSSLInstance］と入力します。（@<img>{startSSL_54}）
+
+//image[startSSL_54][［インスタンスの命名］に［startSSLInstance］と入力][scale=0.8]{
+//}
+
+その下の［オペレーティング・システムまたはイメージ・ソースを選択します］は、何も変更せずそのままで構いません。
 
 パソコンにはOSという基本ソフトが入っていて、WordやExcel、ChromeといったソフトはそのOSの上で動いています。皆さんのパソコンにも「Windows 10」や「Mac OS X Lion」などのOSが入っていますよね。
 
@@ -184,6 +220,14 @@ Oracle Linuxには2020年1月時点で
  * Oracle Linux 7.7
 
 の2種類があります。名前のとおり、Oracle Linux 6.10はCentOS 6と同じRHEL6系、Oracle Linux 7.7はCentOS 7と同じRHEL7系なので、使い勝手はほぼ同じです。本著ではOracle Linux 7.7を使用します。
+
+［SSHキーの追加］は、［SSHキーの貼付け］を選択して、そこに先ほどメモしておいた公開鍵をペーストします。公開鍵は改行を含まず、先頭の「ssh-rsa」から末尾の「<ユーザ名>@<ホスト名>」のようなコメントまでで、まるごと1行です。（@<img>{startSSL_55}）
+
+//image[startSSL_55][［SSHキーの貼付け］を選択してメモしておいた公開鍵をペースト][scale=0.8]{
+//}
+
+公開鍵をペーストしたら［作成］をクリックします。
+"Out of host capacity."出てめっちゃ笑ってる。
 
 https://docs.oracle.com/cd/E83857_01/get-started/subscriptions-cloud/csgsg/sign-your-account-oracle-cloud-website.html
 
