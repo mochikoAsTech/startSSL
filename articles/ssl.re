@@ -227,7 +227,90 @@ Oracle Linuxには2020年1月時点で
 //}
 
 公開鍵をペーストしたら［作成］をクリックします。
-"Out of host capacity."出てめっちゃ笑ってる。
+
+===[column] 【コラム】"Out of host capacity."が起きたらどうすればいい？
+
+元気よく［作成］をクリックしたのに、真っ赤な［Out of host capacity.］が表示されてしまった…という方がいらっしゃると思います。大丈夫、あなたは悪くありません。いま理由を説明するので落ち着いてください。「そんなの表示されなかったよ？」という方は、コラムは読み飛ばして先に進んでしまって構いません。
+
+//image[startSSL_56]["Out of host capacity."と表示されて何も起きない！][scale=0.8]{
+//}
+
+"Out of host capacity."は、直訳すると「ホスト容量が不足しています」という意味ですが、ホストってなんでしょう？
+
+あなたがいまOracle Cloudで立てようとしたサーバは、家でいうと「一軒家」ではなくマンションの101号室や403号室のような「各部屋」にあたります。このときマンションの建物をホストサーバ、各部屋をゲストサーバと呼びます。
+
+ホストの容量が不足している…つまり、あなたがOracle Cloudの無料マンションに入居しようとしたら、「ごめんね、無料マンションは大人気でいま空き部屋がないの」と断られてしまった、という状況です。
+
+「Always Free」は有効期限なしでずっと無料で使える、とても魅力的なサービスなので、順次マンションを建てているものの定期的にリソース不足に陥って、こういう状況になるようです。
+
+"Out of host capacity."が発生してしまった場合、次の2つが起きてホストの容量不足は解消しない限り、Always Freeの枠でサーバは立てられません。
+
+ * 自分以外のユーザーがサーバーを解約してリソースを開放する
+ * Oracle Cloudがリソースを増やす
+ 
+ですが、Always Freeとは別に、我々には30日間だけ有効な300ドル（33,000円）分の無償クレジットがあります！
+
+無料マンションが満室でも、有料マンションなら空きがあります。30日経ったら消えてしまう300ドル分のお小遣いを握りしめて、いざ有料マンションを契約しましょう！
+
+===[/column]
+
+=== 無償クレジットの枠でサーバを立てる
+
+もともと選択していたのは［Always Free対象］のマークが付いた［VM.Standard.E2.1.Micro (仮想マシン)］という種類のサーバでした。少し上に戻って［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリックします。（@<img>{startSSL_57}）
+
+//image[startSSL_57][［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリック][scale=0.8]{
+//}
+
+Oracle Cloudでは、サーバスペックごとに「シェイプ」という区分があります。@<fn>{whatIsShape}シェイプを、いま選択されている［VM.Standard.E2.1.Micro］から「VM.Standard.E2.2」に変更して、［シェイプの選択］をクリックしましょう。
+
+//footnote[whatIsShape][AWSのインスタンスタイプと同じものだと思ってください]
+
+Oracle CloudのOCPU（物理CPU）1つは、AWSのvCPU（仮想CPU）2つにあたるので、同じスペックで比較するとAWSが4倍以上高い。
+
+▼Oracle
+　VM.Standard.E2.1（OCPU:1, Memory:8GB）
+　$0.03/時、つまり2678.4円/月
+▼AWS
+　m5.large（vCPU:2, Memory:8GB）
+　$0.124/時、つまり11070.72円/月
+
+E2系におけるOCPU辺りの時間の金額：$0.03
+E2.2はCPU2つなので：$0.06（=0.06*120で7.2円）
+仮に1ヶ月を744時間として：$0.06*744=$44.64
+レートは年1回変更で現在は$1が120円なので：$44.64*120=5356.8円
+
+AWSは同じインスタンスタイプでもリージョンごとに金額が違うけど、Oracle Cloudはどこのリージョンでも金額同じなのか！すごい！
+
+ConputeのPricingのURL
+https://www.oracle.com/jp/cloud/compute/pricing.html
+
+StrageのPricingのURL
+https://www.oracle.com/cloud/storage/pricing.html
+
+チュートリアル
+https://community.oracle.com/docs/DOC-1019313
+
+Block Volume Storage	$0.0255	GB Storage Capacity / Month
+Block Volume Performance UnitsもBalancedかHigher Performanceで積んでおいた方がよさそう
+
+命名規則
+VMは仮想
+BMはベアメタル（物理1台まるごと）
+次に
+Standard
+DenseIO（高密度IO）
+とかの種類があって
+その後に
+E2とか3とかの世代
+最後にOCPUの数
+
+¥7.2/時
+744時間（31日間）
+
+
+インスタンスタイプの接頭辞になっている「VM」は仮想サーバ（Virtual Machine）、「BM」は物理サーバ（Bare Metal）を表す。2番目の「Standard」は汎用、「DenseIO」は高密度IOのような特徴、3番目の「E2」や「3」は世代、最後の「2」や「8」はOCPU（物理CPU）の数を表している。
+
+［インスタンスのシェイプ］で［シェイプの変更］をクリックしてください。
 
 https://docs.oracle.com/cd/E83857_01/get-started/subscriptions-cloud/csgsg/sign-your-account-oracle-cloud-website.html
 
