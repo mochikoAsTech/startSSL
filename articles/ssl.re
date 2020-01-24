@@ -248,24 +248,70 @@ Oracle Linuxには2020年1月時点で
  * 自分以外のユーザーがサーバーを解約してリソースを開放する
  * Oracle Cloudがリソースを増やす
  
-ですが、Always Freeとは別に、我々には30日間だけ有効な300ドル（33,000円）分の無償クレジットがあります！
+ですが、Always Freeとは別に、我々には30日間だけ有効な$300分の無償クレジットがあります！
 
-無料マンションが満室でも、有料マンションなら空きがあります。30日経ったら消えてしまう300ドル分のお小遣いを握りしめて、いざ有料マンションを契約しましょう！
+無料マンションが満室でも、有料マンションなら空きがあります。30日経ったら消えてしまう$300のお小遣いを握りしめて、いざ有料マンションのお部屋を借りにいきましょう！
 
 ===[/column]
 
 === 無償クレジットの枠でサーバを立てる
 
-もともと選択していたのは［Always Free対象］のマークが付いた［VM.Standard.E2.1.Micro (仮想マシン)］という種類のサーバでした。少し上に戻って［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリックします。（@<img>{startSSL_57}）
+もともと選択していたのは［Always Free対象］のマークが付いた［VM.Standard.E2.1.Micro (仮想マシン)］という種類のサーバでしたね。少し上に戻って［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリックしましょう。（@<img>{startSSL_57}）
 
 //image[startSSL_57][［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリック][scale=0.8]{
 //}
 
-Oracle Cloudでは、サーバスペックごとに「シェイプ」という区分があります。@<fn>{whatIsShape}シェイプを、いま選択されている［VM.Standard.E2.1.Micro］から「VM.Standard.E2.2」に変更して、［シェイプの選択］をクリックしましょう。
+Oracle Cloudでは、サーバスペックごとに「シェイプ」という区分があります。@<fn>{whatIsShape}インスタンスのシェイプを、いま選択されている［VM.Standard.E2.1.Micro］から変更したいので［シェイプの変更］をクリックしてください。
 
-//footnote[whatIsShape][AWSのインスタンスタイプと同じものだと思ってください]
+//footnote[whatIsShape][シェイプとはサーバスペックごとの区分のことです。AWSのインスタンスタイプと同じものだと思ってください]
 
-Oracle CloudのOCPU（物理CPU）1つは、AWSのvCPU（仮想CPU）2つにあたるので、同じスペックで比較するとAWSが4倍以上高い。
+//image[startSSL_58][［シェイプの変更］をクリック][scale=0.8]{
+//}
+
+OCPU@<fn>{ocpu}が2，メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}にチェックを入れて、［シェイプの選択］をクリックしましょう。
+
+//footnote[ocpu][OCPUはOracle Compute Unitsの略で、ごく簡単に言うと物理CPUです。OCPU（物理CPU）1つは、vCPU（仮想CPU）2つに相当しますので、もし「AWSのEC2でvCPUが4のサーバを使っている。同等スペックのサーバを用意してほしい」と頼まれたら、Oracle CloudではOCPUが2のシェイプを選べば大丈夫です。単純に数字だけで比較して、OCPUが4のシェイプを選ぶとCPUのスペックが今までの倍になってしまいますので注意してください]
+
+//footnote[shapeName][シェイプの名前は、まず接頭辞が「VM」なら仮想サーバ（Virtual Machine）、「BM」なら物理サーバ（Bare Metal）を表しています。その後ろの単語は「Standard」（汎用）や「DenseIO」（高密度IO）といった特徴、3番目の「E2」や「3」はシェイプの世代、最後の「2」や「8」はOCPUの数を表しています]
+
+//image[startSSL_59][「VM.Standard.E2.2」に変更して［シェイプの選択］をクリック][scale=0.8]{
+//}
+
+それ以外は何も変更せずに、いちばん下の［作成］をクリックします。
+
+//image[startSSL_60][［作成］をクリック][scale=0.8]{
+//}
+
+オレンジ色で［プロビジョニング中...］と表示されたら、サーバが用意されるまでそのまま数分待ちましょう。
+
+//image[startSSL_61][［プロビジョニング中...］と表示されたら数分待つ][scale=0.8]{
+//}
+
+サーバができあがると、表示が緑色の［実行中］に変わります。おめでとうございます！これでサーバが立てられました！
+
+//image[startSSL_62][［プロビジョニング中...］と表示されたら数分待つ][scale=0.8]{
+//}
+
+いまサーバが用意されている最中なので、待っている間にちょっと「シェイプ」について学びましょう。
+
+===[column] 【コラム】Oracle Cloudのコンピュートの金額計算方法
+
+いま立てた「VM.Standard.E2.2」を1ヶ月使ったら、いったいいくら分になるのでしょう？
+
+コンピュートの価格表@<fn>{pricing}を見てみると、［VM.Standard.E2.2］は［$0.03］@<fn>{ocpuNow}と書いてあります。これは［Pay as You Go (OCPU Per Hour)］と書いてあるとおり、1OCPUにつき1時間あたりかかる金額です。@<fn>{awsRegion}
+
+「VM.Standard.E2.2」はOCPUが2なので、$0.03*2で1時間あたり$0.06かかることが分かります。1ヶ月を744時間（24時間*31日）として、$0.06*744時間で$44.64です。@<fn>{dollarToYen}
+
+「VM.Standard.E2.2」を1台立てたくらいでは、$300の無償クレジットを使い切ることはないので安心しましょう。
+
+===[/column]
+
+//footnote[pricing][@<href>{https://www.oracle.com/jp/cloud/compute/pricing.html}]
+//footnote[ocpuNow][2020年1月時点の金額]
+//footnote[awsRegion][ちなみにAWSは、同スペックのサーバでもリージョンごとに価格が異なりますが、Oracle Cloudはどこのリージョンでも同一の価格です]
+//footnote[dollarToYen][$1を120円で換算すると$44.64*120円で5356.8円です]
+
+===[column] 【コラム】Oracle CloudとAWSはどっちが安い？
 
 ▼Oracle
 　VM.Standard.E2.1（OCPU:1, Memory:8GB）
@@ -274,15 +320,10 @@ Oracle CloudのOCPU（物理CPU）1つは、AWSのvCPU（仮想CPU）2つにあ�
 　m5.large（vCPU:2, Memory:8GB）
 　$0.124/時、つまり11070.72円/月
 
-E2系におけるOCPU辺りの時間の金額：$0.03
-E2.2はCPU2つなので：$0.06（=0.06*120で7.2円）
-仮に1ヶ月を744時間として：$0.06*744=$44.64
-レートは年1回変更で現在は$1が120円なので：$44.64*120=5356.8円
-
-AWSは同じインスタンスタイプでもリージョンごとに金額が違うけど、Oracle Cloudはどこのリージョンでも金額同じなのか！すごい！
-
-ConputeのPricingのURL
-https://www.oracle.com/jp/cloud/compute/pricing.html
+VM.Standard.E2.1におけるOCPU辺りの時間の金額：$0.03
+E2.1はCPU1つなので：$0.03
+1ヶ月を744時間として：$0.03*744=$22.32
+レートは年1回変更で現在は$1が120円なので：$22.32*120=2678.4円
 
 StrageのPricingのURL
 https://www.oracle.com/cloud/storage/pricing.html
@@ -293,26 +334,126 @@ https://community.oracle.com/docs/DOC-1019313
 Block Volume Storage	$0.0255	GB Storage Capacity / Month
 Block Volume Performance UnitsもBalancedかHigher Performanceで積んでおいた方がよさそう
 
-命名規則
-VMは仮想
-BMはベアメタル（物理1台まるごと）
-次に
-Standard
-DenseIO（高密度IO）
-とかの種類があって
-その後に
-E2とか3とかの世代
-最後にOCPUの数
-
-¥7.2/時
-744時間（31日間）
-
-
-インスタンスタイプの接頭辞になっている「VM」は仮想サーバ（Virtual Machine）、「BM」は物理サーバ（Bare Metal）を表す。2番目の「Standard」は汎用、「DenseIO」は高密度IOのような特徴、3番目の「E2」や「3」は世代、最後の「2」や「8」はOCPU（物理CPU）の数を表している。
-
-［インスタンスのシェイプ］で［シェイプの変更］をクリックしてください。
-
 https://docs.oracle.com/cd/E83857_01/get-started/subscriptions-cloud/csgsg/sign-your-account-oracle-cloud-website.html
+
+===[/column]
+
+=== 接続先となるサーバのIPアドレス
+
+サーバに「入る」ということのイメージが付いたところで、接続先となるサーバのIPアドレスを確認してみましょう。
+
+先ほど作成したインスタンス［startSSLInstance］の、［プライマリVNIC情報］（@<img>{instancePublicIPAddress}）にある［パブリックIPアドレス］をメモ（@<table>{IPv4Address}）してください。
+
+//image[instancePublicIPAddress][［プライマリVNIC情報］の［パブリックIPアドレス］をメモしておこう][scale=0.8]{
+//}
+
+//table[IPv4Address][インスタンスの［パブリックIPアドレス］]{
+例	パブリックIPアドレス
+------------------------------------
+140.238.33.51	
+//}
+
+それではメモしたIPアドレスを使ってサーバに入ってみましょう。
+
+== SSHでサーバに入ってみよう
+
+=== お使いのパソコンがWindowsの場合
+
+Windowsのパソコンを使っている方は、デスクトップの「rlogin_x64」というフォルダの中にある「RLogin.exe」（@<img>{startRLogin01}）をダブルクリックしてRLoginを起動（@<img>{startRLogin02}）してください。起動したら「新規」をクリックします。
+
+//image[startRLogin01][RLogin.exeをダブルクリック][scale=0.6]{
+//}
+
+//image[startRLogin02][RLoginが起動したら「新規」をクリック][scale=0.8]{
+//}
+
+初めに「エントリー（上）/コメント（下）」に「start-ssl-instance」と入力します。続いて「ホスト名（サーバーIPアドレス）」に先ほどメモした「パブリックIPアドレス」を入力（@<img>{startRLogin03}）します。「ログインユーザー名」には「opc」と入力してください。opcというのはOracle Linuxのインスタンスを作成すると最初から存在しているデフォルトユーザです。
+
+//image[startRLogin03][「ホスト名（サーバーIPアドレス）」と「ログインユーザー名」を入力][scale=0.6]{
+//}
+
+続いて「SSH認証鍵」をクリック（@<img>{startRLogin04}）して、デスクトップなど絶対に忘れない場所に保存しておいた「start-aws-keypair.pem」を選択したら「開く」をクリックします。
+
+//image[startRLogin04][「SSH認証鍵」をクリックして「start-aws-keypair.pem」を選択][scale=0.8]{
+//}
+
+次に左メニューで「プロトコル」を選択（@<img>{startRLogin05}）したら、「KeepAliveパケットの送信間隔(sec)」にチェックを入れておきます。これを設定しておくとターミナルをしばらく放っておいても接続が勝手に切れません。
+
+//image[startRLogin05][「KeepAliveパケットの送信間隔(sec)」にチェックを入れる][scale=0.6]{
+//}
+
+続いて左メニューで「クリップボード」を選択（@<img>{startRLogin06}）したら、「左クリックの範囲指定だけでクリップボードにコピーする」と「コピー時に範囲指定を解除しない」にチェックを入れて「右クリックでペースト」を選択します。
+
+//image[startRLogin06][右クリックや左クリックの設定][scale=0.6]{
+//}
+
+次に左メニューで「フォント」を選択（@<img>{startRLogin07}）したら、文字セットを「UTF-8」に変更します。すべて設定できたら「OK」をクリックしてください。
+
+//image[startRLogin07][文字セットを「UTF-8」に変更][scale=0.6]{
+//}
+
+設定が保存できたら「OK」をクリック（@<img>{startRLogin08}）してください。
+
+//image[startRLogin08][設定が保存できたら「OK」をクリック][scale=0.8]{
+//}
+
+すると初回のみ、この「公開鍵の確認」が表示（@<img>{startRLogin09}）されます。これは「初めて入るサーバだけど信頼していいですか？本当に接続しますか？」と聞かれているので、「接続する」をクリックしてください。サーバにはそれぞれフィンガープリントという固有の指紋があるため、下部の「この公開鍵を信頼するリストに保存する」にチェックが入っていればRLoginが覚えていてくれて、次回以降は「これは前に信頼していいって言われたサーバだ！」と判断してそのまま接続させてくれます。
+
+//image[startRLogin09][「公開鍵の確認」が表示されたら「接続する」をクリック][scale=0.6]{
+//}
+
+続いて「信頼するホスト鍵のリストを更新しますか？」と聞かれたら「はい」をクリック（@<img>{startRLogin10}）してください。
+
+//image[startRLogin10][「信頼するホスト鍵のリストを更新しますか？」と表示されたら「はい」をクリック][scale=0.8]{
+//}
+
+「opc@startsslinstance」と表示（@<img>{startRLogin11}）されたら無事サーバに入れています。SSHでのログイン成功、おめでとうございます！
+
+//image[startRLogin11][「opc@startsslinstance」と表示されたら成功！][scale=0.8]{
+//}
+
+もし「opc@startsslinstance」と表示されず、代わりに「SSH2 User Auth Failure "publickey" Status=0004 Send Disconnect Message... none」というようなエラーメッセージが表示（@<img>{startRLogin12}）されてしまったら、これは「鍵がない人は入れないよ！」とお断りされている状態です。恐らく「SSH認証鍵」をクリックして「start-aws-keypair.pem」を選択する作業を忘れているものと思われますので「SSH認証鍵」の設定を確認してみてください。
+
+//image[startRLogin12][このエラーが表示されたら「SSH認証鍵」の設定を確認しよう][scale=0.6]{
+//}
+
+「接続済みの呼び出し先が一定の時間を過ぎても正しく応答しなかったため、接続できませんでした。」というエラーメッセージが表示（@<img>{startRLogin13}）されてしまった場合は、「ホスト名（サーバーIPアドレス）」に書いた「パブリックIPアドレス」が間違っているものと思われます。「ホスト名（サーバーIPアドレス）」のIPアドレスを確認してみてください。
+
+//image[startRLogin13][このエラーが表示されたら「ホスト名（サーバーIPアドレス）」のIPアドレスを確認しよう][scale=0.8]{
+//}
+
+=== お使いのパソコンがMacの場合
+
+Macを使っている方は、ターミナル（@<img>{mac04}）を起動してください。
+
+//image[mac04][最初からインストールされている「ターミナル」を使おう][scale=0.8]{
+//}
+
+ターミナルがどこにあるのか分からないときは、Macの画面で右上にある虫眼鏡のマークをクリックして、Spotlightで「ターミナル」と検索（@<img>{mac05}）すれば起動できます。
+
+//image[mac05][どこにあるのか分からなかったらSpotlightで「ターミナル」と検索][scale=0.8]{
+//}
+
+そして開いたターミナルで次の文字を入力してReturnキーを押します。これはサーバに入るときに使う鍵をオーナー以外が使えないよう、chmodというコマンドで読み書き権限を厳しくしています。この作業は最初の1回だけで構いません。もし「start-aws-keypair.pem」を保存した場所がデスクトップ以外の場合は適宜書き換えてください。
+
+//cmd{
+chmod 600 ~/Desktop/start-aws-keypair.pem
+//}
+
+続いてターミナルで次の文字を入力したら再びReturnキーを押します。「パブリックIPアドレス」の部分は先ほどメモした「パブリックIPアドレス」に書き換えてください。-iオプションは「サーバにはこの鍵を使って入ります」という意味ですので、「start-aws-keypair.pem」を保存した場所がデスクトップ以外だった場合はこちらも適宜書き換えてください。
+
+//cmd{
+ssh opc@パブリックIPアドレス -i ~/Desktop/start-aws-keypair.pem
+//}
+
+
+初回のみ次のようなメッセージが表示されますが、これは「初めて入るサーバだけど信頼していいですか？本当に接続しますか？」と聞かれていますので、「yes」と打ってReturnキーを押してください。するとMacはちゃんとこのサーバのことを覚えてくれて、次回以降は「これは前に信頼していいって言われたサーバだ！」と判断してそのまま接続させてくれます。
+
+//cmd{
+Are you sure you want to continue connecting (yes/no)?
+//}
+
+「opc@startsslinstance」と表示されたら無事サーバに入れています。おめでとうございます！
 
 == ドメイン名の設定
 
