@@ -62,9 +62,9 @@ Windowsの方は、起動したRLoginで［新規(N)］をクリックします�
 //image[startSSL_45][［新規(N)］をクリック][scale=0.8]{
 //}
 
-左メニューの［サーバー>プロトコル］を選択して、［認証キー(K)］をクリックします。
+左メニューの［プロトコル］を選択して、［認証キー(K)］をクリックします。
 
-//image[startSSL_47][［サーバー>プロトコル］を選択して［認証キー(K)］をクリック][scale=0.8]{
+//image[startSSL_47][［プロトコル］を選択して［認証キー(K)］をクリック][scale=0.8]{
 //}
 
 ［任意の名前が指定できます］に［startSSLKey］を入力して、［作成］をクリックします。
@@ -86,17 +86,17 @@ Windowsの方は、起動したRLoginで［新規(N)］をクリックします�
 
 ［認証キーリスト］に、今作った［startSSLKey］が表示されたら、キーペア（秘密鍵・公開鍵）が無事できています。［公開鍵］をクリックしてください。（@<img>{downloadRLogin04}）
 
-//image[startSSL_51][キーペアが出来たら［キャンセル］してRLoginを閉じよう][scale=0.8]{
+//image[startSSL_51][［startSSLKey］が表示されたら［公開鍵］をクリック][scale=0.8]{
 //}
 
-この後すぐに使いますので、表示された公開鍵（ssh-rsaから始まる文字列）をまるごとコピーして、メモ帳などにペーストしておきましょう。
+この後すぐに使いますので、表示された公開鍵（ssh-rsaから始まる文字列）をまるごとコピーして、メモ帳などにペーストしておきましょう。公開鍵をメモしたら［OK］をクリックして閉じます。
 
 //footnote[windowsComment][mochikoAsTech@の部分には、<Windowsのユーザ名>@が入ります]
 
 //image[startSSL_52][表示された公開鍵（文字列）はまるごとコピーしてメモ帳にペーストしておこう][scale=0.8]{
 //}
 
-公開鍵をメモしたら［キャンセル］を繰り返し4回クリックして、起動中のRLoginはいったん閉じてしまって構いません。RLoginはまた後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。
+あとは［キャンセル］を繰り返しクリックして、起動中のRLoginはいったん閉じてしまって構いません。RLoginはまた後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。メモした公開鍵も無くさないようご注意ください。
 
 ===[column] 【コラム】パスフレーズは設定すべき？しなくてもいい？
 
@@ -109,8 +109,6 @@ Windowsの方は、起動したRLoginで［新規(N)］をクリックします�
 パスフレーズを設定していれば絶対に安心！というものではありませんが、上記の理由から、本来であれば設定した方がいいものです。
 
 ===[/column]
-
-起動したRLoginはいったん「キャンセル」をクリックして閉じてしまって構いません。また後で使いますので、デスクトップの「rlogin_x64」フォルダとその中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。
 
 === お使いのパソコンがMacの場合
 
@@ -128,16 +126,16 @@ Macを使っている方は、最初から「ターミナル」（@<img>{mac02}�
 
 Macの方は、ターミナルで次のコマンドを実行してください。@<fn>{tilde}
 
-//footnote[tilde][@<code>{ssh-keygen}コマンドは名前のとおり、SSHの鍵（key）を生成（generate）するコマンドです。-fオプションでは、生成する鍵のファイル名を指定しています。~（チルダ）はホームディレクトリを表しますので、@<code>{-f ~/startSSLKey}は「/Users/<ユーザ名>/startSSLKey」という鍵を作って、という意味です]
+//footnote[tilde][@<code>{ssh-keygen}コマンドは名前のとおり、SSHの鍵（key）を生成（generate）するコマンドです。-fオプションでは、生成する鍵のファイル名を指定しています。~（チルダ）はホームディレクトリを表しますので、@<code>{-f ~/Desktop/startSSLKey}は「/Users/<ユーザ名>/Desktop」のフォルダの中に「startSSLKey」という名前の鍵を作って、という意味です]
 
 //cmd{
-ssh-keygen -f ~/startSSLKey
+ssh-keygen -f ~/Desktop/startSSLKey
 //}
 
 すると次のように、パスフレーズの入力待ち状態になります。何も入力せずに、2回Enterを押してください。
 
 //cmd{
-$ ssh-keygen -f ~/startSSLKey
+$ ssh-keygen -f ~/Desktop/startSSLKey
 Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase): 　←何も入力せずにEnter
 Enter same passphrase again: 　←何も入力せずにEnter
@@ -146,12 +144,12 @@ Enter same passphrase again: 　←何も入力せずにEnter
 次のように表示されたらキーペア（秘密鍵・公開鍵）の作成は完了です。
 
 //cmd{
-$ ssh-keygen -f ~/startSSLKey
+$ ssh-keygen -f ~/Desktop/startSSLKey
 Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase): 
 Enter same passphrase again: 
-Your identification has been saved in /home/mochikoAsTech/startSSLKey.
-Your public key has been saved in /home/mochikoAsTech/startSSLKey.pub.
+Your identification has been saved in /home/mochikoAsTech/Desktop/startSSLKey.
+Your public key has been saved in /home/mochikoAsTech/Desktop/startSSLKey.pub.
 The key fingerprint is:
 a2:52:43:dd:70:5d:a8:4f:77:47:ca:f9:69:79:14:48 mochikoAsTech@ghana
 The key's randomart image is:
@@ -177,7 +175,7 @@ $ cat ~/startSSLKey.pub
 ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Air.local
 //}
 
-//footnote[macComment][mochikoAsTech@hostnameの部分は、<Macのユーザ名>@<Macのホスト名>が入るので人によって異なります]
+//footnote[macComment][mochikoAsTech@mochikoMacBook-Air.localの部分は、<Macのユーザ名>@<Macのホスト名>が入るので人によって異なります]
 
 この後すぐに使いますので、表示された公開鍵（ssh-rsaから始まる文字列）をまるごとコピーして、メモ帳などにペーストしておきましょう。
 
@@ -201,12 +199,10 @@ ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Ai
 //image[startSSL_46][［VMインスタンスの作成］をクリック][scale=0.8]{
 //}
 
-［インスタンスの命名］に［startSSLInstance］と入力します。（@<img>{startSSL_54}）
+［インスタンスの命名］に［startSSLInstance］と入力します。（@<img>{startSSL_54}）その下の［オペレーティング・システムまたはイメージ・ソースを選択します］は、何も変更せずそのままで構いません。
 
 //image[startSSL_54][［インスタンスの命名］に［startSSLInstance］と入力][scale=0.8]{
 //}
-
-その下の［オペレーティング・システムまたはイメージ・ソースを選択します］は、何も変更せずそのままで構いません。
 
 パソコンにはOSという基本ソフトが入っていて、WordやExcel、ChromeといったソフトはそのOSの上で動いています。皆さんのパソコンにも「Windows 10」や「Mac OS X Lion」などのOSが入っていますよね。
 
@@ -221,7 +217,7 @@ Oracle Linuxには2020年1月時点で
 
 の2種類があります。名前のとおり、Oracle Linux 6.10はCentOS 6と同じRHEL6系、Oracle Linux 7.7はCentOS 7と同じRHEL7系なので、使い勝手はほぼ同じです。本著ではOracle Linux 7.7を使用します。
 
-［SSHキーの追加］は、［SSHキーの貼付け］を選択して、そこに先ほどメモしておいた公開鍵をペーストします。公開鍵は改行を含まず、先頭の「ssh-rsa」から末尾の「<ユーザ名>@<ホスト名>」のようなコメントまでで、まるごと1行です。（@<img>{startSSL_55}）
+さらに下に進んで［SSHキーの追加］は、［SSHキーの貼付け］を選択して、そこに先ほどメモしておいた公開鍵をペーストします。公開鍵は改行を含まず、先頭の「ssh-rsa」から末尾の「<ユーザ名>@<ホスト名>」のようなコメントまでで、まるごと1行です。（@<img>{startSSL_55}）
 
 //image[startSSL_55][［SSHキーの貼付け］を選択してメモしておいた公開鍵をペースト][scale=0.8]{
 //}
@@ -230,7 +226,7 @@ Oracle Linuxには2020年1月時点で
 
 ===[column] 【コラム】"Out of host capacity."が起きたらどうすればいい？
 
-元気よく［作成］をクリックしたのに、真っ赤な［Out of host capacity.］が表示されてしまった…という方がいらっしゃると思います。大丈夫、あなたは悪くありません。いま理由を説明するので落ち着いてください。「そんなの表示されなかったよ？」という方は、コラムは読み飛ばして先に進んでしまって構いません。
+元気よく［作成］をクリックしたのに、真っ赤な［Out of host capacity.］が表示されてしまった…という方がいらっしゃると思います。大丈夫、あなたは悪くありません。いま理由を説明するので落ち着いてください。「そんなの表示されなかったよ？」という方は、このコラムは読み飛ばして［サーバが起動するまで待とう］にジャンプしてください。
 
 //image[startSSL_56]["Out of host capacity."と表示されて何も起きない！][scale=0.8]{
 //}
@@ -239,24 +235,24 @@ Oracle Linuxには2020年1月時点で
 
 あなたがいまOracle Cloudで立てようとしたサーバは、家でいうと「一軒家」ではなくマンションの101号室や403号室のような「各部屋」にあたります。このときマンションの建物をホストサーバ、各部屋をゲストサーバと呼びます。
 
-ホストの容量が不足している…つまり、あなたがOracle Cloudの無料マンションに入居しようとしたら、「ごめんね、無料マンションは大人気でいま空き部屋がないの」と断られてしまった、という状況です。
+「ホストの容量が不足している」ということは…つまり、あなたがOracle Cloudの無料マンションに入居しようとしたら、「ごめんね、無料マンションは大人気でいま空き部屋がないの」と断られてしまった、という状況なのです。
 
-「Always Free」は有効期限なしでずっと無料で使える、とても魅力的なサービスなので、順次マンションを建てているものの定期的にリソース不足に陥って、こういう状況になるようです。
+Oracle CloudのAlways Freeは有効期限なしでずっと無料で使える、とても魅力的なサービスなので、順次マンションを建てているものの定期的にリソース不足に陥って、こういう状況になるようです。
 
-"Out of host capacity."が発生してしまった場合、次の2つが起きてホストの容量不足は解消しない限り、Always Freeの枠でサーバは立てられません。
+この"Out of host capacity."が発生してしまった場合、次の2つが起きてホストの容量不足が解消しない限り、Always Freeの枠でサーバは立てられません。
 
  * 自分以外のユーザーがサーバーを解約してリソースを開放する
  * Oracle Cloudがリソースを増やす
  
-ですが、Always Freeとは別に、我々には30日間だけ有効な$300分の無償クレジットがあります！
+ですが、Always Freeとは別に、我々には30日間だけ有効な$300の無償クレジットがあります！
 
 無料マンションが満室でも、有料マンションなら空きがあります。30日経ったら消えてしまう$300のお小遣いを握りしめて、いざ有料マンションのお部屋を借りにいきましょう！
 
 ===[/column]
 
-=== 無償クレジットの枠でサーバを立てる
+=== Always Freeではなく無償クレジットの枠でサーバを立てる
 
-もともと選択していたのは［Always Free対象］のマークが付いた［VM.Standard.E2.1.Micro (仮想マシン)］という種類のサーバでしたね。少し上に戻って［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリックしましょう。（@<img>{startSSL_57}）
+もともと選択していたのは［Always Free対象］のマークが付いた［VM.Standard.E2.1.Micro (仮想マシン)］という種類のサーバでした。"Out of host capacity."を回避するため、少し上に戻って［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリックしましょう。（@<img>{startSSL_57}）
 
 //image[startSSL_57][［シェイプ、ネットワークおよびストレージ・オプションの表示］をクリック][scale=0.8]{
 //}
@@ -282,6 +278,8 @@ OCPU@<fn>{ocpu}が2，メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}�
 //image[startSSL_60][［作成］をクリック][scale=0.8]{
 //}
 
+=== サーバが起動するまで待とう
+
 オレンジ色で［プロビジョニング中...］と表示されたら、サーバが用意されるまでそのまま数分待ちましょう。
 
 //image[startSSL_61][［プロビジョニング中...］と表示されたら数分待つ][scale=0.8]{
@@ -292,55 +290,46 @@ OCPU@<fn>{ocpu}が2，メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}�
 //image[startSSL_62][［プロビジョニング中...］と表示されたら数分待つ][scale=0.8]{
 //}
 
-いまサーバが用意されている最中なので、待っている間にちょっと「シェイプ」について学びましょう。
-
 ===[column] 【コラム】Oracle Cloudのコンピュートの金額計算方法
 
-いま立てた「VM.Standard.E2.2」を1ヶ月使ったら、いったいいくら分になるのでしょう？
+ところで、いま立てた「VM.Standard.E2.2」を1ヶ月使ったら、いったいいくら分になるのでしょう？うっかり$300を超えてしまわないか、ちょっと心配なので計算してみましょう。
 
 コンピュートの価格表@<fn>{pricing}を見てみると、［VM.Standard.E2.2］は［$0.03］@<fn>{ocpuNow}と書いてあります。これは［Pay as You Go (OCPU Per Hour)］と書いてあるとおり、1OCPUにつき1時間あたりかかる金額です。@<fn>{awsRegion}
 
-「VM.Standard.E2.2」はOCPUが2なので、$0.03*2で1時間あたり$0.06かかることが分かります。1ヶ月を744時間（24時間*31日）として、$0.06*744時間で$44.64です。@<fn>{dollarToYen}
+「VM.Standard.E2.2」はOCPUが2なので、$0.03*2で1時間あたり$0.06かかることが分かります。1ヶ月を744時間（24時間*31日）として、$0.06*744時間で$44.64です。
 
-「VM.Standard.E2.2」を1台立てたくらいでは、$300の無償クレジットを使い切ることはないので安心しましょう。
+「VM.Standard.E2.2」を1台立てたくらいでは、$300の無償クレジットを使い切ることはないので安心しましょう。ちなみにOracle Cloudでは$1は120円換算@<fn>{rate}なので、日本円だと5356.8円ですね。
 
 ===[/column]
 
 //footnote[pricing][@<href>{https://www.oracle.com/jp/cloud/compute/pricing.html}]
 //footnote[ocpuNow][2020年1月時点の金額]
 //footnote[awsRegion][ちなみにAWSは、同スペックのサーバでもリージョンごとに価格が異なりますが、Oracle Cloudはどこのリージョンでも同一の価格です]
-//footnote[dollarToYen][$1を120円で換算すると$44.64*120円で5356.8円です]
+//footnote[rate][$1を120円で換算すると$44.64*120円で5356.8円です]
 
 ===[column] 【コラム】Oracle CloudとAWSはどっちが安い？
 
-▼Oracle
-　VM.Standard.E2.1（OCPU:1, Memory:8GB）
-　$0.03/時、つまり2678.4円/月
-▼AWS
-　m5.large（vCPU:2, Memory:8GB）
-　$0.124/時、つまり11070.72円/月
+Oracle Cloudは他のクラウドに比べて価格が安いのが特徴のひとつです。どれくらい安いのか、同じスペックのサーバでAWSと比較してみましょう。
 
-VM.Standard.E2.1におけるOCPU辺りの時間の金額：$0.03
-E2.1はCPU1つなので：$0.03
-1ヶ月を744時間として：$0.03*744=$22.32
-レートは年1回変更で現在は$1が120円なので：$22.32*120=2678.4円
+例えば同スペックのVM.Standard.E2.1（Oracle Cloud）とm5.large（AWS）を比較すると、Oracle Cloudの価格はAWSの4分の1以下です。（@<table>{oracleAwsDiff}）
 
-StrageのPricingのURL
-https://www.oracle.com/cloud/storage/pricing.html
+//table[oracleAwsDiff][Oracle CloudとAWSの価格比較]{
+　	Oracle Cloud	AWS
+------------------------------------
+インスタンスの種類	VM.Standard.E2.1	m5.large
+CPU	OCPU:1（vCPU:2相当）	vCPU:2
+メモリ	8GB	8GB
+1時間あたり	$0.03	$0.124
+月額	2678.4円	11070.72円
+//}
 
-チュートリアル
-https://community.oracle.com/docs/DOC-1019313
-
-Block Volume Storage	$0.0255	GB Storage Capacity / Month
-Block Volume Performance UnitsもBalancedかHigher Performanceで積んでおいた方がよさそう
-
-https://docs.oracle.com/cd/E83857_01/get-started/subscriptions-cloud/csgsg/sign-your-account-oracle-cloud-website.html
+シェアトップを独走するAWSに対して、後発は勝つためにコスト面や性能面でそれぞれ大きなメリットを打ち出してきています。AWSが最適なのであればAWSを選択すべきですが、「みんなが使っているから」というだけ理由で、あまり深く考えずにAWSを使っているのであれば、他のクラウドにも目を向けてみることを筆者はお勧めします。
 
 ===[/column]
 
 === 接続先となるサーバのIPアドレス
 
-サーバに「入る」ということのイメージが付いたところで、接続先となるサーバのIPアドレスを確認してみましょう。
+無事にサーバが「実行中」になったら、接続先となるサーバのIPアドレスを確認してみましょう。
 
 先ほど作成したインスタンス［startSSLInstance］の、［プライマリVNIC情報］（@<img>{instancePublicIPAddress}）にある［パブリックIPアドレス］をメモ（@<table>{IPv4Address}）してください。
 
@@ -359,27 +348,27 @@ https://docs.oracle.com/cd/E83857_01/get-started/subscriptions-cloud/csgsg/sign-
 
 === お使いのパソコンがWindowsの場合
 
-Windowsのパソコンを使っている方は、デスクトップの「rlogin_x64」というフォルダの中にある「RLogin.exe」（@<img>{startRLogin01}）をダブルクリックしてRLoginを起動（@<img>{startRLogin02}）してください。起動したら「新規」をクリックします。
+Windowsのパソコンを使っている方は、デスクトップの［rlogin_x64］というフォルダの中にある［RLogin.exe］（@<img>{startRLogin01}）をダブルクリックしてRLoginを起動（@<img>{startRLogin02}）してください。起動したら［新規］をクリックします。
 
 //image[startRLogin01][RLogin.exeをダブルクリック][scale=0.6]{
 //}
 
-//image[startRLogin02][RLoginが起動したら「新規」をクリック][scale=0.8]{
+//image[startRLogin02][RLoginが起動したら［新規］をクリック][scale=0.8]{
 //}
 
-初めに「エントリー（上）/コメント（下）」に「start-ssl-instance」と入力します。続いて「ホスト名（サーバーIPアドレス）」に先ほどメモした「パブリックIPアドレス」を入力（@<img>{startRLogin03}）します。「ログインユーザー名」には「opc」と入力してください。opcというのはOracle Linuxのインスタンスを作成すると最初から存在しているデフォルトユーザです。
+初めに［エントリー（上）/コメント（下）］の上に［startSSLInstance］と入力します。続いて［ホスト名（サーバーIPアドレス）］に先ほどメモした［パブリックIPアドレス］を入力（@<img>{startRLogin03}）します。［ログインユーザー名］には［opc］と入力してください。opcというのはOracle Linuxのインスタンスを作成すると、最初から存在しているデフォルトユーザです。
 
-//image[startRLogin03][「ホスト名（サーバーIPアドレス）」と「ログインユーザー名」を入力][scale=0.6]{
+//image[startRLogin03][［ホスト名（サーバーIPアドレス）］と［ログインユーザー名］を入力][scale=0.6]{
 //}
 
-続いて「SSH認証鍵」をクリック（@<img>{startRLogin04}）して、デスクトップなど絶対に忘れない場所に保存しておいた「start-aws-keypair.pem」を選択したら「開く」をクリックします。
+次に左メニューで［プロトコル］を選択（@<img>{startRLogin04}）したら、［KeepAliveパケットの送信間隔(sec)］にチェックを入れておきます。これを設定しておくとターミナルをしばらく放っておいても接続が勝手に切れません。続いて［認証キー］をクリックします。
 
-//image[startRLogin04][「SSH認証鍵」をクリックして「start-aws-keypair.pem」を選択][scale=0.8]{
+//image[startRLogin04][［KeepAliveパケットの送信間隔(sec)］にチェックを入れて［認証キー］をクリック][scale=0.6]{
 //}
 
-次に左メニューで「プロトコル」を選択（@<img>{startRLogin05}）したら、「KeepAliveパケットの送信間隔(sec)」にチェックを入れておきます。これを設定しておくとターミナルをしばらく放っておいても接続が勝手に切れません。
+［認証キー］リストで［startSSLKey］にチェックが入っていることを確認（@<img>{startRLogin05}）します。これは「ログインするときにこの鍵を使います」というリストです。チェックが入っていたら［OK］をクリックして閉じて構いません。
 
-//image[startRLogin05][「KeepAliveパケットの送信間隔(sec)」にチェックを入れる][scale=0.6]{
+//image[startRLogin05][［startSSLKey］にチェックが入っていることを確認][scale=0.8]{
 //}
 
 続いて左メニューで「クリップボード」を選択（@<img>{startRLogin06}）したら、「左クリックの範囲指定だけでクリップボードにコピーする」と「コピー時に範囲指定を解除しない」にチェックを入れて「右クリックでペースト」を選択します。
@@ -412,9 +401,9 @@ Windowsのパソコンを使っている方は、デスクトップの「rlogin_
 //image[startRLogin11][「opc@startsslinstance」と表示されたら成功！][scale=0.8]{
 //}
 
-もし「opc@startsslinstance」と表示されず、代わりに「SSH2 User Auth Failure "publickey" Status=0004 Send Disconnect Message... none」というようなエラーメッセージが表示（@<img>{startRLogin12}）されてしまったら、これは「鍵がない人は入れないよ！」とお断りされている状態です。恐らく「SSH認証鍵」をクリックして「start-aws-keypair.pem」を選択する作業を忘れているものと思われますので「SSH認証鍵」の設定を確認してみてください。
+もし「opc@startsslinstance」と表示されず、代わりに「SSH2 User Auth Failure "publickey,gssapi-keyex,gssapi-with-mic" Status=1004 Send Disconnect Message... gssapi-with-mic」というようなエラーメッセージが表示（@<img>{startRLogin12}）されてしまったら、これは「鍵がない人は入れないよ！」とお断りされている状態です。［認証キー］リストで［startSSLKey］にチェックが入っていないものと思われますので［認証キー］の設定を確認してみてください。
 
-//image[startRLogin12][このエラーが表示されたら「SSH認証鍵」の設定を確認しよう][scale=0.6]{
+//image[startRLogin12][このエラーが表示されたら［認証キー］を確認しよう][scale=0.6]{
 //}
 
 「接続済みの呼び出し先が一定の時間を過ぎても正しく応答しなかったため、接続できませんでした。」というエラーメッセージが表示（@<img>{startRLogin13}）されてしまった場合は、「ホスト名（サーバーIPアドレス）」に書いた「パブリックIPアドレス」が間違っているものと思われます。「ホスト名（サーバーIPアドレス）」のIPアドレスを確認してみてください。
@@ -437,15 +426,14 @@ Macを使っている方は、ターミナル（@<img>{mac04}）を起動して�
 そして開いたターミナルで次の文字を入力してReturnキーを押します。これはサーバに入るときに使う鍵をオーナー以外が使えないよう、chmodというコマンドで読み書き権限を厳しくしています。この作業は最初の1回だけで構いません。もし「start-aws-keypair.pem」を保存した場所がデスクトップ以外の場合は適宜書き換えてください。
 
 //cmd{
-chmod 600 ~/Desktop/start-aws-keypair.pem
+chmod 600 ~/Desktop/startSSLKey
 //}
 
-続いてターミナルで次の文字を入力したら再びReturnキーを押します。「パブリックIPアドレス」の部分は先ほどメモした「パブリックIPアドレス」に書き換えてください。-iオプションは「サーバにはこの鍵を使って入ります」という意味ですので、「start-aws-keypair.pem」を保存した場所がデスクトップ以外だった場合はこちらも適宜書き換えてください。
+続いてターミナルで次の文字を入力したら再びReturnキーを押します。「パブリックIPアドレス」の部分は先ほどメモした「パブリックIPアドレス」に書き換えてください。-iオプションは「サーバにはこの鍵を使って入ります」という意味ですので、「startSSLKey」を保存した場所がデスクトップ以外だった場合はこちらも適宜書き換えてください。
 
 //cmd{
-ssh opc@パブリックIPアドレス -i ~/Desktop/start-aws-keypair.pem
+ssh opc@パブリックIPアドレス -i ~/Desktop/startSSLKey
 //}
-
 
 初回のみ次のようなメッセージが表示されますが、これは「初めて入るサーバだけど信頼していいですか？本当に接続しますか？」と聞かれていますので、「yes」と打ってReturnキーを押してください。するとMacはちゃんとこのサーバのことを覚えてくれて、次回以降は「これは前に信頼していいって言われたサーバだ！」と判断してそのまま接続させてくれます。
 
