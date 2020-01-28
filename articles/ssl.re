@@ -568,68 +568,50 @@ nginx version: nginx/1.16.1　←バージョン情報が表示されればイ�
 
 ちょっと分かりにくいかも知れませんが、パソコンにMicrosoft Excelをインストールしたら「表計算というサービスが提供できるパソコン」になるのと同じで、サーバにこのNGINXをインストールすると「リクエストに対してウェブページを返すサービスが提供できるサーバ」、つまりウェブサーバになります。 今回はNGINXを入れましたが、ウェブサーバのミドルウェアは他にもApacheをはじめとして色々な種類があります。
 
-インストールが終わったので、サーバを起動した際にNGINXが自動で立ち上がってくるよう、自動起動の設定もオンにしておきましょう。
-
-自動起動の管理対象にhttpd（NGINXのこと）を追加した上で、自動起動をオンにします。
-
-↓ここsysctlの何かに要変更
-//cmd{
-# chkconfig --add httpd
-# chkconfig httpd on
-//}
-
-自動起動の設定ができたか確認してみましょう。
+インストールが終わったので、サーバを起動した際にNGINXが自動で立ち上がってくるよう、自動起動の設定もオンにしておきましょう。systemctlコマンドで、NGINXの自動起動を有効（enable）にします。
 
 //cmd{
-# chkconfig --list httpd
-httpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off
+# systemctl enable nginx
+# systemctl is-enabled nginx
+enabled　←有効になったことを確認
 //}
 
-Linuxにはグラフィカルモードやシングルユーザモードなどランレベルと呼ばれるいくつかのモードがあります。この0から6の数字はランレベルごとの自動起動設定を表しており、現状のランレベルは3なので3のところがonになっていれば大丈夫です。
+=== SELinuxを無効にしておこう
 
-=== OSの基本設定をしておこう
-
-==== タイムゾーンの設定
-
-date（デート）コマンドでサーバの時間を確認してみましょう。日本はいま18:14なのですが、サーバの時間は9:14でずれてしまっています。
+SELinuxを無効化（disabled）します。
 
 //cmd{
-# date
-Sat Sep  1 09:14:44 UTC 2018
+# getenforce
+Enforcing　←デフォルトは有効であることが分かる
+
+# vi /etc/selinux/config
 //}
 
-日本時間になるようタイムゾーンの変更を行いましょう。
+vi（ブイアイ）はテキストファイルを編集するためのコマンドです。viコマンドでファイルを開くと、最初は次のような「閲覧モード」の画面（@<img>{viSelinux01}）が表示されます。閲覧モードは「見るだけ」なので編集ができません。
 
-//cmd{
-# vi /etc/sysconfig/clock
+//image[viSelinux01][viコマンドでファイルを開いた][scale=0.8]{
 //}
 
-vi（ブイアイ）はテキストファイルを編集するためのコマンドです。viコマンドでファイルを開くと、最初は次のような「閲覧モード」の画面（@<img>{startaws31}）が表示されます。閲覧モードは「見るだけ」なので編集ができません。
-
-//image[startaws31][viコマンドでファイルを開いた][scale=0.8]{
-//}
-
-この状態でi（アイ）を押すと「編集モード」@<fn>{insertMode}に変わります。（@<img>{startaws32}）左下に「-- INSERT --」と表示されていたら「編集モード」です。
+この状態でi（アイ）を押すと「編集モード」@<fn>{insertMode}に変わります。（@<img>{viSelinux02}）左下に「-- INSERT --」と表示されていたら「編集モード」です。
 
 //footnote[insertMode][ここでは初心者の方でも直感的に分かるよう「閲覧モード」「編集モード」と呼んでいますが、正しくは「ノーマルモード」「インサートモード」です。]
 
-
-//image[startaws32][i（アイ）を押すと「-- INSERT --」と表示される「編集モード」になった][scale=0.8]{
+//image[viSelinux02][i（アイ）を押すと「-- INSERT --」と表示される「編集モード」になった][scale=0.8]{
 //}
 
-「編集モード」になるとファイルが編集できるようになります。それでは「ZONE="UTC"」を「ZONE="Asia/Tokyo"」（@<img>{startaws33}）に書き換えてください。
+「編集モード」になるとファイルが編集できるようになります。それでは「SELINUX=enforcing」を「SELINUX=disabled」（@<img>{viSelinux03}）に書き換えてください。
 
-//image[startaws33][「ZONE="UTC"」を「ZONE="Asia/Tokyo"」に書き換える][scale=0.8]{
+//image[viSelinux03][「SELINUX=enforcing」を「SELINUX=disabled」に書き換える][scale=0.8]{
 //}
 
-「編集モード」のままだと保存ができないので書き終わったらESCキーを押します。すると左下の「-- INSERT --」が消えて再び「閲覧モード」になります。（@<img>{startaws34}）
+「編集モード」のままだと保存ができないので書き終わったらESCキーを押します。すると左下の「-- INSERT --」が消えて再び「閲覧モード」になります。（@<img>{viSelinux04}）
 
-//image[startaws34][ESCを押すと左下の「-- INSERT --」が消えて再び「閲覧モード」になる][scale=0.8]{
+//image[viSelinux04][ESCを押すと左下の「-- INSERT --」が消えて再び「閲覧モード」になる][scale=0.8]{
 //}
 
-「閲覧モード」に戻ったら「:wq」@<fn>{wq}と入力してEnterキーを押せば変更が保存されます。（@<img>{startaws35}）
+「閲覧モード」に戻ったら「:wq」@<fn>{wq}と入力してEnterキーを押せば変更が保存されます。（@<img>{viSelinux05}）
 
-//image[startaws35][「:wq」と入力してEnterキーを押せば保存される][scale=0.8]{
+//image[viSelinux05][「:wq」と入力してEnterキーを押せば保存される][scale=0.8]{
 //}
 
 //footnote[wq][書き込んで（write）、抜ける（quit）という命令なのでwqです。]
@@ -641,209 +623,34 @@ vi（ブイアイ）はテキストファイルを編集するためのコマン
 編集できたらcat（キャット）コマンド@<fn>{cat}でファイルの中身を確認してみましょう。
 
 //cmd{
-# cat /etc/sysconfig/clock
-ZONE="Asia/Tokyo"
-UTC=true
+# cat /etc/selinux/config
+
+# This file controls the state of SELinux on the system.
+# SELINUX= can take one of these three values:
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX=disabled
+# SELINUXTYPE= can take one of three values:
+#     targeted - Targeted processes are protected,
+#     minimum - Modification of targeted policy. Only selected processes are protected. 
+#     mls - Multi Level Security protection.
+SELINUXTYPE=targeted 
 //}
 
-さらにlnコマンドでシンボリックリンクを作ります。シンボリックリンクはWindowsでいうところのショートカットみたいなものです。
-
-//cmd{
-# ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-//}
-
-ちなみに入力しているパス（path）は入力途中でタブを押すと自動的に補完されるので、全部手打ちしなくても大丈夫です。たとえば
-
-//cmd{
-# ln -sf /usr/sh
-//}
-
-まで打ってからTabキーを押すと次のように自動補完されます
-
-//cmd{
-# ln -sf /usr/share/
-//}
-
-シンボリックリンクが生成されたかlsコマンド@<fn>{ls}で確認してみましょう。（@<img>{startaws36}）
-
-//cmd{
-# ls -l /etc/localtime
-//}
-
-//footnote[ls][lsはlistの略で、名前のとおりファイルを一覧表示してくれるコマンドです。-lはlongの略で「詳細を表示」というオプションです。]
-
-//image[startaws36][シンボリックリンクが生成された][scale=0.8]{
-//}
-
-「->」の矢印が実体であるファイルを指しているので、シンボリックリンクができていることがわかります。
-
-==== locale（言語）の設定
-
-続いてlocale（言語）の設定をします。今は言語の設定が英語になっているのでエラーメッセージなども英語で表示されますが、分かりやすくするため言語設定を日本語に変更しましょう。
-
-//cmd{
-# vi /etc/sysconfig/i18n
-//}
-
-先ほどと同じviコマンドでファイルを開いたらi（アイ）で「編集モード」にして「en_US」の部分を「ja_JP」に書き換えてください。
-
-//cmd{
-# vi /etc/sysconfig/i18n
-LANG=en_US.UTF-8
-↓
-LANG=ja_JP.UTF-8
-//}
-
-書き終わったらESCキーを押して「閲覧モード」に戻り「:wq」で保存します。編集できたらcat（キャット）コマンドでファイルの中身を確認してみましょう。
-
-//cmd{
-# cat /etc/sysconfig/i18n
-LANG=ja_JP.UTF-8
-//}
-
-通常のLinuxサーバであればこの設定だけでいいのですが、Amazon Linuxの場合、AMIからインスタンスを復元すると今修正した「LANG=ja_JP.UTF-8」がそっと元の「LANG=en_US.UTF-8」に戻ってしまいます。
-
-元に戻らないよう次のファイルも編集しておきましょう。
-
-//cmd{
-# vi /etc/cloud/cloud.cfg
-//}
-
-viコマンドでファイルを開いたらi（アイ）で「編集モード」にして一番下に次の1行を書き足してください。
-
-//cmd{
-locale: ja_JP.UTF-8
-//}
-
-書き終わったらESCキーを押して「閲覧モード」に戻り「:wq」で保存します。編集できたらcatコマンドでファイルの中身を確認してみましょう。
-
-//cmd{
-# cat /etc/cloud/cloud.cfg
-# WARNING: Modifications to this file may be overridden by files in
-# /etc/cloud/cloud.cfg.d
-
-# If this is set, 'root' will not be able to ssh in and they 
-# will get a message to login instead as the default user (opc)
-disable_root: true
-
-# This will cause the set+update hostname module to not operate (if true)
-preserve_hostname: true
-
-datasource_list: [ Ec2, None ]
-
-repo_upgrade: security
-repo_upgrade_exclude:
- - kernel
- - nvidia*
- - cudatoolkit
-
-mounts:
- - [ ephemeral0, /media/ephemeral0 ]
- - [ swap, none, swap, sw, "0", "0" ]
-# vim:syntax=yaml
-
-locale: ja_JP.UTF-8
-//}
-
-==== historyの設定
-
-最後にhistoryの設定@<fn>{better}を行います。historyコマンドを叩くと今まで自分が実行したコマンドの履歴が見られます。
-
-//footnote[better][historyの設定は任意ですが、あとで自分の作業を振り返るときに便利なので設定しておくことをお勧めします。]
-
-//cmd{
-# history
-    1  sudooo su -
-    2  yum install -y jwhois mysql
-    3  yum install -y php72 php72-mbstring php72-mysqlnd
-    4  chkconfig --add httpd
-    5  chkconfig httpd on
-    6  chkconfig --list httpd
-    7  date
-    8  vi /etc/sysconfig/clock
-    9  cat /etc/sysconfig/clock
-   10  ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-   11  ls -l /etc/localtime
-   12  vi /etc/sysconfig/i18n
-   13  cat /etc/sysconfig/i18n
-//}
-
-とても便利なのですが、このままだと「そのコマンドをいつ実行したのか？」という日時が分かりません。また最大1000件までしか保存されないためそれ以上前の履歴を追うことができません。設定を変更して最大で2000件まで保存されて、日時も表示されるようにしましょう。
-
-//cmd{
-# vi /etc/bashrc
-//}
-
-先ほどと同じviコマンドでファイルを開くと、最初は「閲覧モード」になっています。「閲覧モード」のままでshift+gを押してファイルの最終行へ移動（@<img>{startaws37}）してください。
-
-//image[startaws37][shift+gで最終行に移動した][scale=0.8]{
-//}
-
-最終行に移動したらi（アイ）で「編集モード」にして次の2行を追記してください。
-
-//cmd{
-HISTTIMEFORMAT='%F %T '
-HISTFILESIZE=2000
-//}
-
-書き終わったらESCキーを押して「閲覧モード」に戻り「:wq」で保存します。編集できたらtail（テイル）コマンド@<fn>{tail}でファイルの中身を確認してみましょう。
-
-//cmd{
-# tail -2 /etc/bashrc
-HISTTIMEFORMAT='%F %T '
-HISTFILESIZE=2000
-//}
-
-//footnote[tail][tailコマンドは名前のとおりファイルの尻尾、つまり末尾を表示するコマンド。引数で「-2」と指定すれば末尾から2行、「-10」と指定すれば末尾から10行が表示されます。]
-
-以上でOSの基本設定は終了です。変更した設定を有効にするためreboot（リブート）コマンドでサーバを再起動しておきましょう。
+以上でSELinuxを無効化する設定は終了です。変更した設定を反映させるためreboot（リブート）コマンドでサーバを再起動しておきましょう。
 
 //cmd{
 # reboot
 //}
 
-SSHの接続も切れてしまいますが、割とすぐに再起動しますので再度RLoginやターミナルで接続（@<img>{startaws38}）してみてください。今度はさっきと同じ設定でそのまま接続できるはずです。
+SSHの接続も切れてしまいますが、割とすぐに再起動しますので再度RLoginやターミナルで接続（@<img>{viSelinux06}}）してみてください。今度はさっきと同じ設定でそのまま接続できるはずです。
 
-//image[startaws38][さっきと同じ設定で接続してみよう][scale=0.8]{
+接続できないのでfirewalldも殺そう。
+systemctl stop firewalld.service 
+
+//image[viSelinux06][さっきと同じ設定で接続してみよう][scale=0.8]{
 //}
-
-接続できたらdateコマンドでサーバの時間を確認してみましょう。サーバのタイムゾーンが東京になって時間のずれはなくなり、言語も日本語に変わったことで次のように表示されるはずです。
-
-//cmd{
-$ date
-2018年  9月  1日 土曜日 19:58:14 JST
-//}
-
-続いてrootになってhistoryコマンドを叩いてみましょう。rootになったときのメッセージも日本語に変わっていますね。
-
-//cmd{
-$ sudo su -
-最終ログイン: 2018/09/01 (土) 20:00:12 JST日時 pts/0
-
-# history
-    1  2018-09-01 20:01:41 sudooo su -
-    2  2018-09-01 20:01:41 ip addr
-    3  2018-09-01 20:01:41 hostname
-    4  2018-09-01 20:01:41 chkconfig --add httpd
-    5  2018-09-01 20:01:41 chkconfig httpd on
-    6  2018-09-01 20:01:41 chkconfig --list httpd
-    7  2018-09-01 20:01:41 date
-    8  2018-09-01 20:01:41 vi /etc/sysconfig/clock
-    9  2018-09-01 20:01:41 cat /etc/sysconfig/clock
-   10  2018-09-01 20:01:41 ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-   11  2018-09-01 20:01:41 ls -l /etc/localtime
-   12  2018-09-01 20:01:41 vi /etc/sysconfig/i18n
-   13  2018-09-01 20:01:41 cat /etc/sysconfig/i18n
-   14  2018-09-01 20:01:41 vi /etc/bashrc
-   15  2018-09-01 20:01:41 tail -2 /etc/bashrc
-   16  2018-09-01 20:01:41 reboot
-   17  2018-09-01 20:02:58 date
-   18  2018-09-01 20:03:01 history
-//}
-
-設定変更してrebootするまでは日時が記録されていなかったためすべて同じ日時になっていますが、reboot後はちゃんと実行した日時が表示されています。@<fn>{historySave}
-
-//footnote[historySave][ちなみにhistoryはターミナルを「exit」して閉じるときに履歴が書き込まれるため、前述の「exit」で抜けずに赤い×を押してウィンドウを閉じたり、ネットワークがぶつっと切れてしまったりするとその分は記録されずに消えてしまいます。]
 
 以上で「サーバを立てる」という作業はおしまいです。
 
