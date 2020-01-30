@@ -23,7 +23,7 @@ language: ja
 
 # 書名
 booktitle: {name: "SSLをはじめよう", file-as: "エスエスエルヲハジメヨウ"}
-subtitle: {name: "証明書の発行からトラブルシューティングまで", file-as: "ショウメイショノハッコウトラブルシューティングマデ"}
+subtitle: {name: "「なんとなく」から「ちゃんとわかる！」へ", file-as: "ナントナクカラチャントワカルへ"}
 
 # 著者名。「, 」で区切って複数指定できる
 aut: [{name: "mochikoAsTech", file-as: "モチコアズテック"}]
