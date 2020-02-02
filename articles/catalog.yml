@@ -10,6 +10,9 @@ CHAPS:
   - oracleAccount.re
 
 # Oracle Cloudでサーバを立てよう
+  - tryToBuildServer.re
+
+# SSL/TLSってなに？
   - ssl.re
 
 APPENDIX:

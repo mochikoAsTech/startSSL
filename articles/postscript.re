@@ -27,5 +27,10 @@ mochikoAsTech
 
 === 参考文献
 
- * ぶんけん
- ** @<href>{URL}
+ * プロフェッショナルSSL/TLS　Ivan Ristić、齋藤孝道（監訳）
+ ** @<href>{https://www.lambdanote.com/products/tls}
+ * プロフェッショナルIPv6　小川晃通
+ ** @<href>{https://www.lambdanote.com/products/ipv6}
+ * 食べる！SSL！ ―HTTPS環境構築から始めるSSL入門　小島拓也、中嶋亜美、吉原恵美、中塚淳
+ ** @<href>{https://www.amazon.co.jp/dp/B00PHC4480}
+ 
