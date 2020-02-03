@@ -96,15 +96,15 @@ Windowsの方は、続いて起動したRLoginで［新規(N)］をクリック�
 
 あとは［キャンセル］を繰り返しクリックして、起動中のRLoginはいったん閉じてしまって構いません。RLoginは、後でサーバへ入るときに使いますので、デスクトップの「rlogin_x64」フォルダと、その中にある「RLogin.exe」をごみ箱へ捨てないように注意してください。メモした公開鍵も無くさないようご注意ください。
 
-===[column] 【コラム】パスフレーズは設定すべき？しなくてもいい？
+===[column] 【コラム】SSHの秘密鍵にパスフレーズは設定すべき？
 
-秘密鍵に［パスフレーズ］を設定しておくと、鍵を使ってサーバに入ろうとしたとき、「鍵を発動するにはパスフレーズを叫べ…！」という感じでパスフレーズを聞かれます。
+秘密鍵に［パスフレーズ］を設定しておくと、鍵を使ってSSHでサーバに入ろうとしたとき、「鍵を発動するにはパスフレーズを叫べ…！」という感じでパスフレーズを聞かれます。
 
 つまり、もしあなたの秘密鍵が盗まれて誰かに勝手に使われそうになっても、パスフレーズを設定していれば鍵の悪用が防げます。スマホ本体が盗まれてしまっても、パスワードが分からなければロック画面が解除できず、勝手に使えないのと同じです。
 
 ただ「パスワード認証じゃなくて鍵認証なのに、やっぱりパスフレーズが要るの…？」という具合に、初心者を混乱に陥れやすいので、本著では秘密鍵をパスフレーズなしで作って使います。
 
-パスフレーズは「設定していれば絶対に安心！」というものではありませんが、上記の理由から、本来であれば設定した方がいいものです。後で「やっぱり設定しておこう」と思ったら、一度作成した秘密鍵に後からパスフレーズを設定することも可能ですよ。
+パスフレーズは「設定していれば絶対に安心！」というものではありませんが、上記の理由から、本来であれば設定した方がいいものです。後で「やっぱり設定しておこう」と思ったら、一度作成した秘密鍵に後からパスフレーズを設定することも可能です。
 
 ===[/column]
 
@@ -678,7 +678,7 @@ SELINUXTYPE=targeted
 # reboot
 //}
 
-SSHの接続も切れてしまいますが、割とすぐに再起動しますので再度RLoginやターミナルで接続（@<img>{viSelinux06}}）してみてください。今度はさっきと同じ設定でそのまま接続できるはずです。
+SSHの接続も切れてしまいますが、割とすぐに再起動しますので再度RLoginやターミナルで接続（@<img>{viSelinux06}）してみてください。今度はさっきと同じ設定でそのまま接続できるはずです。
 
 //image[viSelinux06][さっきと同じ設定で接続してみよう][scale=0.8]{
 //}
@@ -710,7 +710,7 @@ SSHの接続も切れてしまいますが、割とすぐに再起動します�
 
 === なぜかサイトが見られない
 
-ウェブサーバも立てたし、SELinuxはとめたし、サーバの中のファイアウォールに穴も空けました。これで準備完了！サーバを立てたときにメモした［パブリックIPアドレス］を、ブラウザで開いてみました。するとしばらくぐるぐるした後で、［接続がタイムアウトしました］と表示されてしまいました。（@<img>{startSSL_77}}）
+ウェブサーバも立てたし、SELinuxはとめたし、サーバの中のファイアウォールに穴も空けました。これで準備完了！サーバを立てたときにメモした［パブリックIPアドレス］を、ブラウザで開いてみました。するとしばらくぐるぐるした後で、［接続がタイムアウトしました］と表示されてしまいました。（@<img>{startSSL_77}）
 
 //image[startSSL_77][なぜかHTTPでサイトが表示されない…][scale=0.8]{
 //}
@@ -721,37 +721,37 @@ SSHの接続も切れてしまいますが、割とすぐに再起動します�
 
 さきほどサーバの中にあるファイアウォールの設定を変更して、HTTPとHTTPSが通れるようにしましたが、実はサーバの中だけでなく、サーバの外にももう1つファイアウォールがいます。サイトが表示されなかったのは、「ウェブページを見せて！」というリクエストが、サーバの手前のファイアウォールで阻まれていたためなのです。サーバの手前にあるファイアウォールにも穴を空けて、HTTPとHTTPSがサーバまでたどり着けるようにしましょう。
 
-再びOracle Cloudのコンソールに戻って、左上の［ハンバーガーメニュー］から［コンピュート］の［インスタンス］を開きます。（@<img>{startSSL_68}}）
+再びOracle Cloudのコンソールに戻って、左上の［ハンバーガーメニュー］から［コンピュート］の［インスタンス］を開きます。（@<img>{startSSL_68}）
 
 //image[startSSL_68][［ハンバーガーメニュー］から［コンピュート］の［インスタンス］を開く][scale=0.8]{
 //}
 
-インスタンスの一覧が表示されるので［startSSLInstance］をクリックします。（@<img>{startSSL_69}}）
+インスタンスの一覧が表示されるので［startSSLInstance］をクリックします。（@<img>{startSSL_69}）
 
 //image[startSSL_69][［startSSLInstance］をクリック][scale=0.8]{
 //}
 
-［パブリック・サブネット］をクリックします。（@<img>{startSSL_70}}）
+［パブリック・サブネット］をクリックします。（@<img>{startSSL_70}）
 
 //image[startSSL_70][［パブリック・サブネット］をクリック][scale=0.8]{
 //}
 
-もう一度、［パブリック・サブネット］をクリックします。（@<img>{startSSL_71}}）
+もう一度、［パブリック・サブネット］をクリックします。（@<img>{startSSL_71}）
 
 //image[startSSL_71][もう一度、［パブリック・サブネット］をクリック][scale=0.8]{
 //}
 
-［セキュリティ・リスト］の中にある［Default Security List for VirtualCloudNetwork～］をクリックします。（@<img>{startSSL_72}}）このセキュリティ・リストが、サーバの手前にいるファイアウォールです。
+［セキュリティ・リスト］の中にある［Default Security List for VirtualCloudNetwork～］をクリックします。（@<img>{startSSL_72}）このセキュリティ・リストが、サーバの手前にいるファイアウォールです。
 
 //image[startSSL_72][［Default Security List for VirtualCloudNetwork～］をクリック][scale=0.8]{
 //}
 
-［イングレス・ルール］で、［イングレス・ルールの追加］をクリックします。（@<img>{startSSL_73}}）
+［イングレス・ルール］で、［イングレス・ルールの追加］をクリックします。（@<img>{startSSL_73}）
 
 //image[startSSL_73][［イングレス・ルールの追加］をクリック][scale=0.8]{
 //}
 
-［ソースCIDR］に［0.0.0.0/0］@<fn>{allowFromAll}を入力します。［宛先ポート範囲］には［80,443］@<fn>{portNumber}を入力します。（@<img>{startSSL_74}}）どちらも入力できたら、［イングレス・ルールの追加］をクリックします。
+［ソースCIDR］に［0.0.0.0/0］@<fn>{allowFromAll}を入力します。［宛先ポート範囲］には［80,443］@<fn>{portNumber}を入力します。（@<img>{startSSL_74}）どちらも入力できたら、［イングレス・ルールの追加］をクリックします。
 
 //footnote[allowFromAll][ソースCIDRは接続元のIPアドレス範囲のことで、0.0.0.0/0はすべてのIPアドレスを指します。つまり接続元がどんなIPアドレスでもファイアウォールを通れます、ということですね]
 //footnote[portNumber][ポート番号とは、サーバという家や、その手前のファイアウォールという壁についているドアのようなものだと思ってください。同じサーバを訪問するときでもSSHは22番のドアを、HTTPは80番のドアを、HTTPSは443番のドアを通ります]
@@ -759,14 +759,14 @@ SSHの接続も切れてしまいますが、割とすぐに再起動します�
 //image[startSSL_74][［ソースCIDR］に［0.0.0.0/0］、［宛先ポート範囲］には［80,443］を入力][scale=0.8]{
 //}
 
-［イングレス・ルール］に、HTTP（80番ポート）とHTTPS（443番ポート）へのリクエストを通す設定が追加されました。（@<img>{startSSL_75}}）
+［イングレス・ルール］に、HTTP（80番ポート）とHTTPS（443番ポート）へのリクエストを通す設定が追加されました。（@<img>{startSSL_75}）
 
 //image[startSSL_75][ルールが追加された！][scale=0.8]{
 //}
 
 === HTTPでサイトを見てみよう
 
-サーバを立てたときにメモした［パブリックIPアドレス］を、ブラウザで開いてみましょう。（@<img>{startSSL_76}}）
+サーバを立てたときにメモした［パブリックIPアドレス］を、ブラウザで開いてみましょう。（@<img>{startSSL_76}）
 
 //image[startSSL_76][HTTPでサイトが見られた！][scale=0.8]{
 //}
@@ -775,14 +775,14 @@ SSHの接続も切れてしまいますが、割とすぐに再起動します�
 
 == ドメイン名の設定
 
-サーバの準備ができたので、HTTPSのサイト用にドメイン名を用意します。自分のドメイン名？そんなの持ってないよ！という人は、先に「DNSをはじめよう」（@<img>{startDNS}}）で、ドメイン名を買ってからこの先へ進むようにしてください。
+サーバの準備ができたので、HTTPSのサイト用にドメイン名を用意します。自分のドメイン名？そんなの持ってないよ！という人は、先に「DNSをはじめよう」（@<img>{startDNS}）で、ドメイン名を買ってからこの先へ進むようにしてください。
 
 //image[startDNS][「DNSをはじめよう」（1,000円）はBOOTHやAmazon（Kindle）で好評発売中][scale=0.5]{
 //}
 
 あなたが買ったドメイン名を使って「ssl.自分のドメイン名」のAレコードを作成して、サーバの［パブリックIPアドレス］と紐付けてください。ネームサーバはお名前.comを使用してもいいですし、AWSのRoute53で設定しても構いません。
 
-なお筆者が「DNSをはじめよう」で購入したのは@<code>{startdns.fun}というドメイン名だったので、@<code>{ssl.startdns.fun}というAレコードを作って、さっき立てたばかりのサーバの［パブリックIPアドレス］と紐付けます。例えばネームサーバが「お名前.com」なら、DNS設定の画面でこのようにAレコードを追加します。（@<img>{startDNS}}）
+なお筆者が「DNSをはじめよう」で購入したのは@<code>{startdns.fun}というドメイン名だったので、@<code>{ssl.startdns.fun}というAレコードを作って、さっき立てたばかりのサーバの［パブリックIPアドレス］と紐付けます。例えばネームサーバが「お名前.com」なら、DNS設定の画面でこのようにAレコードを追加します。（@<img>{onamaeARR}）
 
 //image[onamaeARR][「ssl.自分のドメイン名」のAレコードを作成する][scale=0.6]{
 //}
@@ -800,19 +800,304 @@ $ dig ssl.startdns.fun a +short
 140.238.33.51
 //}
 
-ドメイン名が設定できたら、ブラウザでも「http://ssl.自分のドメイン名」を叩いてみましょう。先ほどと同じNGINXのページが表示されるはずです。（@<img>{startSSL_78}}）
+ドメイン名が設定できたら、ブラウザでも「http://ssl.自分のドメイン名」を叩いてみましょう。先ほどと同じNGINXのページが表示されるはずです。（@<img>{startSSL_78}）
 
 //image[startSSL_78][「ssl.自分のドメイン名」でサイトが表示された！][scale=0.8]{
 //}
+
+HTTPでサイトを見ることができましたが、同じドメイン名をHTTPSで開いてみるとどうでしょう？ブラウザで「https://ssl.自分のドメイン名」を開いてみると、［正常に接続できませんでした］と表示（@<img>{startSSL_85}）されました。
+
+//image[startSSL_85][HTTPSで開くと［正常に接続できませんでした］と表示された][scale=0.8]{
+//}
+
+それではHTTPSでもサイトが見られるように、SSL証明書を取得して設定をしていきましょう。
+
+== SSL証明書を取得しよう
+
+HTTPでサイトが見られたので、今度はHTTPSでも見られるよう、必要な材料を「SSL証明書」を入手しましょう。
+
+登場人物が多いので、先に概要を紹介しておきます。
+
+=== SSL証明書にまつわる登場人物
+
+最初に登場人物全員が集まる場所として、@<code>{/etc/nginx/}の下に@<code>{ssl}というディレクトリを作っておきます。@<fn>{error}
+
+//footnote[error][もし@<code>{mkdir: cannot create directory ‘/etc/nginx/ssl’: Permission denied}と表示されてしまったら、あなたは今うっかり一般ユーザのままでmkdirコマンドを実行しています。コマンドの例で、左側のプロンプトが「#」のときは、rootで実行してください。「sudo su -」と書いてEnterキーを押すとrootになれます]
+
+//cmd{
+# mkdir /etc/nginx/ssl/
+# cd /etc/nginx/ssl/
+//}
+
+==== 秘密鍵（startssl.key）を作ろう
+
+先ず最初に作成するのが秘密鍵です。秘密鍵は「.key」や「.pem」@<fn>{pem}という拡張子で作成されることが多いです。秘密鍵は名前のとおり「秘密」にすべきです。つまり、限られた人だけが触れるように管理すべきです。決してメールに添付して送ったり、サーバ内で誰でも見られる@<code>{/tmp/}以下に置いたりしてはいけません。
+
+//footnote[pem][秘密鍵がPEMと呼ばれるテキスト形式で生成されることから、pemという拡張子が使われるようです]
+
+次のopensslコマンドを叩いて、秘密鍵を生成しましょう。左から順に「opensslコマンドで、鍵アルゴリズムがRSAで、鍵の長さは2048ビットで、/etc/nginx/ssl/以下にstartssl.keyというファイル名で秘密鍵を作って」という意味です。
+
+//cmd{
+# openssl genrsa 2048 >/etc/nginx/ssl/startssl.key
+Generating RSA private key, 2048 bit long modulus
+...........................................................................................+++
+...........................+++
+e is 65537 (0x10001)
+//}
+
+できあがった秘密鍵を、catコマンドで見てみましょう。
+
+//cmd{
+# cat /etc/nginx/ssl/startssl.key
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEA0+s/GzdbObzg6QWzCvK5JofMv6izHzlCfMCMhcU7SeBd2tHN
+icRA7g5CZq09aaEqv1949cFX5C3bgHxl4O+epeudrKyUjRwZSpS7OmznDBFQByTY
+（中略）
+InsCw9qu+iZknMKiISw3Krht/898/hq0jqLFJUTbfg9BP8w+JVW4+8hp4OSklymc
+NRcvPYUBQy3wK+w527rksodkGZ77c6Q+XxRtH/wpo3H+xwhmJvi+T2o=
+-----END RSA PRIVATE KEY-----
+//}
+
+===[column] 【コラム】SSL証明書の秘密鍵にパスフレーズは設定すべき？
+
+opensslコマンドで秘密鍵を作るとき、-aes128や-aes256というオプションを付けると、パスフレーズを聞かれて、指定の暗号で暗号化された秘密鍵が出力されます。@<fn>{option}［Enter pass phrase:］や［Verifying - Enter pass phrase:］と表示された際に、いくらキーボードを叩いて入力しても、黒い画面上は何も表示されません。ですが、ちゃんと文字入力はできているので大丈夫です。入力を間違えたらBackspaceキーで消して、書き直すこともできます。
+
+//cmd{
+# openssl genrsa -aes128 2048 >/etc/nginx/ssl/with-passphrase.key
+Generating RSA private key, 2048 bit long modulus
+（中略）
+Enter pass phrase:    ←秘密鍵のパスフレーズとして「startssl」と入力
+Verifying - Enter pass phrase:    ←もう一度「startssl」と入力
+//}
+
+秘密鍵がパスフレーズで保護されていると、秘密鍵を盗んだ誰かが使おうとしても、パスフレーズが分からなければ使えないので安心です。
+
+しかし秘密鍵にパスフレーズが設定されていると、ApacheやNginxといったウェブサーバを再起動した際にも、必ずパスフレーズを聞かれます。もし何かトラブルがあってサーバがOSごと再起動してしまった場合、折角Nginxが自動起動する設定になっていても、パスフレーズを聞くところで止まって起動できず、サイトが自動復旧しない、というトラブルが発生します。
+
+これを回避するには、パスフレーズをファイルに書いておいて、Nginxの自動起動時にそれを読み込むようにする、という方法があります。しかし折角設定したパスフレーズをファイルに書いて同じウェブサーバ内に置いてしまうと、秘密鍵を盗むとき一緒にパスフレーズのファイルも盗まれてしまう可能性が高くなり、もはやパスフレーズを設定した意味がありません。そのため筆者は、ウェブサーバに設置して使う秘密鍵にはパスフレーズは設定しなくてよい、という考えです。
+
+ちなみに、次のように一度パスフレーズありで作った秘密鍵を、パスフレーズなしで複製することも可能です。
+
+//cmd{
+# cd /etc/nginx/ssl/
+# openssl rsa -in with-passphrase.key -out without-passphrase.key
+Enter pass phrase for with-passphrase.key:    ←秘密鍵のパスフレーズ「startssl」を入力
+writing RSA key
+//}
+
+利便性を保ちつつ安全性も向上させたければ、本番のウェブサーバで使う秘密鍵はパスフレーズなし、バックアップサーバで保管しておく秘密鍵はパスフレーズありにしておく、という方法がいいでしょう。
+
+===[/column]
+
+//footnote[option][さっきは-aes128や-aes256といった「どの暗号で暗号化するか？」のオプションを何も指定しなかったので、パスフレーズは聞かれず、秘密鍵も暗号化されませんでした]
+
+==== CSR（startssl.csr）を作ろう
+
+秘密鍵ができたら、続いてCSR（Certificate Signing Request）の作成に進みましょう。CSRは「.csr」という拡張子で作成されることが多いです。CSRは「Certificate Signing Request（証明書署名リクエスト）」という名前のとおり、認証局に対して「こういう内容でSSL証明書を作って署名して」とリクエストする、申請書のようなものです。
+
+左から順に、「opensslコマンドで、CSRを、新しく、秘密鍵はstartssl.keyで、startssl.csrというファイル名で作って」という意味です。
+
+//cmd{
+# cd /etc/nginx/ssl/
+# openssl req -new -key startssl.key -out startssl.csr
+//}
+
+CSRを作成するため、いくつか質問をされます。（@<table>{dn}）@<fn>{ou}
+
+//footnote[ou][本著ではDV証明書を取得するため「組織単位名（OU）」は任意としていますが、証明書の種類や認証局によっては必須のところもあるようです。取得時に認証局のサイトで確認しましょう。DV証明書については後述します]
+
+//table[dn][CSR作成時に聞かれる質問]{
+必須/任意	質問	説明	入力する内容
+------------------------------------
+必須	Country Name	国名（C）	JP
+必須	State or Province Name	都道府県名（S/ST）	Tokyo
+必須	Locality Name	市町村名（L）	Shinjuku-ku
+必須	Organization Name	組織名（O）	mochikoAsTech	
+任意	Organizational Unit Name	組織単位名（OU）	入力なし
+必須	Common Name	コモンネーム（CN）	ssl.startdns.fun
+//}
+
+//cmd{
+Country Name (2 letter code) [XX]:JP
+State or Province Name (full name) []:Tokyo
+Locality Name (eg, city) [Default City]:Shinjuku-ku
+Organization Name (eg, company) [Default Company Ltd]:mochikoAsTech
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server's hostname) []:ssl.startdns.fun
+//}
+
+次の3つは入力不要です。
+
+//cmd{
+Email Address []:
+A challenge password []:
+An optional company name []:
+//}
+
+質問に全て答えると、CSRができあがります。「Subject」と書かれた行を見て、生成されたCSRの内容が正しいか確認しましょう。
+
+//cmd{
+# openssl req -text -in /etc/nginx/ssl/startssl.csr -noout | head -4
+Certificate Request:
+    Data:
+        Version: 0 (0x0)
+        Subject: C=JP, ST=Tokyo, L=Shinjuku-ku, O=mochikoAsTech, CN=ssl.startdns.fun
+//}
+
+CSRをcatコマンドで表示して、「-----BEGIN CERTIFICATE REQUEST-----」から「-----END CERTIFICATE REQUEST-----」までをメモしておきましょう。メモしたCSRはこの後使用します。
+
+//cmd{
+# cat /etc/nginx/ssl/startssl.csr 
+-----BEGIN CERTIFICATE REQUEST-----
+MIICqzCCAZMCAQAwZjELMAkGA1UEBhMCSlAxDjAMBgNVBAgMBVRva3lvMRQwEgYD
+VQQHDAtTaGluanVrdS1rdTEWMBQGA1UECgwNbW9jaGlrb0FzVGVjaDEZMBcGA1UE
+（中略）
+jP1RMQS3PuYDE6QIVJ5zbMC+RIydSQ/0Dr9VUHWiYqDPjx+BpphYT5AxMwbw9/m5
+noKGvJl1Mt7G03Awa/TX
+-----END CERTIFICATE REQUEST-----
+//}
+
+=== 【ドリル】CSRで入力すべきなのはクライアントの情報？
+
+==== 問題
+
+A銀行のウェブサイトをHTTPSで作ることになりました。SSL証明書@<fn>{evSsl}の取得はA銀行の代わりに広告代理店のB社が行い、さらにサイトの制作や運用はA銀行からWeb制作会社のC社に委託する場合、CSRで入力する住所や会社名はA銀行・B社・C社のどれにすべきでしょうか？
+
+ * A. A銀行のウェブサイトなんだからA銀行を入力すべき
+ * B. A銀行から任されてSSL証明書を買うのはB社だからB社を入力すべき
+ * C. 実際にサイトの管理を任されているのはC社だからC社を入力すべき
+
+//footnote[evSsl][SSL証明書の種類は「EV証明書」とします。EV証明書については後述します]
+
+//raw[|latex|\begin{reviewimage}\begin{flushright}\includegraphics[width=0.5\maxwidth\]{./images/answerColumnShort.png}\end{flushright}\end{reviewimage}]
+
+==== 解答
+
+正解はAです。ウェブサイトの運営元がA銀行であることを証明するためのSSL証明書なので、CSRではA銀行（クライアント）の情報を記載すべきです。
+
+A銀行のフィッシングサイトが出てきたときに、エンドユーザが「本物のサイトか確認しよう」と思って証明書の情報を見て、B社やC社の情報が表示されたら「A銀行じゃない！」となってしまいます。
 
 
 こんなんあった。
 https://docs.oracle.com/en/operating-systems/oracle-linux/8/obe-nginx-install/index.html#ConfigureFirewallRules(Optional)
 
-== 証明書を取得しよう
-=== 秘密鍵を作ろう
-=== CSRを作ろう
 === 証明書の取得申請
+
+［FujiSSL］で検索して、［FujiSSL-安心・安全の純国産格安SSLサーバ証明書］をクリック（@<img>{startSSL_86}）します。
+
+//image[startSSL_86][［FujiSSL-安心・安全の純国産格安SSLサーバ証明書］をクリック][scale=0.8]{
+//}
+
+右上の［お申し込みはこちら］をクリック（@<img>{startSSL_87}）します。
+
+//image[startSSL_87][［お申し込みはこちら］をクリック][scale=0.8]{
+//}
+
+続いて［お申し込みサイト（ストアフロント）へ］をクリック（@<img>{startSSL_88}）します。
+
+//image[startSSL_88][［お申し込みサイト（ストアフロント）へ］をクリック][scale=0.8]{
+//}
+
+指定された文書と「収集した個人情報の利用目的」を確認した上で、チェックボックスにチェックを入れて［次へ］をクリック（@<img>{startSSL_89}）します。
+
+//image[startSSL_89][チェックを入れて［次へ］をクリック][scale=0.8]{
+//}
+
+クーポンコードは［使用しない］、申し込み種別は［新規申し込み］、商品選択は［ドメイン認証］の［FujiSSL］になっていることを確認（@<img>{startSSL_90}）します。
+
+//image[startSSL_90][クーポンコード、申し込み種別、商品選択を確認][scale=0.8]{
+//}
+
+下へスクロールして、お申込み年数が［FujiSSL 1年 1,100円］@<fn>{price}になっていることを確認（@<img>{startSSL_91}）したら、CSRに、さきほど「-----BEGIN CERTIFICATE REQUEST-----」から「-----END CERTIFICATE REQUEST-----」までをメモしておいたCSRをペーストします。
+
+//footnote[price][2019年2月現在、FujiSSLの「ドメイン認証シングルタイプ」というSSL証明書は、有効期間1年で税込1,100円です]
+
+//image[startSSL_91][CSRをペーストする][scale=0.8]{
+//}
+
+［次へ］をクリック（@<img>{startSSL_92}）してください。
+
+//image[startSSL_92][CSRをペーストする][scale=0.8]{
+//}
+
+認証方式は［DNS認証］を選択（@<img>{startSSL_93}）してください。これは「CSRのコモンネームで指定したドメイン名が、あなたの持ち物であることをどうやって証明しますか？」ということを聞かれています。対象のドメイン名で、メールを受信してURLを踏むか、指定された内容のリソースレコードをDNSで追加するか、サイトに指定された内容のファイルをアップするか、いずれかの方法で「このドメイン名（筆者ならssl.startdns.fun）は私の持ち物です」ということを証明しなければいけません。
+
+今回はDNSでTXTレコードを追加する、という方法で証明するので、［DNS認証］を選択して［次へ］をクリックします。
+
+//image[startSSL_93][［DNS認証］を選択して［次へ］をクリック][scale=0.8]{
+//}
+
+今回購入するのはDV証明書です。DV証明書は「そのドメイン名の使用権があること」だけを証明してくれます。サイトの運営者が日本にいることや、東京の新宿区にオフィスがあること、mochikoAsTechという組織であることなどは確認も証明もしないので、実際の証明書にもそれらの情報は反映されません。（@<img>{startSSL_94}）
+
+//image[startSSL_94][［DNS認証］を選択して［次へ］をクリック][scale=0.8]{
+//}
+
+［申請組織担当者情報］と［技術担当者情報］を英語表記で入力（@<img>{startSSL_95}）します。ここで入力した住所や電話番号、個人名などは外向けに公開されることはありませんので、安心して入力してください。@<fn>{evOrOv}この後、ここで入力した［Eメールアドレス］宛てに、SSL証明書が送られてきます。メールアドレスを間違えないよう注意してください。すべて入力したら、［次へ］をクリック（@<img>{startSSL_96}）します。
+
+//footnote[evOrOv][EV証明書やOV証明書の場合は、ここで入力した担当者宛てに実在確認の連絡が入ります。詳細については後述します]
+
+//image[startSSL_95][［申請組織担当者情報］と［技術担当者情報］を入力][scale=0.8]{
+//}
+
+//image[startSSL_96][［次へ］をクリック][scale=0.8]{
+//}
+
+［決済情報入力］に、SSL証明書代を支払うクレジットカード情報を入力（@<img>{startSSL_97}）します。
+
+//image[startSSL_97][クレジットカード情報を入力][scale=0.8]{
+//}
+
+［書類送付先］で［請求書宛名］、［納品書宛名］、［領収書宛名］を記入したら、［上記の内容で注文を確定する］をクリック（@<img>{startSSL_98}）します。
+
+//image[startSSL_98][［上記の内容で注文を確定する］をクリック][scale=0.8]{
+//}
+
+「注文を確定します。よろしいですか？」と表示（@<img>{startSSL_99}）されたら、［OK］をクリックします。
+
+//image[startSSL_99][［OK］をクリック][scale=0.8]{
+//}
+
+「この内容で決済を確定します。よろしいですか？」と表示（@<img>{startSSL_100}）されます。「1年間有効なSSL証明書を1,100円で買うんだ！」というケツイ@<fn>{ketsui}をしたら、［OK］をクリックします。
+
+//image[startSSL_100][1,100円払うケツイをして［OK］をクリック][scale=0.8]{
+//}
+
+//footnote[ketsui][UNDERTALEというゲームでは「ケツイを　ちからに　かえるんだ…！」という台詞が繰り返し出てきます]
+
+お申し込み完了のページが表示（@<img>{startSSL_101}）されました。先ほど登録したメールアドレス宛に、DNS設定情報を知らせるメールが届いていますので確認しましょう。
+
+//image[startSSL_101][1,100円払うケツイをして［OK］をクリック][scale=0.8]{
+//}
+
+［CommonName=ssl.自分のドメイン名］から始まる件名のメール（@<img>{startSSL_102}）がすぐに届きました。「CSRのコモンネームで指定したドメイン名がssl.startdns.funの場合、startdns.funのTXTレコードを追加して、メールに書いてある値を設定するよう書いてあります。
+
+//image[startSSL_102][追加すべきTXTレコードの値がメールで届いた][scale=0.8]{
+//}
+
+例えばネームサーバが「お名前.com」なら、DNS設定の画面でこのようにTXTレコードを追加（@<img>{startSSL_103}）します。今回はサブドメインを含まないドメイン名を追加するので、［ホスト名］には何も入力しません。［VALUE］には、メールに書いてあった値をそのままコピーペーストします。
+
+//image[startSSL_103][「自分のドメイン名」のTXTレコードを追加する][scale=0.6]{
+//}
+
+TXTレコードができたかどうかは、次のdigコマンドで確認できます。digコマンドをたたいた結果、サーバのIPアドレスが返ってくればAレコードは設定できています。
+
+//cmd{
+$ dig 自分のドメイン名 txt +short
+//}
+
+筆者の場合は、次のように表示されました。
+
+//cmd{
+$ dig startdns.fun txt +short
+"20200204005703EA923DBFD370D3A4C260E09747A37082277DDD5B966ED7C2BB87C0386B17A076"
+//}
+
+TXTレコードを追加してから、おおよそ30分後にSSL証明書がメール（@<img>{startSSL_104}）で届きました。
+
+//image[startSSL_104][SSL証明書がメールで届いた][scale=0.6]{
+//}
+
+
 === 取得した証明書をサーバに置こう
 == HTTPSでサイトを公開
 === LBのところでSSLターミネーションする方法もある
