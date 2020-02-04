@@ -424,7 +424,7 @@ Macを使っている方は、ターミナル（@<img>{mac04}）を起動して�
 //image[mac05][どこにあるのか分からなかったらSpotlightで「ターミナル」と検索][scale=0.8]{
 //}
 
-そして開いたターミナルで次の文字を入力してReturnキーを押します。これはサーバに入るときに使う鍵をオーナー以外が使えないよう、chmodというコマンドで読み書き権限を厳しくしています。この作業は最初の1回だけで構いません。もし「start-aws-keypair.pem」を保存した場所がデスクトップ以外の場合は適宜書き換えてください。
+そして開いたターミナルで次の文字を入力してReturnキーを押します。これはサーバに入るときに使う鍵をオーナー以外が使えないよう、chmodというコマンドで読み書き権限を厳しくしています。この作業は最初の1回だけで構いません。もし「startSSLKey」を保存した場所がデスクトップ以外の場合は適宜書き換えてください。
 
 //cmd{
 chmod 600 ~/Desktop/startSSLKey
@@ -1094,10 +1094,194 @@ $ dig startdns.fun txt +short
 
 TXTレコードを追加してから、おおよそ30分後にSSL証明書がメール（@<img>{startSSL_104}）で届きました。
 
-//image[startSSL_104][SSL証明書がメールで届いた][scale=0.6]{
+//image[startSSL_104][SSL証明書がメールで届いた][scale=0.8]{
 //}
 
+メールに添付されているZIPファイル（ssl.自分のドメイン名.zip）にSSL証明書が入っていますのでダウンロードします。（@<img>{startSSL_105}）
 
-=== 取得した証明書をサーバに置こう
-== HTTPSでサイトを公開
+//image[startSSL_105][メールに添付されているZIPファイル][scale=0.4]{
+//}
+
+Windowsの方もMacの方も、ダウンロードしたZIPファイルはデスクトップに置いてください。（@<img>{startSSL_106}）
+
+//image[startSSL_106][ダウンロードしたZIPファイルはデスクトップに置く][scale=0.4]{
+//}
+
+ZIPファイルを右クリックして、［すべて展開］をクリックします。（@<img>{startSSL_107}）
+
+//image[startSSL_107][右クリックして［すべて展開］をクリック][scale=0.4]{
+//}
+
+［展開］をクリックします。（@<img>{startSSL_108}）
+
+//image[startSSL_108][［展開］をクリック][scale=0.6]{
+//}
+
+展開したフォルダ（@<img>{startSSL_109}）の中の［server.crt］がSSL証明書で、［ca-bundle.ca］が中間CA証明書です。READMEはファイルの説明書です。
+
+//image[startSSL_109][erver.crtがSSL証明書で、ca-bundle.caが中間CA証明書][scale=0.6]{
+//}
+
+どちらも必要なものなので、この2つのファイルをサーバにアップロードしましょう。
+
+=== Windowsで証明書と中間CA証明書をアップしよう
+
+Windowsのパソコンを使っている方は、RLoginを起動します。［startSSLInstance］を選択して、［OK］をクリック（@<img>{startSSL_110}）します。
+
+//image[startSSL_110][RLoginを起動して［startSSLInstance］を選択してログイン][scale=0.6]{
+//}
+
+黒い画面が開いたら、［ファイル］から［SFTPファイルの転送］をクリック（@<img>{startSSL_111}）します。
+
+//image[startSSL_111][［ファイル］から［SFTPファイルの転送］をクリック][scale=0.6]{
+//}
+
+左側があなたのパソコンで、右側がサーバです。左側をデスクトップに展開したフォルダ@<fn>{folder}にしたら、［server.crt］と［ca-bundle.ca］を右側にドラッグ＆ドロップ（@<img>{startSSL_112}）してください。これでサーバの「/home/opc」にファイルがアップロードされます。
+
+//footnote[folder][筆者の場合は「C:\Users\mochikoAsTech\Desktop\ssl.startdns.fun」でした]
+
+//image[startSSL_112][［ファイル］から［SFTPファイルの転送］をクリック][scale=0.6]{
+//}
+
+右側に［server.crt］と［ca-bundle.ca］がアップされたら、×を押してファイル転送の画面は閉じて構いません。（@<img>{startSSL_113}）
+
+//image[startSSL_113][［ファイル］から［SFTPファイルの転送］をクリック][scale=0.6]{
+//}
+
+=== Macで証明書と中間CA証明書をアップしよう
+
+Macを使っている方は、ターミナルを起動してください。scpコマンドを使って、Macの中にある［server.crt］と［ca-bundle.ca］を、サーバにアップロードします。［展開したフォルダ］と［パブリックIPアドレス］の部分は、ご自身のものに書き換えてください。
+
+//cmd{
+$ cd ~/Desktop/展開したフォルダ
+$ scp -i ~/Desktop/startSSLKey server.crt ca-bundle.ca opc@パブリックIPアドレス:/home/opc/
+server.crt    100%  0   0.0KB/s   00:00    
+ca-bundle.ca  100%  0   0.0KB/s   00:00   
+//}
+
+=== SSL証明書と中間CA証明書を1ファイルにまとめよう
+
+サーバにログインしている状態で、次のコマンドを叩いて、先ほどアップロードした［server.crt］と［ca-bundle.ca］が、ちゃんと「/home/opc/」以下に存在していることを確認します。
+
+//cmd{
+$ sudo su -
+
+# ls /home/opc/
+ca-bundle.ca  ssl.startdns.fun.crt
+//}
+
+続いて2つのファイルから、新たに［startssl.crt］というファイルを作りましょう。@<fn>{awk}NGINXではSSL証明書と中間CA証明書という2つのファイルを、1つのファイルにがっちゃんこ！とつなげて使うためです。
+
+//cmd{
+# cd /etc/nginx/ssl/
+# awk 1 /home/opc/ssl.startdns.fun.crt /home/opc/ca-bundle.ca > startssl.crt
+//}
+
+//footnote[awk][このときcatコマンドで結合すると、SSL証明書と中間CA証明書の間に改行が入らず、「-----END CERTIFICATE----------BEGIN CERTIFICATE-----」のようになってしまうため、awkコマンドを使っています]
+
+catコマンドで［startssl.crt］を確認してみましょう。次のように「-----BEGIN CERTIFICATE-----」と「-----END CERTIFICATE-----」が、繰り返し3つ表示されれば大丈夫です。
+
+//cmd{
+# cat /etc/nginx/ssl/startssl.crt
+-----BEGIN CERTIFICATE-----
+MIIF/DCCBOSgAwIBAgIQaoS/P1b4mCR8mn5/WUrI6zANBgkqhkiG9w0BAQsFADBn
+MQswCQYDVQQGEwJKUDElMCMGA1UEChMcU0VDT00gVHJ1c3QgU3lzdGVtcyBDTy4s
+（中略）
+31pTIUPabkFxDPjslVw9c7z3Vgk2fnpuwE2lrE+46zrJ3oTRqsABDbYreK1a5vsG
+tcnpUlL1hrk/rC3JuI2ttHVaHU+1JCgTSRpvO3a44azDy15T5C97dGxuowPgcaMQ
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIEpzCCA4+gAwIBAgIJIrmxVPM8Xl4AMA0GCSqGSIb3DQEBCwUAMF0xCzAJBgNV
+BAYTAkpQMSUwIwYDVQQKExxTRUNPTSBUcnVzdCBTeXN0ZW1zIENPLixMVEQuMScw
+（中略）
+g3tiJAlFIpfXXD4cArZo6ZlXJ26B4H7vk5GmyR6poDy/CRvC7VIz3xp6o2348W1j
+32S9pEuZhtxtMvPjnsHIWPNdz8pHv21x7bYwDnocwN2uk3QrrljxTQ9evg==
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIEcjCCA1qgAwIBAgIJErmw+nLg2EjGMA0GCSqGSIb3DQEBCwUAMFAxCzAJBgNV
+BAYTAkpQMRgwFgYDVQQKEw9TRUNPTSBUcnVzdC5uZXQxJzAlBgNVBAsTHlNlY3Vy
+（中略）
+u5ZuCjxerxj3qS1rM46bcEfjopnaD7hnJXSYiL1d0yw5zSW2PEe+LHdoIAb2I6D8
+8UFJH0Cli6sY5l8jhjkOOs1yeu1C/RcY0+NBHKZkFEeEb6ez0sg=
+-----END CERTIFICATE-----
+//}
+
+これでファイルの準備は完了です。
+
+=== NGINXでHTTPSのバーチャルホストを作ろう
+
+「/etc/nginx/conf.d/」というディレクトリの下で、もともとあった設定ファイルをバックアップしておきます。
+
+//cmd{
+# cd /etc/nginx/conf.d/
+# mv default.conf default.conf.backup
+//}
+
+viコマンドで、同じ場所に新しい設定ファイルを作ります。viコマンドでファイルを編集するときは、i（アイ）を押してから入力します。書き終わったらESCキーを押して、「:wq」と入力してEnterキーを押せば変更が保存されます。
+
+//cmd{
+# vi startssl.conf
+server {
+    listen 80 default_server;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen       443 ssl http2;
+    server_name  ssl.startdns.fun;
+
+    # 秘密鍵
+    ssl_certificate_key /etc/nginx/ssl/startssl.key;
+    # SSL証明書
+    ssl_certificate     /etc/nginx/ssl/startssl.crt;
+
+    # 暗号スイート
+    ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA256;
+    # プロトコルバージョン
+    ssl_protocols       TLSv1.2;
+    # 暗号スイートの順序はサーバが決める
+    ssl_prefer_server_ciphers   on;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+}
+//}
+
+設定ファイルが書けたら、構文エラーがないかテストをします。もし書き間違いがあれば、ここでエラーメッセージとして表示されます。
+
+//cmd{
+# nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+//}
+
+［test is successful］と表示されたら、NGINXを再起動して設定を反映しましょう。
+
+//cmd{
+
+# systemctl restart nginx.service 
+//}
+
+それからアクセスしたときに表示される、index.htmlの文字も［Let's start SSL/TLS］に変えておきましょう。
+
+//cmd{
+# cd /usr/share/nginx/html/
+# cp -p index.html index.html.backup
+# echo "Let's start SSL/TLS" > index.html
+//}
+
+== HTTPSでサイトを開いてみよう
+
+証明書を設置して、NGINXの設定ファイルを修正し、NGINXの再起動もしたのでブラウザで「http://ssl.自分のドメイン名」を開いてみましょう。鍵マーク付きでHTTPSのページが表示されるはずです。（@<img>{startSSL_114}）
+
+//image[startSSL_114][HTTPSでサイトが表示された！][scale=0.8]{
+//}
+
 === LBのところでSSLターミネーションする方法もある
+
+なお今回はウェブサーバにSSL証明書を設置しましたが、ウェブサーバの手前にロードバランサーを置いて、そこにSSL証明書を設置し、SSLターミネーションを行う方法もあります。その場合、SSLで通信するのはエンドユーザのパソコンからロードバランサーまでで、ロードバランサーからウェブサーバはHTTPで通信するのが一般的です。次のようなメリットがあります。
+
+- 暗号化や復号の処理を行う終端がロードバランサーになるので、ウェブサーバのスペックが低くてもよいパフォーマンスが得られる
+- 証明書の取得や更新が自動で行われる
