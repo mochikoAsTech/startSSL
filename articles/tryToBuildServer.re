@@ -1068,7 +1068,7 @@ https://docs.oracle.com/en/operating-systems/oracle-linux/8/obe-nginx-install/in
 
 お申し込み完了のページが表示（@<img>{startSSL_101}）されました。先ほど登録したメールアドレス宛に、DNS設定情報を知らせるメールが届いていますので確認しましょう。
 
-//image[startSSL_101][お申込み完了］画面]][scale=0.8]{
+//image[startSSL_101][［お申込み完了］画面][scale=0.8]{
 //}
 
 ［CommonName=ssl.自分のドメイン名］から始まる件名のメール（@<img>{startSSL_102}）がすぐに届きました。「CSRのコモンネームで指定したドメイン名がssl.startdns.funの場合、startdns.funのTXTレコードを追加して、メールに書いてある値を設定するよう書いてあります。
