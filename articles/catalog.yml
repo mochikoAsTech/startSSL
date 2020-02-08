@@ -12,6 +12,12 @@ CHAPS:
 # Oracle Cloudでサーバを立てよう
   - tryToBuildServer.re
 
+# ウェブサーバの設定をしよう
+  - webServerSettings.re
+
+# SSL証明書を取ろう
+  - getSSLCertificate.re
+
 # SSL/TLSってなに？
   - ssl.re
 
