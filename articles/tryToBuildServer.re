@@ -290,7 +290,7 @@ OCPU@<fn>{ocpu}が2、メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}�
 
 サーバができあがると、表示が緑色の［実行中］に変わります。おめでとうございます！これでサーバが立てられました！
 
-//image[startSSL_62][［プロビジョニング中...］と表示されたら数分待つ][scale=0.8]{
+//image[startSSL_62][［実行中］に変わった状態][scale=0.8]{
 //}
 
 ===[column] 【コラム】Oracle Cloudのコンピュートの金額計算方法
