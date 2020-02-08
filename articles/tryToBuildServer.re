@@ -295,7 +295,7 @@ OCPU@<fn>{ocpu}が2、メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}�
 
 ===[column] 【コラム】Oracle Cloudのコンピュートの金額計算方法
 
-ところで、いま立てた「VM.Standard.E2.2」を1ヶ月使ったら、いったいいくら分になるのでしょう？うっかり$300を超えてしまわないか、ちょっと心配なので計算してみましょう。
+ところで、いま立てた「VM.Standard.E2.2」を1ヶ月使ったら、一体いくら分になるのでしょう？うっかり$300を超えてしまわないか、ちょっと心配なので計算してみましょう。
 
 コンピュートの価格表@<fn>{pricing}を見てみると、［VM.Standard.E2.2］は［$0.03］@<fn>{ocpuNow}と書いてあります。これは［Pay as You Go (OCPU Per Hour)］と書いてあるとおり、1OCPUにつき1時間あたりかかる金額です。@<fn>{awsRegion}
 
