@@ -1019,7 +1019,7 @@ https://docs.oracle.com/en/operating-systems/oracle-linux/8/obe-nginx-install/in
 
 ［次へ］をクリック（@<img>{startSSL_92}）してください。
 
-//image[startSSL_92][CSRをペーストする][scale=0.8]{
+//image[startSSL_92][［次へ］をクリック][scale=0.8]{
 //}
 
 認証方式は［DNS認証］を選択（@<img>{startSSL_93}）してください。これは「CSRのコモンネームで指定したドメイン名が、あなたの持ち物であることをどうやって証明しますか？」ということを聞かれています。対象のドメイン名で、メールを受信してURLを踏むか、指定された内容のリソースレコードをDNSで追加するか、サイトに指定された内容のファイルをアップするか、いずれかの方法で「このドメイン名（筆者ならssl.startdns.fun）は私の持ち物です」ということを証明しなければいけません。
@@ -1031,7 +1031,7 @@ https://docs.oracle.com/en/operating-systems/oracle-linux/8/obe-nginx-install/in
 
 今回購入するのはDV証明書です。DV証明書は「そのドメイン名の使用権があること」だけを証明してくれます。サイトの運営者が日本にいることや、東京の新宿区にオフィスがあること、mochikoAsTechという組織であることなどは確認も証明もしないので、実際の証明書にもそれらの情報は反映されません。（@<img>{startSSL_94}）
 
-//image[startSSL_94][［DNS認証］を選択して［次へ］をクリック][scale=0.8]{
+//image[startSSL_94][［申請情報入力］画面][scale=0.8]{
 //}
 
 ［申請組織担当者情報］と［技術担当者情報］を英語表記で入力（@<img>{startSSL_95}）します。ここで入力した住所や電話番号、個人名などは外向けに公開されることはありませんので、安心して入力してください。@<fn>{evOrOv}この後、ここで入力した［Eメールアドレス］宛てに、SSL証明書が送られてきます。メールアドレスを間違えないよう注意してください。すべて入力したら、［次へ］をクリック（@<img>{startSSL_96}）します。
@@ -1068,7 +1068,7 @@ https://docs.oracle.com/en/operating-systems/oracle-linux/8/obe-nginx-install/in
 
 お申し込み完了のページが表示（@<img>{startSSL_101}）されました。先ほど登録したメールアドレス宛に、DNS設定情報を知らせるメールが届いていますので確認しましょう。
 
-//image[startSSL_101][1,100円払うケツイをして［OK］をクリック][scale=0.8]{
+//image[startSSL_101][お申込み完了］画面]][scale=0.8]{
 //}
 
 ［CommonName=ssl.自分のドメイン名］から始まる件名のメール（@<img>{startSSL_102}）がすぐに届きました。「CSRのコモンネームで指定したドメイン名がssl.startdns.funの場合、startdns.funのTXTレコードを追加して、メールに書いてある値を設定するよう書いてあります。
