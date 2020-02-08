@@ -7,19 +7,19 @@ CHAPS:
 # - alibaba.re
 
 # Oracle Cloudのアカウントを作ろう
-  - oracleAccount.re
+  - 01_oracleAccount.re
 
 # Oracle Cloudでサーバを立てよう
-  - tryToBuildServer.re
+  - 02_tryToBuildServer.re
 
 # ウェブサーバの設定をしよう
-  - webServerSettings.re
+  - 03_webServerSettings.re
 
 # SSL証明書を取ろう
-  - getSSLCertificate.re
+  - 04_getSSLCertificate.re
 
 # SSL/TLSってなに？
-  - ssl.re
+  - 05_ssl.re
 
 APPENDIX:
 # 付録
