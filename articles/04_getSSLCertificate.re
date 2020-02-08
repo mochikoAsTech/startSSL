@@ -6,7 +6,15 @@ HTTPでサイトが見られたので、今度はHTTPSでも見られるよう�
 
 == SSL証明書にまつわる登場人物
 
-SSL証明書の取得は、関わってくる登場人物が多いので、最初に登場人物全員が集まる場所として、サーバの中で@<code>{/etc/nginx/}の下に@<code>{ssl}というディレクトリを作っておきます。@<fn>{error}
+SSL証明書は、関わってくる登場人物が多いので、最初に登場人物一覧をご紹介します。
+
+ * 秘密鍵（startssl.key）
+ * CSR（startssl.csr）
+ * SSL証明書（server.crt）
+ * 中間CA証明書（ca-bundle.ca）
+ ** SSL証明書＋中間CA証明書（startssl.crt）
+
+これらの登場人物が集まる場所として、サーバの中で@<code>{/etc/nginx/}の下に@<code>{ssl}というディレクトリを作っておきます。@<fn>{error}
 
 //footnote[error][もし@<code>{mkdir: cannot create directory ‘/etc/nginx/ssl’: Permission denied}と表示されてしまったら、あなたはいま、うっかり一般ユーザのままでmkdirコマンドを実行しています。コマンドの例で、左側のプロンプトが「#」のときは、rootで実行してください。「sudo su -」と書いてEnterキーを押すとrootになれます]
 
@@ -236,15 +244,15 @@ A銀行のフィッシングサイトが出てきたときに、エンドユー�
 
 「注文を確定します。よろしいですか？」と表示（@<img>{startSSL_99}）されたら、［OK］をクリックします。
 
-//image[startSSL_99][［OK］をクリック][scale=0.8]{
+//image[startSSL_99][［OK］をクリック][scale=0.4]{
 //}
 
 「この内容で決済を確定します。よろしいですか？」と表示（@<img>{startSSL_100}）されます。「1年間有効なSSL証明書を1,100円で買うんだ！」というケツイ@<fn>{ketsui}をしたら、［OK］をクリックします。
 
-//image[startSSL_100][1,100円払うケツイをして［OK］をクリック][scale=0.8]{
+//image[startSSL_100][1,100円払うケツイをして［OK］をクリック][scale=0.4]{
 //}
 
-//footnote[ketsui][UNDERTALEというゲームでは「ケツイを　ちからに　かえるんだ…！」という台詞が繰り返し出てきます]
+//footnote[ketsui][UNDERTALEというゲームは、ゲームオーバーになるたび「ケツイを　ちからに　かえるんだ…！」というメッセージが表示されます。筆者はパピルスが好きですが、初見でうっかり殺してしまい、同僚に人でなし扱いされました]
 
 お申し込み完了のページが表示（@<img>{startSSL_101}）されました。先ほど登録したメールアドレス宛に、DNS設定情報を知らせるメールが届いていますので確認しましょう。
 
@@ -293,12 +301,12 @@ Windowsの方もMacの方も、ダウンロードしたZIPファイルはデス�
 
 ZIPファイルを右クリックして、［すべて展開］をクリックします。（@<img>{startSSL_107}）
 
-//image[startSSL_107][右クリックして［すべて展開］をクリック][scale=0.4]{
+//image[startSSL_107][右クリックして［すべて展開］をクリック][scale=0.3]{
 //}
 
 ［展開］をクリックします。（@<img>{startSSL_108}）
 
-//image[startSSL_108][［展開］をクリック][scale=0.6]{
+//image[startSSL_108][［展開］をクリック][scale=0.4]{
 //}
 
 展開したフォルダ（@<img>{startSSL_109}）の中の［server.crt］がSSL証明書で、［ca-bundle.ca］が中間CA証明書です。READMEはファイルの説明書です。
@@ -347,7 +355,7 @@ server.crt    100%  0   0.0KB/s   00:00
 ca-bundle.ca  100%  0   0.0KB/s   00:00   
 //}
 
-=== SSL証明書と中間CA証明書を1ファイルにまとめよう
+=== 証明書を1ファイルにまとめよう
 
 サーバにログインしている状態で、次のコマンドを叩いて、先ほどアップロードした［server.crt］と［ca-bundle.ca］が、ちゃんと「/home/opc/」以下に存在していることを確認します。
 
@@ -394,7 +402,7 @@ u5ZuCjxerxj3qS1rM46bcEfjopnaD7hnJXSYiL1d0yw5zSW2PEe+LHdoIAb2I6D8
 -----END CERTIFICATE-----
 //}
 
-これでファイルの準備は完了です。
+これで証明書ファイルの準備は完了です。
 
 == NGINXでHTTPSのバーチャルホストを作ろう
 
