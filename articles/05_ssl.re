@@ -405,15 +405,41 @@ SSL証明書には、「*.example.com」のように任意のサブドメイン�
  ** example.com
  ** old.www.example.com
 
-=== wwwありにリダイレクトしたいだけなのにwwwなしの証明書もいるの？
+=== 【ドリル】wwwありにリダイレクトするだけでもwwwなしの証明書も必要？
 
-「https://example.com」へのリクエストは、「https://www.example.com」にリダイレクトしたい！という場合も、wwwなしの証明書が必要です。
+==== 問題
 
-== CDNと証明書
-=== CDNを使ったら古い端末でサイトが見られなくなった
-=== 同じサーバで複数サイトをHTTPS化したら古い端末で別サイトが表示された
-=== SNI Server Name Indication
+次のようなリダイレクトの設定を行なったとします。
 
-HTTPSで使われるTLSプロトコルでは、接続したいホスト名をクライアント側からサーバに伝えるためにSNI（Server Name Indication）のTLS拡張が必要となります。
-ただしSNIは、1つのIPアドレスを複数のバーチャルホストで共用するため、HTTPSで使用した場合、SNI非対応のクライアントではデフォルトのホストが応答します。
-2019年現在、SNI非対応端末を「対象端末」としているサービスはあまり多くないかもしれません。
+ 1. http://example.com/ へのアクセスは4にリダイレクト
+ 1. http://www.example.com/ へのアクセスは4にリダイレクト
+ 1. https://example.com/ へのアクセスは4にリダイレクト
+ 1. https://www.example.com/ でサイトを表示
+
+このとき用意すべきなのは、どのドメイン名のSSL証明書でしょうか？
+
+ * A. www.example.comのSSL証明書
+ * B. example.comのSSL証明書
+ * C. example.comとwww.example.comのSSL証明書
+
+//footnote[evSsl][SSL証明書の種類は「EV証明書」とします。EV証明書については後述します]
+
+//raw[|latex|\begin{reviewimage}\begin{flushright}\includegraphics[width=0.5\maxwidth\]{./images/answerColumnShort.png}\end{flushright}\end{reviewimage}]
+
+==== 解答
+
+正解はCです。「リダイレクトする」というレスポンスを返す処理よりも前に、認証や鍵交換が行なわれますので、example.comのSSL証明書も必要です。
+
+=== 〈トラブル〉サイトをHTTPS化したら古い端末でサーバ内の別サイトが表示された
+
+1台のウェブサーバで複数のサイトが同居している環境で、名前ベースのバーチャルホストをHTTPSでも有効にして、すべてのサイトをHTTPS化しました。パソコンのブラウザで確認したときは、どのサイトも問題なくHTTPSで表示されたのですが、2011年ごろに買ったAndroid端末でサイトを見ようとしたところ、なんと同居している別のサイトが表示されてしまいました。
+
+実は1つのIPアドレスで、複数のHTTPSのサイトを動かす名前ベースのバーチャルホストの場合、
+
+HTTPSの場合、アクセスしたいサイトのドメイン名すら暗号化された状態でやりとりが行なわれるため、クライアントがアクセスしたいドメイン名をサーバへ伝えるために、TLSのSNI（Server Name Indication）拡張機能が必要となります。iOS3以前のSafariや、Android2.3、WindowsXP上のIEなどクライアントの端末が著しく古く、SNIに対応していない場合は、サーバ側のデフォルトのホストが応答してしまうのです。
+
+つまり、あなたが機密情報を犬にだけ伝えたくて、犬と猫が同居している家に電話をかけたけれど、誰と話したいかすら言わずに押し黙っていたので「もしもし？もしもし？どなた宛てですか？…誰と話したいのか分からないので、取りあえず世帯主の猫に繋ぎますね！」となってしまった、というような状況です。
+
+対策としてはサーバにIPアドレスを追加して、サイトごとに別々のIPアドレスを割り振ってやるか、もしくはSNI非対応端末をサイトの対象から外す@<fn>{strict}か、のどちらかです。
+
+//footnote[strict][Apache2.4の場合は、SSLStrictSNIVHostCheckディレクティブをオンにしておくと、SNI非対応端末がアクセスしてきたときに、デフォルトホストを出すのではなく、接続自体を拒否して403 Forbiddenになります。 @<href>{https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslstrictsnivhostcheck}]
