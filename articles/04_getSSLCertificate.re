@@ -311,7 +311,7 @@ ZIPファイルを右クリックして、［すべて展開］をクリック�
 
 展開したフォルダ（@<img>{startSSL_109}）の中の［server.crt］がSSL証明書で、［ca-bundle.ca］が中間CA証明書です。READMEはファイルの説明書です。
 
-//image[startSSL_109][erver.crtがSSL証明書で、ca-bundle.caが中間CA証明書][scale=0.6]{
+//image[startSSL_109][server.crtがSSL証明書で、ca-bundle.caが中間CA証明書][scale=0.6]{
 //}
 
 どちらも必要なものなので、この2つのファイルをサーバにアップロードしましょう。
@@ -481,7 +481,7 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 この方法には、次のようなメリットがあります。
 
-- 暗号化や復号の処理を行う終端がロードバランサになるので、ウェブサーバの処理負荷が下がる
-- （AWSのELBとACMの場合は）証明書の取得や更新、設置が自動で行われる
+ * 暗号化や復号の処理を行う終端がロードバランサになるので、ウェブサーバの処理負荷が下がる
+ * （AWSのELBとACMの場合は）証明書の取得や更新、設置が自動で行われる
 
 ===[/column]
