@@ -428,7 +428,7 @@ server {
 
     # 秘密鍵
     ssl_certificate_key /etc/nginx/ssl/startssl.key;
-    # SSL証明書
+    # SSL証明書＋中間CA証明書
     ssl_certificate     /etc/nginx/ssl/startssl.crt;
 
     # 暗号スイート
