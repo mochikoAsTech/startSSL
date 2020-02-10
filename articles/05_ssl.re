@@ -95,7 +95,7 @@ Amazonなどのサイトを開くと、今日はまだログインしていな�
 
 さらに、インターネット全体でHTTPS化が進むことによって、HTTPのままでいるサイトに起きるデメリットもあります。
 
-Googleは「HTTPS everywhere」、つまり「（お問い合わせや会員登録といった一部のページに限らず）どこでもHTTPS！」を提唱しており、2014年8月の時点で既に、HTTPSに対応しているウェブサイトを検索ランキングで優遇する方針も発表@<fn>{rankingSignal}しています。
+Googleは「HTTPS everywhere」、つまり「（お問い合わせや会員登録といった一部のページに限らず）すべてをHTTPSで！」を提唱しており、2014年8月の時点で既に、HTTPSに対応しているウェブサイトを検索ランキングで優遇する方針も発表@<fn>{rankingSignal}しています。
 
 //footnote[rankingSignal][Google ウェブマスター向け公式ブログ \[JA\]: HTTPS をランキング シグナルに使用します @<href>{https://webmaster-ja.googleblog.com/2014/08/https-as-ranking-signal.html}]
 

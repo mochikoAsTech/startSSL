@@ -240,12 +240,14 @@ enabled　←有効になったことを確認
 
 == FirewalldでHTTPとHTTPSを許可しよう
 
-続いてサーバの中で動いているファイアウォールの設定を変更します。まずは現状、何がファイアウォールを通れるようになっているのか確認してみましょう。
+続いてサーバの中で動いているファイアウォールの設定を変更します。まずは現状、何がファイアウォールを通れるようになっているのか確認@<fn>{firewalld}してみましょう。
 
 //cmd{
 # firewall-cmd --list-services
 dhcpv6-client ssh
 //}
+
+//footnote[firewalld][Oracle Linux 7ではfirewalldがデフォルトで有効化されています。 @<href>{https://docs.oracle.com/cd/E77565_01/E54670/html/ol7-firewalld-cfg.html}]
 
 dhcpv6-clientとsshは通っていいけれど、それ以外は誰であろうと通さないぞ！という設定になっています。このままではブラウザでサイトを見ようとしても、ウェブページを返してくれるはずのNGINXまでリクエストが届きません。そこで次のように、許可対象にhttpとhttpsを追加して、変更が反映されるよう再読み込みします。それぞれ［success］と表示されたら成功しています。
 
@@ -267,75 +269,9 @@ success
 dhcpv6-client http https ssh
 //}
 
-== SELinuxを無効にしておこう
-
-SELinuxを無効化（disabled）します。@<fn>{seLinux}
-
-//footnote[seLinux][SELinuxはSecurity-Enhanced Linuxの略で、セキュリティポリシーを設定することで、Linux上のアプリケーションやプロセス、そしてファイルへ細かくアクセス制御できる機能です。設定は間違っていないはずなのに、なぜかアクセスできない…というときは大概SELinuxが原因です。本来はセキュリティポリシーをきちんと設定するのが筋なのかも知れませんが、「SELinuxを無効にしないでちゃんと使ってるところってあるのかな？」と同僚に聞いたら、「俺、NASAしか知らない」という返事をもらったあの日から、筆者はSELinuxを無効にすることをためらわなくなりました]
-
-//cmd{
-# getenforce
-Enforcing　←起動直後は有効になっている
-
-# vi /etc/selinux/config
-//}
-
-vi（ブイアイ）はテキストファイルを編集するためのコマンドです。viコマンドでファイルを開くと、最初は次のような「閲覧モード」の画面（@<img>{viSelinux01}）が表示されます。閲覧モードは「見るだけ」なので編集ができません。
-
-//image[viSelinux01][viコマンドでファイルを開いた][scale=0.8]{
-//}
-
-この状態でi（アイ）を押すと「編集モード」@<fn>{insertMode}に変わります。（@<img>{viSelinux02}）左下に「-- INSERT --」と表示されていたら「編集モード」です。
-
-//footnote[insertMode][ここでは初心者の方でも直感的に分かるよう「閲覧モード」「編集モード」と呼んでいますが、正しくは「ノーマルモード」「インサートモード」です。]
-
-//image[viSelinux02][i（アイ）を押すと「-- INSERT --」と表示される「編集モード」になった][scale=0.8]{
-//}
-
-「編集モード」になるとファイルが編集できるようになります。それでは「SELINUX=enforcing」を「SELINUX=disabled」（@<img>{viSelinux03}）に書き換えてください。
-
-//image[viSelinux03][「SELINUX=enforcing」を「SELINUX=disabled」に書き換える][scale=0.8]{
-//}
-
-「編集モード」のままだと保存ができないので書き終わったらESCキーを押します。すると左下の「-- INSERT --」が消えて再び「閲覧モード」になります。（@<img>{viSelinux04}）
-
-//image[viSelinux04][ESCを押すと左下の「-- INSERT --」が消えて再び「閲覧モード」になる][scale=0.8]{
-//}
-
-「閲覧モード」に戻ったら「:wq」@<fn>{wq}と入力してEnterキーを押せば変更が保存されます。（@<img>{viSelinux05}）
-
-//image[viSelinux05][「:wq」と入力してEnterキーを押せば保存される][scale=0.8]{
-//}
-
-//footnote[wq][書き込んで（write）、抜ける（quit）という命令なのでwqです。]
-
-色々やっているうちになんだか訳が分からなくなってしまって「いまの全部なかったことにしたい！取り合えずviからいったん抜けたい！」と思ったときは、ESCキーを押して「:q!」@<fn>{q}と入力してEnterキーを押すと変更を保存せずに抜けることができます。
-
-//footnote[q][保存せずに強制終了（quit!）という命令なのでq!です。]
-
-編集できたらcat（キャット）コマンドでファイルの中身を確認してみましょう。
-
-//cmd{
-# cat /etc/selinux/config
-
-# This file controls the state of SELinux on the system.
-# SELINUX= can take one of these three values:
-#     enforcing - SELinux security policy is enforced.
-#     permissive - SELinux prints warnings instead of enforcing.
-#     disabled - No SELinux policy is loaded.
-SELINUX=disabled
-# SELINUXTYPE= can take one of three values:
-#     targeted - Targeted processes are protected,
-#     minimum - Modification of targeted policy. Only selected processes are protected. 
-#     mls - Multi Level Security protection.
-SELINUXTYPE=targeted 
-//}
-
-以上でSELinuxを無効化する設定は終わりです。
-
 == OSを再起動してみよう
 
-変更した設定を反映させるためreboot（リブート）コマンドでサーバを再起動しておきましょう。
+再起動時にNGINXがちゃんと自動起動してくるか確認するため、reboot（リブート）コマンドでサーバを再起動してみましょう。
 
 //cmd{
 # reboot
@@ -373,7 +309,7 @@ SSHの接続も切れてしまいますが、割とすぐに再起動します�
 
 == なぜかサイトが見られない
 
-ウェブサーバも立てたし、SELinuxはとめたし、サーバの中のファイアウォールに穴も空けました。これで準備完了！サーバを立てたときにメモした［パブリックIPアドレス］を、ブラウザで開いてみました。するとしばらくぐるぐるした後で、［接続がタイムアウトしました］と表示されてしまいました。（@<img>{startSSL_77}）
+ウェブサーバも立てたし、サーバの中のファイアウォールに穴も空けました。これで準備完了！サーバを立てたときにメモした［パブリックIPアドレス］を、ブラウザで開いてみました。するとしばらくぐるぐるした後で、［接続がタイムアウトしました］と表示されてしまいました。（@<img>{startSSL_77}）
 
 //image[startSSL_77][なぜかHTTPでサイトが表示されない…][scale=0.8]{
 //}
