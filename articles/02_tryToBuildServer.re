@@ -70,7 +70,7 @@ Windowsの方は、続いて起動したRLoginで［新規(N)］をクリック�
 
 ［パスフレーズ］と［パス再入力］には何も入力せず、［OK］をクリックします。@<fn>{whatIsPassPhrase}
 
-//footnote[whatIsPassPhrase][「p@$sw0rd」や「@dm1ni$trat0r」のように、ひとつの単語でできているのがパスワードです。それに対して「This 1s P@s$ Phrase.」のように空白を挟んだ文章（フレーズ）で構成されているのがパスフレーズです]
+//footnote[whatIsPassPhrase][このパスフレーズは秘密鍵の保護に用いられます。パスフレーズを設定しなくてよいのか、についてはコラムで後述します]
 
 //image[startSSL_49][何も入力せず［OK］をクリック][scale=0.6]{
 //}
