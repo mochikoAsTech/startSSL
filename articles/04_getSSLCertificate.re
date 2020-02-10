@@ -417,6 +417,7 @@ viコマンドで、同じ場所に新しい設定ファイルを作ります。
 
 //cmd{
 # vi startssl.conf
+
 server {
     listen 80 default_server;
     return 301 https://$host$request_uri;
@@ -433,6 +434,7 @@ server {
 
     # 暗号スイート
     ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA256;
+
     # プロトコルバージョン
     ssl_protocols       TLSv1.2;
     # 暗号スイートの順序はサーバが決める
@@ -443,6 +445,28 @@ server {
         index  index.html index.htm;
     }
 }
+//}
+
+暗号スイートとは、「認証はRSAで、鍵交換はECDHE、暗号化アルゴリズムはAESを使う」のように、セキュリティパラメータをセットにしたものです。ファーストフード店の「チキンクリームポットパイ＋ポテト＋コーラSのセット」や「オリジナルチキン＋ビスケット＋アイスティーSのセット」みたいなものだと思ってください。どんなセットがあるのか、一覧はIANAのページ@<fn>{iana}で確認できます。
+
+//footnote[iana][Transport Layer Security (TLS) Parameters @<href>{https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml}]
+
+クライアントが希望する暗号スイート群をサーバに送ったら、サーバ側がリストの上位から順に探していき、共通のものが見つかればその暗号スイートに決定します。つまりクライアントが「フィレオフィッシュ＋ポテト＋烏龍茶のセット！なければキッズナゲット＋ビスケット＋烏龍茶のセット！」と希望しても、サーバ側のssl_ciphersディレクティブにそのセットがなければ、接続できず［クライアントとサーバーで、共通の SSL プロトコル バージョンまたは暗号スイートがサポートされていません。］と表示されてしまいます。（@<img>{startSSL_123}）
+
+//image[startSSL_123][共通の暗号スイートが見つからず、接続できなかった様子][scale=0.6]{
+//}
+
+そのためssl_ciphersディレクティブに、セキュリティを重視して強度の高い暗号スイートだけを書くのか、それとも古い端末との互換性を重視して脆弱な暗号スイートも含めて書くのかは、安全性と可用性（対応端末の多さ）のバランスを考えて決めていくことになります。本来はサイトの運営者が自分で考えて判断すべきことではありますが、IPA@<fn>{ipa}が公開している「SSL/TLS暗号設定ガイドライン@<fn>{guide}」で、「高セキュリティ型」「推奨セキュリティ型」「セキュリティ例外型」として3つが提示されているので、まずはこれを参考にしながら、あるべき設定を考えていく、という方法もあります。
+
+//footnote[ipa][情報処理推進機構のこと。情報処理技術者試験を実施しているのもIPAです]
+//footnote[guide][本著では「高セキュリティ型の設定例（楕円曲線暗号あり）」を使用しています。 @<href>{https://www.ipa.go.jp/security/vuln/ssl_crypt_config.html}]
+
+他にも、Mozilla@<fn>{mozilla}が提供する「Mozilla SSL Configuration Generator@<fn>{gen}」というサイト（@<img>{mozilla}）を使うと、NGINXとopensslのバージョンを指定して、「Modern」「Intermediate」「Old」を選ぶだけで、適した設定ファイルが出力されます。こちらを参考にするのもよいでしょう。
+
+//footnote[mozilla][ブラウザのFirefoxを作っているあのMozilla]
+//footnote[gen][@<href>{https://ssl-config.mozilla.org/}]
+
+//image[mozilla][環境や設定を選ぶだけで適した設定ファイルが出力されるサイト][scale=0.6]{
 //}
 
 設定ファイルが書けたら、構文エラーがないかテストをします。もし書き間違いがあれば、ここでエラーメッセージとして表示されます。
@@ -456,7 +480,6 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 ［test is successful］と表示されたら、NGINXを再起動して設定を反映しましょう。
 
 //cmd{
-
 # systemctl restart nginx.service 
 //}
 
