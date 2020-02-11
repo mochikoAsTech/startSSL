@@ -64,5 +64,4 @@ mochikoAsTech
  ** @<href>{https://qiita.com/angel_p_57/items/446130934b425d90f89d}
  * 【図解】初心者も分かる”公開鍵/秘密鍵”の仕組み～公開鍵暗号方式の身近で具体的な利用例やメリット〜 | SEの道標
  ** @<href>{https://milestone-of-se.nesuke.com/sv-advanced/digicert/public-private-key/}
- * 「電子署名=『秘密鍵で暗号化』」という良くある誤解の話 - Qiita
- ** @<href>{https://qiita.com/angel_p_57/items/d7ffb9ec13b4dde3357d}
+
