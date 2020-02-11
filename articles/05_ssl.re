@@ -306,7 +306,7 @@ Chromeのメニューから［その他のツール］の［デベロッパー�
 
 この問題は混在コンテンツ（mixed content）と呼ばれています。2020年3月にリリース予定のChromeのバージョン81@<fn>{schedule}からは、この混在コンテンツが存在した場合、対象のプロトコルがHTTPからHTTPSへ自動的に変更され、さらにHTTPSでの読み込みに失敗すると、そのリソース（@<code>{http://}で始まる形式にしていたCSSや画像、埋め込みコンテンツ）がブロックされる変更が予定されています。
 
-//footnote[schedule][@<href>{https://developers-jp.googleblog.com/2019/11/https.html}]
+//footnote[schedule][@<href>{https://developers-jp.googleblog.com/2019/11/https.html}, @<href>{https://security.googleblog.com/2020/02/protecting-users-from-insecure_6.html}]
 
 混在コンテンツを直すには、たとえば「<img src="http://www.example.com/images/top.png">」のようになっていた<img>タグを「<img src="/images/top.png">」のようにパスの部分だけにします。これならページをHTTPで開いたときは画像もHTTPで、ページをHTTPSで開いたときは画像もHTTPSで表示されるため、混在コンテンツにはなりません。
 
