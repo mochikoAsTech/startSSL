@@ -12,10 +12,10 @@ CHAPS:
 # Oracle Cloudのアカウントを作ろう
   - 02_oracleAccount.re
 
-# ウェブサーバを立てよう
+# サーバを立ててHTTPでサイトを見よう
   - 03_tryToBuildServer.re
 
-# SSL証明書を取ろう
+# SSL証明書を取ってHTTPSでサイトを見よう
   - 04_getSSLCertificate.re
 
 # SSL/TLSってなに？
