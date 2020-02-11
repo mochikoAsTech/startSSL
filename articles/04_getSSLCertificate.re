@@ -12,7 +12,7 @@ SSL証明書は、関わってくる登場人物が多いので、最初に登�
  * CSR（startssl.csr）
  * SSL証明書（server.crt）
  * 中間CA証明書（ca-bundle.ca）
- ** SSL証明書＋中間CA証明書（startssl.crt）
+ * SSL証明書＋中間CA証明書（startssl.crt）
 
 これらの登場人物が集まる場所として、サーバの中で@<code>{/etc/nginx/}の下に@<code>{ssl}というディレクトリを作っておきます。@<fn>{error}
 
