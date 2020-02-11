@@ -10,23 +10,16 @@ CHAPS:
   - 01_whatIsSsl.re
 
 # Oracle Cloudのアカウントを作ろう
-  - 01_oracleAccount.re
+  - 02_oracleAccount.re
 
-# Oracle Cloudでサーバを立てよう
-  - 02_tryToBuildServer.re
-
-# ウェブサーバの設定をしよう
-  - 03_webServerSettings.re
+# ウェブサーバを立てよう
+  - 03_tryToBuildServer.re
 
 # SSL証明書を取ろう
   - 04_getSSLCertificate.re
 
 # SSL/TLSってなに？
   - 05_ssl.re
-
-APPENDIX:
-# 付録
-#  - cantSayTightlytwinkle.re
 
 POSTDEF:
 # あとがき
