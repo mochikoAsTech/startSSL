@@ -6,6 +6,9 @@ CHAPS:
 # 使わなかったAlibaba Cloudのアカウント作成
 # - alibaba.re
 
+# SSL/TLSとは？
+  - 01_whatIsSsl.re
+
 # Oracle Cloudのアカウントを作ろう
   - 01_oracleAccount.re
 
