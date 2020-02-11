@@ -50,6 +50,7 @@ mochikoAsTech
 
  * Takeshi Matsuba
  * Mari Kubota
+ * およねさん
 
 === 参考文献・ウェブサイト
 

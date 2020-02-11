@@ -289,6 +289,8 @@ SSL証明書には、「*.example.com」のように任意のサブドメイン�
  ** example.com
  ** old.www.example.com
 
+なおEV証明書のワイルドカード証明書は存在しません。
+
 === 【ドリル】リダイレクトするだけでもwwwなしの証明書は必要？
 
 ==== 問題
@@ -306,13 +308,11 @@ SSL証明書には、「*.example.com」のように任意のサブドメイン�
  * B. example.comのSSL証明書
  * C. example.comとwww.example.comのSSL証明書
 
-//footnote[evSsl][SSL証明書の種類は「EV証明書」とします。EV証明書については後述します]
-
 //raw[|latex|\begin{reviewimage}\begin{flushright}\includegraphics[width=0.5\maxwidth\]{./images/answerColumnShort.png}\end{flushright}\end{reviewimage}]
 
 ==== 解答
 
-正解はCです。「リダイレクトする」というレスポンスを返す処理よりも前に、認証や鍵交換が行なわれますので、example.comのSSL証明書も必要です。
+正解はCです。「リダイレクトする」というレスポンスを返す処理よりも前に、認証や鍵交換が行なわれますので、3のためにexample.comのSSL証明書も必要です。
 
 === 〈トラブル〉サイトをHTTPS化したら古い端末で別サイトが表示された
 
