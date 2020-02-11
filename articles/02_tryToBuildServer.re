@@ -110,7 +110,9 @@ Windowsの方は、続いて起動したRLoginで［新規(N)］をクリック�
 
 === Macでターミナルを準備する
 
-Macを使っている方は、最初から「ターミナル」（@<img>{mac02}）というソフトがインストールされていますのでそちらを利用しましょう。
+Mac@<fn>{macTerminal}を使っている方は、最初から「ターミナル」（@<img>{mac02}）というソフトがインストールされていますのでそちらを利用しましょう。
+
+//footnote[macTerminal][2020年2月以前にリリースされたmacOSを対象とします]
 
 //image[mac02][最初からインストールされている「ターミナル」を使おう][scale=0.8]{
 //}
@@ -124,32 +126,21 @@ Macを使っている方は、最初から「ターミナル」（@<img>{mac02}�
 
 Macの方は、ターミナルで次のコマンドを実行してください。@<fn>{tilde}
 
-//footnote[tilde][@<code>{ssh-keygen}コマンドは名前のとおり、SSHの鍵（key）を生成（generate）するコマンドです。-fオプションでは、生成する鍵のファイル名を指定しています。~（チルダ）はホームディレクトリを表しますので、@<code>{-f ~/Desktop/startSSLKey}は「/Users/<ユーザ名>/Desktop」のフォルダの中に「startSSLKey」という名前の鍵を作って、という意味です]
+//footnote[tilde][@<code>{ssh-keygen}コマンドは名前のとおり、SSHの鍵（key）を生成（generate）するコマンドです。-fオプションでは、生成する鍵のファイル名を指定しています。~（チルダ）はホームディレクトリを表しますので、@<code>{-f ~/Desktop/startSSLKey}は「/Users/<ユーザ名>/Desktop」のフォルダの中に「startSSLKey」という名前の鍵を作って、という意味です。@<code>{-N ''}は空のパスフレーズを指定しています]
 
 //cmd{
-$ ssh-keygen -f ~/Desktop/startSSLKey
-//}
-
-すると次のように、パスフレーズの入力待ち状態になります。何も入力せずに、2回Enterを押してください。
-
-//cmd{
-$ ssh-keygen -f ~/Desktop/startSSLKey
-Generating public/private rsa key pair.
-Enter passphrase (empty for no passphrase): 　←何も入力せずにEnter
-Enter same passphrase again: 　←何も入力せずにEnter
+$ ssh-keygen -N '' -f ~/startSSLKey
 //}
 
 次のように表示されたらキーペア（秘密鍵・公開鍵）の作成は完了です。
 
 //cmd{
-$ ssh-keygen -f ~/Desktop/startSSLKey
+$ ssh-keygen -N '' -f ~/startSSLKey
 Generating public/private rsa key pair.
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
 Your identification has been saved in /home/mochikoAsTech/Desktop/startSSLKey.
 Your public key has been saved in /home/mochikoAsTech/Desktop/startSSLKey.pub.
 The key fingerprint is:
-a2:52:43:dd:70:5d:a8:4f:77:47:ca:f9:69:79:14:48 mochikoAsTech@ghana
+a2:52:43:dd:70:5d:a8:4f:77:47:ca:f9:69:79:14:48 mochikoAsTech@mochikoMacBook-Air.local
 The key's randomart image is:
 +--[ RSA 2048]----+
 |      . .. ooE.  |
@@ -186,7 +177,7 @@ ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Ai
 //image[startSSL_53][マウスで選択するだけでコピーできる][scale=0.8]{
 //}
 
-逆にコピーした内容をターミナルへペーストしたいときはターミナル上で@<ttb>{右クリックするだけ}です。ターミナルのソフトにもよりますが、基本的にCtrl+pは使えないので注意してください。
+逆にコピーした内容をターミナルへペーストしたいときはターミナル上で@<ttb>{右クリックするだけ}です。ターミナルのソフトにもよりますが、基本的にCtrl+vは使えないので注意してください。
 
 ===[/column]
 
