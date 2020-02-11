@@ -266,9 +266,9 @@ Oracle Cloudでは、サーバスペックごとに「シェイプ」という�
 
 OCPU@<fn>{ocpu}が2、メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}にチェックを入れて、［シェイプの選択］をクリックしましょう。
 
-//footnote[ocpu][OCPUはOracle Compute Unitsの略で、ごく簡単に言うと物理CPUです。OCPU（物理CPU）1つは、vCPU（仮想CPU）2つに相当しますので、もし「AWSのEC2でvCPUが4のサーバを使っている。同等スペックのサーバを用意してほしい」と頼まれたら、Oracle CloudではOCPUが2のシェイプを選べば大丈夫です。単純に数字だけで比較して、OCPUが4のシェイプを選ぶとCPUのスペックがいままでの倍になってしまいますので注意してください]
+//footnote[ocpu][OCPUはOracle Compute Unitsの略で、ごく簡単に言うとCPUコア数の単位です。OCPU1つは、vCPU（仮想CPU）2つに相当しますので、もし「AWSのEC2でvCPUが4のサーバを使っている。同等スペックのサーバを用意してほしい」と頼まれたら、Oracle CloudではOCPUが2のシェイプを選べば大丈夫です。他にもメモリやストレージなど、必要なスペックを考えて適したシェイプを選ぶようにしましょう]
 
-//footnote[shapeName][シェイプの名前は、まず接頭辞が「VM」なら仮想サーバ（Virtual Machine）、「BM」なら物理サーバ（Bare Metal）を表しています。その後ろの単語は「Standard」（汎用）や「DenseIO」（高密度IO）といった特徴、3番目の「E2」や「3」はシェイプの世代、最後の「2」や「8」はOCPUの数を表しています]
+//footnote[shapeName][シェイプの名前は、まず接頭辞が「VM」なら仮想サーバ（Virtual Machine）、「BM」なら物理サーバ（Bare Metal）を表しています。その後ろの単語は「Standard」（汎用）や「DenseIO」（高密度IO）といった特徴、3番目の「E2」や「2」はシェイプの世代、最後の「2」や「8」はOCPUの数を表しています]
 
 //image[startSSL_59][「VM.Standard.E2.2」に変更して［シェイプの選択］をクリック][scale=0.8]{
 //}
@@ -311,16 +311,16 @@ OCPU@<fn>{ocpu}が2、メモリが16GBの［VM.Standard.E2.2］@<fn>{shapeName}�
 
 Oracle Cloudは他のクラウドに比べて価格が安いのが特徴のひとつです。どれくらい安いのか、同じスペックのサーバでAWSと比較してみましょう。
 
-例えば同スペックのVM.Standard.E2.1（Oracle Cloud）とm5.large（AWS）を比較すると、Oracle Cloudの価格はAWSの4分の1以下です。（@<table>{oracleAwsDiff}）
+例えば同スペックのVM.Standard.E2.1（Oracle Cloud）とm5a.large（AWS）を比較すると、Oracle Cloudの価格はAWSの3分の1以下になります。（@<table>{oracleAwsDiff}）
 
 //table[oracleAwsDiff][Oracle CloudとAWSの価格比較]{
 　	Oracle Cloud	AWS
 ------------------------------------
-インスタンスの種類	VM.Standard.E2.1	m5.large
+インスタンスの種類	VM.Standard.E2.1	m5a.large
 CPU	OCPU:1（vCPU:2相当）	vCPU:2
 メモリ	8GB	8GB
-1時間あたり	$0.03	$0.124
-月額	2678.4円	11070.72円
+1時間あたり	$0.03	$0.112
+月額	2678.4円	9999.36円
 //}
 
 シェアトップを独走するAWSに対して、後発は勝つためにコスト面や性能面でそれぞれ大きなメリットを打ち出してきています。AWSが最適なのであればAWSを選択すべきですが、「みんなが使っているから」というだけ理由で、あまり深く考えずにAWSを使っているのであれば、他のクラウドにも目を向けてみることを筆者はお勧めします。
