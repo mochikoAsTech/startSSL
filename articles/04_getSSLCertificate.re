@@ -165,7 +165,7 @@ A銀行のウェブサイトをHTTPSで作ることになりました。SSL証�
  * B. A銀行から任されてSSL証明書を買うのはB社だからB社を入力すべき
  * C. 実際にサイトの管理を任されているのはC社だからC社を入力すべき
 
-//footnote[evSsl][SSL証明書の種類は「EV証明書」とします。EV証明書については後述します]
+//footnote[evSsl][SSL証明書の種類は「EV証明書」とします。EV証明書については@<chapref>{05_ssl}で後述します]
 
 //raw[|latex|\begin{reviewimage}\begin{flushright}\includegraphics[width=0.5\maxwidth\]{./images/answerColumnShort.png}\end{flushright}\end{reviewimage}]
 
@@ -177,7 +177,9 @@ A銀行のフィッシングサイトが出てきたときに、エンドユー�
 
 == SSL証明書の取得申請を出そう
 
-［FujiSSL］で検索して、［FujiSSL-安心・安全の純国産格安SSLサーバ証明書］をクリック（@<img>{startSSL_86}）します。
+［FujiSSL］で検索して、［FujiSSL-安心・安全の純国産格安SSLサーバ証明書］をクリック（@<img>{startSSL_86}）します。@<fn>{fujissl}
+
+//footnote[fujissl][検索すると色んな種類のSSL証明書が出てきますが、値段によって何が違うのかについては、@<chapref>{05_ssl}で後述します]
 
 //image[startSSL_86][［FujiSSL-安心・安全の純国産格安SSLサーバ証明書］をクリック][scale=0.8]{
 //}
@@ -290,7 +292,7 @@ $ dig startdns.fun txt +short
 
 TXTレコードを追加してから、おおよそ30分後にSSL証明書がメール（@<img>{startSSL_104}）で届きました。
 
-//image[startSSL_104][SSL証明書がメールで届いた][scale=0.8]{
+//image[startSSL_104][SSL証明書がメールで届いた][scale=0.6]{
 //}
 
 メールに添付されているZIPファイル（ssl.自分のドメイン名.zip）にSSL証明書が入っていますのでダウンロードします。（@<img>{startSSL_105}）
@@ -315,7 +317,7 @@ ZIPファイルを右クリックして、［すべて展開］をクリック�
 
 展開したフォルダ（@<img>{startSSL_109}）の中の［server.crt］がSSL証明書で、［ca-bundle.ca］が中間CA証明書です。READMEはファイルの説明書です。
 
-//image[startSSL_109][server.crtがSSL証明書で、ca-bundle.caが中間CA証明書][scale=0.6]{
+//image[startSSL_109][server.crtがSSL証明書で、ca-bundle.caが中間CA証明書][scale=0.4]{
 //}
 
 どちらも必要なものなので、この2つのファイルをサーバにアップロードしましょう。
@@ -340,20 +342,20 @@ Windowsのパソコンを使っている方は、RLoginを起動します。［s
 
 //footnote[folder][筆者の場合は「C:\Users\mochikoAsTech\Desktop\ssl.startdns.fun」でした]
 
-//image[startSSL_112][［ファイル］から［SFTPファイルの転送］をクリック][scale=0.6]{
+//image[startSSL_112][［server.crt］と［ca-bundle.ca］を右側にドラッグ＆ドロップ][scale=0.6]{
 //}
 
 右側に［server.crt］と［ca-bundle.ca］がアップされたら、×を押してファイル転送の画面は閉じて構いません。（@<img>{startSSL_113}）
 
-//image[startSSL_113][［ファイル］から［SFTPファイルの転送］をクリック][scale=0.6]{
+//image[startSSL_113][［server.crt］と［ca-bundle.ca］がサーバにアップされた][scale=0.6]{
 //}
 
 === Macで証明書と中間CA証明書をアップしよう
 
-Macを使っている方は、ターミナルを起動してください。scpコマンドを使って、Macの中にある［server.crt］と［ca-bundle.ca］を、サーバにアップロードします。［展開したフォルダ］と［パブリックIPアドレス］の部分は、ご自身のものに書き換えてください。
+Macを使っている方は、ターミナルを起動してください。scpコマンドを使って、Macの中にある［server.crt］と［ca-bundle.ca］を、サーバにアップロードします。［ZIPを展開したフォルダ］と［パブリックIPアドレス］の部分は、ご自身のものに書き換えてください。
 
 //cmd{
-$ cd ~/Desktop/展開したフォルダ
+$ cd ~/Desktop/ZIPを展開したフォルダ
 $ scp -i ~/Desktop/startSSLKey server.crt ca-bundle.ca opc@パブリックIPアドレス:/home/opc/
 server.crt    100%  0   0.0KB/s   00:00    
 ca-bundle.ca  100%  0   0.0KB/s   00:00   
@@ -379,7 +381,9 @@ ca-bundle.ca  ssl.startdns.fun.crt
 
 //footnote[awk][このときcatコマンドで結合すると、SSL証明書と中間CA証明書の間に改行が入らず、「-----END CERTIFICATE----------BEGIN CERTIFICATE-----」のようになってしまうため、awkコマンドを使っています]
 
-catコマンドで［startssl.crt］を確認してみましょう。次のように「-----BEGIN CERTIFICATE-----」と「-----END CERTIFICATE-----」が、繰り返し3つ表示されれば大丈夫です。
+catコマンドで［startssl.crt］を確認してみましょう。次のように「-----BEGIN CERTIFICATE-----」と「-----END CERTIFICATE-----」が、繰り返し3つ表示されれば大丈夫@<fn>{order}です。
+
+//footnote[order][1つのファイルにつなげるときには、SSL証明書が上で、中間CA証明書が下です。順番には意味があるので、逆にならないよう注意してください]
 
 //cmd{
 # cat /etc/nginx/ssl/startssl.crt
@@ -504,11 +508,20 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 ===[column] 【コラム】ロードバランサでもSSLターミネーションできる
 
-なお本著ではウェブサーバにSSL証明書を設置しましたが、ウェブサーバの手前にロードバランサを置いて、そこにSSL証明書を設置して、SSLターミネーションを行う方法もあります。その場合、SSLで通信するのはエンドユーザのパソコンから終端となるロードバランサーまでで、ロードバランサーとウェブサーバの間はHTTPで通信するのが一般的です。
+なお本著ではウェブサーバにSSL証明書を設置しましたが、ウェブサーバの手前にロードバランサを置いて、そこにSSL証明書を設置して、SSLターミネーションを行う方法もあります。その場合、HTTPSで通信するのはエンドユーザのパソコンから終端となるロードバランサーまでで、ロードバランサーとウェブサーバの間はHTTPで通信するのが一般的です。
 
 この方法には、次のようなメリットがあります。
 
  * 暗号化や復号の処理を行う終端がロードバランサになるので、ウェブサーバの処理負荷が下がる
- * （AWSのELBとACMを使った場合は）証明書の取得や更新、設置が自動で行われる
+ * SSL証明書を設置するのはロードバランサの一箇所だけで済む
+
+今回は取得も設置も手作業で行ないましたが、ウェブサーバが負荷分散のために何十台もあるような環境で、1台1台にSSL証明書とCA証明書を設置@<fn>{license}してNGINXを再起動していくのは大変です。手前のロードバランサでSSLターミネーションするやり方なら、その先にウェブサーバが何台あろうと、SSL証明書を設置するのはロードバランサーの1箇所だけで済みますね。
+
+//footnote[license][ちなみに本著で扱ったFujiSSLは、取得した1枚のSSL証明書を複数台のウェブサーバに設置しても構いません。ですが認証局やSSL証明書によっては、「1台にしか設置できません。2台以上に設置する場合は台数分だけ購入してください」というケースもありますので、購入前にライセンス形態を確認しておきましょう]
+
+さらにAWSのELB@<fn>{elb}とACM@<fn>{acm}を組み合わせて使うと、今回手作業で行なった秘密鍵とCSRの生成や、SSL証明書と中間CA証明書の設置なども、まるごと任せられます。これは手作業で3時間かけて皮から餃子を作って食べるのと、お店で餃子定食を頼んで食べるのくらい、手間暇に差があるのですが、本著では「餃子を作る工程を一通り体験すること」を目的として、敢えて手作業でSSL証明書を取得しました。
 
 ===[/column]
+
+//footnote[elb][Elastic Load Balancingの略。AWSのロードバランサ]
+//footnote[acm][AWS Certificate Managerの略。SSL証明書の取得や設置、管理をまるごとやってくれるAWSのサービス]
