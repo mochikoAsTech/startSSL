@@ -129,13 +129,13 @@ Macの方は、ターミナルで次のコマンドを実行してください�
 //footnote[tilde][@<code>{ssh-keygen}コマンドは名前のとおり、SSHの鍵（key）を生成（generate）するコマンドです。-fオプションでは、生成する鍵のファイル名を指定しています。~（チルダ）はホームディレクトリを表しますので、@<code>{-f ~/Desktop/startSSLKey}は「/Users/<ユーザ名>/Desktop」のフォルダの中に「startSSLKey」という名前の鍵を作って、という意味です。@<code>{-N ''}は空のパスフレーズを指定しています]
 
 //cmd{
-$ ssh-keygen -N '' -f ~/startSSLKey
+$ ssh-keygen -N '' -f ~/Desktop/startSSLKey
 //}
 
 次のように表示されたらキーペア（秘密鍵・公開鍵）の作成は完了です。
 
 //cmd{
-$ ssh-keygen -N '' -f ~/startSSLKey
+$ ssh-keygen -N '' -f ~/Desktop/startSSLKey
 Generating public/private rsa key pair.
 Your identification has been saved in /home/mochikoAsTech/Desktop/startSSLKey.
 Your public key has been saved in /home/mochikoAsTech/Desktop/startSSLKey.pub.
@@ -153,6 +153,12 @@ The key's randomart image is:
 |   .             |
 |                 |
 +-----------------+
+//}
+
+作成した秘密鍵は、オーナー以外が使えないようchmodというコマンドで読み書き権限を厳しくしておきます。
+
+//cmd{
+$ chmod 600 ~/Desktop/startSSLKey
 //}
 
 ホームディレクトリに秘密鍵（startSSLKey）と、公開鍵（startSSLKey.pub）ができあがっているはずです。cat（キャット）コマンド@<fn>{cat}で公開鍵を表示してみましょう。
