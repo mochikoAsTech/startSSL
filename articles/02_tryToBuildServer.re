@@ -1,8 +1,12 @@
 = Oracle Cloudでサーバを立てよう
 
-この章では実際にOracle Cloudでサーバを立てます。
+HTTPSでサイトを作るのに必要な材料は次の3つです。
 
-インフラエンジニアのお仕事体験みたいできっと楽しいですよ！
+ * ウェブサーバ
+ * ドメイン名
+ * SSL証明書
+
+この章では、Oracle Cloudでウェブサーバを立てていきます。
 
 //pagebreak
 
@@ -10,17 +14,14 @@
 
 === WindowsでRLoginをインストールする
 
-Windowsのパソコンを使っている方は、サーバを立てる前に「ターミナル」と呼ばれる黒い画面のソフトをインストールしておきましょう。サーバに接続するときにはこのターミナルを使うのですが、ターミナルのソフトには色々な種類があります。
+Windowsのパソコンを使っている方は、サーバを立てる前に「ターミナル」と呼ばれる黒い画面のソフトをインストールしておきましょう。サーバに接続するときにはこのターミナルを使います。ターミナルのソフトには色々な種類がありますが、本著ではいちばん上のRLogin（@<img>{rlogin}）を使って説明していきます。
 
  * RLogin（@<href>{http://nanno.dip.jp/softlib/man/rlogin/}）
- * Poderosa（@<href>{https://ja.poderosa-terminal.com/}）
- * Tera Term（@<href>{https://ja.osdn.net/projects/ttssh2/}）
- * PuTTYjp（@<href>{http://hp.vector.co.jp/authors/VA024651/PuTTYkj.html}）
 
 //image[rlogin][RLogin][scale=0.8]{
 //}
 
-本著ではいちばん上のRLogin（@<img>{rlogin}）を使って説明していきますので、特にこだわりがなければRLoginを使うことをお勧めします。RLoginの「実行プログラム(64bit)@<fn>{64bit}」（@<img>{downloadRLogin01}）のURL、@<href>{http://nanno.dip.jp/softlib/program/rlogin_x64.zip}をクリックしてください。
+RLoginの「実行プログラム(64bit)@<fn>{64bit}」（@<img>{downloadRLogin01}）のURL、@<href>{http://nanno.dip.jp/softlib/program/rlogin_x64.zip}をクリックしてください。
 
 //footnote[64bit][もしパソコンのWindowsが32bit版だった場合は「実行プログラム(32bit)」のURLをクリックしてください。]
 
