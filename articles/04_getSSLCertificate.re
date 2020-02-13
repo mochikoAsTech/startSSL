@@ -18,7 +18,7 @@ SSL証明書は、関わってくる登場人物が多いので、最初に登�
 
 これらの登場人物が集まる場所として、サーバの中で@<code>{/etc/nginx/}の下に@<code>{ssl}というディレクトリを作っておきます。@<fn>{error}
 
-//footnote[error][もし@<code>{mkdir: cannot create directory ‘/etc/nginx/ssl’: Permission denied}と表示されてしまったら、あなたはいま、うっかり一般ユーザのままでmkdirコマンドを実行しています。コマンドの例で、左側のプロンプトが「#」のときは、rootで実行してください。「sudo su -」と書いてEnterキーを押すとrootになれます]
+//footnote[error][もし@<code>{mkdir: cannot create directory '/etc/nginx/ssl': Permission denied}と表示されてしまったら、あなたはいま、うっかり一般ユーザのままでmkdirコマンドを実行しています。コマンドの例で、左側のプロンプトが「#」のときは、rootで実行してください。「sudo su -」と書いてEnterキーを押すとrootになれます]
 
 //cmd{
 # mkdir /etc/nginx/ssl/
