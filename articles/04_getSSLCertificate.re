@@ -336,6 +336,12 @@ $ dig startdns.fun txt +short
 "20200204005703EA923DBFD370D3A4C260E09747A37082277DDD5B966ED7C2BB87C0386B17A076"
 //}
 
+これでTXTレコードの設定@<fn>{caa}は完了です。
+
+//footnote[caa][いま設定したTXTレコードの他に、CAAレコードがSSL証明書の発行に関わってくることがあります。CAAレコードについては、「DNSをはじめよう」の「〈トラブル〉CAAレコードが原因でSSL証明書が発行できなかった」で説明しています]
+
+== SSL証明書と中間CA証明書をメールで受け取ろう
+
 TXTレコードを追加してから、おおよそ30分後にSSL証明書がメール（@<img>{startSSL_104}）で届きました。
 
 //image[startSSL_104][SSL証明書がメールで届いた][scale=0.6]{
@@ -467,7 +473,9 @@ u5ZuCjxerxj3qS1rM46bcEfjopnaD7hnJXSYiL1d0yw5zSW2PEe+LHdoIAb2I6D8
 # mv default.conf default.conf.backup
 //}
 
-viコマンドで、同じ場所に新しい設定ファイルを作ります。viコマンドでファイルを編集するときは、i（アイ）を押してから入力します。書き終わったらESCキーを押して、「:wq」と入力してEnterキーを押せば変更が保存されます。
+viコマンドで、同じ場所に新しい設定ファイル@<fn>{nginxConf}を作ります。viコマンドでファイルを編集するときは、i（アイ）を押してから入力します。書き終わったらESCキーを押して、「:wq」と入力してEnterキーを押せば変更が保存されます。@<code>{ssl_ciphers}は途中で改行して4行になっていますが、実際は改行なしで1行です。
+
+//footnote[nginxConf][設定ファイル（startssl.conf）を手入力するのがしんどい場合は、PDF版からコピー＆ペーストしても構いません。紙の本を購入された方は、PDF版を無料でダウンロードできます。ダウンロード方法は「あとがき」をご確認ください]
 
 //cmd{
 # vi startssl.conf
@@ -486,8 +494,11 @@ server {
     # SSL証明書＋中間CA証明書
     ssl_certificate     /etc/nginx/ssl/startssl.crt;
 
-    # 暗号スイート
-    ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-GCM-SHA256;
+    # 暗号スイート　↓実際は改行なしで1行
+    ssl_ciphers ECDHE-ECDSA-AES256-GCM-SHA384:
+    ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:
+    ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:
+    DHE-RSA-AES128-GCM-SHA256;
 
     # プロトコルバージョン
     ssl_protocols       TLSv1.2;
