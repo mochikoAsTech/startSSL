@@ -99,7 +99,7 @@ Amazonなどのサイトを開くと、今日はまだログインしていな�
 
 Googleは「HTTPS everywhere」、つまり「（お問い合わせや会員登録といった一部のページに限らず）すべてをHTTPSで！」を提唱しており、2014年8月の時点で既に、HTTPSに対応しているウェブサイトを検索ランキングで優遇する方針も発表@<fn>{rankingSignal}しています。
 
-//footnote[rankingSignal][Google ウェブマスター向け公式ブログ \[JA\]: HTTPS をランキング シグナルに使用します @<href>{https://webmaster-ja.googleblog.com/2014/08/https-as-ranking-signal.html}]
+//footnote[rankingSignal][Google ウェブマスター向け公式ブログ [JA\]: HTTPS をランキング シグナルに使用します @<href>{https://webmaster-ja.googleblog.com/2014/08/https-as-ranking-signal.html}]
 
 Googleのランキングアルゴリズムでは、「サイトがHTTPS化されているか」が指標のひとつとなっています。もちろんたくさんある指標の中のひとつで、他の指標ほどウェイトは大きくない、とされていますが、競合サイトのHTTPS化が進む中、自分のサイトだけHTTPのままでいると、相対的に検索順位が下がる可能性があります。
 
