@@ -51,6 +51,7 @@ mochikoAsTech
  * Takeshi Matsuba
  * Mari Kubota
  * およねさん
+ * 矢崎 誠
 
 === 参考文献・ウェブサイト
 
