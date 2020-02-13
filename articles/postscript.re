@@ -12,15 +12,15 @@ To be honest, people can find @<ttb>{ANY} information on the internet. Everythin
 
 There is a lot of information floating around online. There is a lot of information about marketing, but I still have a ton of books at home on how to become a better marketer.
 
-People can take pictures with their smartphone--that doesn’t mean people who draw should stop drawing or people who paint should stop painting.
+People can take pictures with their smartphone--that doesn't mean people who draw should stop drawing or people who paint should stop painting.
 
 Keep writing!
 
-I’ve written a lot of articles online with the intention of helping people. People will leave comments like “What a stupid article! You think people don’t already know how to do this? Why waste your time writing this!?”
+I've written a lot of articles online with the intention of helping people. People will leave comments like “What a stupid article! You think people don't already know how to do this? Why waste your time writing this!?”
 
 But my answer is because I know my article helped someone and that makes me happy. Not everyone knows everything and if I can share my knowledge and help at least one person, then it is worth it for me.
 
-The point I’m trying to make is no matter what you do there is someone who will try to make you feel bad about it. Keep doing it anyway.
+The point I'm trying to make is no matter what you do there is someone who will try to make you feel bad about it. Keep doing it anyway.
 
 ---
 
