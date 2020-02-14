@@ -39,8 +39,8 @@ rules:
     pattern:  IncrementalDOM
   - expected: ECMAScript
     pattern:  EcmaScript
-  - expected: たとえば
-    pattern:  例えば
+  - expected: 例えば
+    pattern:  たとえば
   - expected: つたえる
     pattern:  伝える
   - expected: 聞き手

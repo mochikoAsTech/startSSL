@@ -24,7 +24,7 @@ The point I'm trying to make is no matter what you do there is someone who will 
 
 ---
 
-そして数ある技術書の中から「SSLをはじめよう」を手に取ってくださったあなたに感謝します。
+数ある技術書の中から「SSLをはじめよう」を手に取ってくださったあなたに感謝します。
 
 //flushright{
 
@@ -38,12 +38,14 @@ mochikoAsTech
 
 本書（紙の書籍）をお買い上げいただいた方は、下記のURLからPDF版を無料でダウンロードできます。
 
- * ダウンロードURL：@<href>{https://mochikoastech.booth.pm/items/xxxxxx}
+ * ダウンロードURL：@<href>{https://mochikoastech.booth.pm/items/1834443}
  * パスワード：@<ttb>{xxxxxx}
 
 == Special Thanks:
 
- * 私を仔猫だと思い込んでいるふさふさ茶色のやさしい猫に捧ぐ
+ * ふさふさ茶色のやさしい母猫に捧ぐ
+ * いつも変わらぬ愛で包んでくれる旦那様
+ * なんでもない日を祝ってくれる息子
  * Gunnell Marshall
 
 === レビュアー
