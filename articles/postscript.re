@@ -36,7 +36,7 @@ mochikoAsTech
 
 == PDF版のダウンロード
 
-本著（紙の書籍）をお買い上げいただいた方は、下記のURLからPDF版を無料でダウンロードできます。
+本書（紙の書籍）をお買い上げいただいた方は、下記のURLからPDF版を無料でダウンロードできます。
 
  * ダウンロードURL：@<href>{https://mochikoastech.booth.pm/items/xxxxxx}
  * パスワード：@<ttb>{xxxxxx}

@@ -16,7 +16,7 @@ HTTPSのサイトを作るのに、必要な材料は次の3つです。
 
 === Windowsでターミナル（RLogin）を準備する
 
-Windowsのパソコンを使っている方は、サーバを立てる前に「ターミナル」と呼ばれる黒い画面のソフトをインストールしておきましょう。サーバに接続するときにはこのターミナルを使います。ターミナルのソフトには色々な種類がありますが、本著ではRLogin@<fn>{rlogin}を使用します。RLoginのインストール方法は「AWSをはじめよう」@<fn>{boothAWS}で説明していますので、本著では省略します。
+Windowsのパソコンを使っている方は、サーバを立てる前に「ターミナル」と呼ばれる黒い画面のソフトをインストールしておきましょう。サーバに接続するときにはこのターミナルを使います。ターミナルのソフトには色々な種類がありますが、本書ではRLogin@<fn>{rlogin}を使用します。RLoginのインストール方法は「AWSをはじめよう」@<fn>{boothAWS}で説明していますので、本書では省略します。
 
 //footnote[boothAWS][@<href>{https://mochikoastech.booth.pm/items/1032590}]
 //footnote[rlogin][@<href>{http://nanno.dip.jp/softlib/man/rlogin/}]
@@ -140,7 +140,7 @@ ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Ai
 
 これは「あなたは何を持っているのか」「あなたは何を知っているのか」「あなたは誰なのか」という複数の要素の中から、2つを用いることで認証の強度を高める「二要素認証」と呼ばれる考え方です。「あなたは秘密鍵を持っている」「あなたはパスフレーズを知っている」という2つの要素を組み合わせることで、単要素での認証よりも強度が高まります。ちなみに「あなたは誰なのか」は指紋認証や顔認証ですね。
 
-ですが「パスワード認証じゃなくて鍵認証なのに、やっぱりパスフレーズが要るの…？」という具合に、初心者を混乱に陥れやすいので、本著では秘密鍵をパスフレーズなしで作って使います。
+ですが「パスワード認証じゃなくて鍵認証なのに、やっぱりパスフレーズが要るの…？」という具合に、初心者を混乱に陥れやすいので、本書では秘密鍵をパスフレーズなしで作って使います。
 
 パスフレーズは「設定していれば絶対に安心！」というものではありませんが、上記の理由から、本来であれば設定した方がいいものです。後で「やっぱり設定しておこう」と思ったら、一度作成した秘密鍵に対して、後からパスフレーズを設定することも可能です。なお手元の秘密鍵に後からパスフレーズを設定しても、サーバ側での変更は特に必要ありません。
 
@@ -166,7 +166,7 @@ ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Ai
 
 そしてパソコンと同じようにサーバにも「Linux」や「Windows Server」といったサーバ用のOSがあります。サーバを立てるときにはLinuxを選択することが多いのですが、このLinuxの中にもさらに「RHEL（Red Hat Enterprise Linux）」や「CentOS」、「Ubuntu」などいろいろなディストリビューション（種類）があります。
 
-本著では、OSはデフォルトの［Oracle Linux 7.7］を使用します。Oracle LinuxならOracle Cloudのツールがあらかじめ入っていますので、@<ttb>{Oracle Linuxでインスタンスを立てるときはOSはOralce Linuxにする}ことをお勧めします。Oracle LinuxはRed Hat系のディストリビューションですので、RHELやCentOSのサーバを使ったことがある方なら違和感なく使えると思います。
+本書では、OSはデフォルトの［Oracle Linux 7.7］を使用します。Oracle LinuxならOracle Cloudのツールがあらかじめ入っていますので、@<ttb>{Oracle Linuxでインスタンスを立てるときはOSはOralce Linuxにする}ことをお勧めします。Oracle LinuxはRed Hat系のディストリビューションですので、RHELやCentOSのサーバを使ったことがある方なら違和感なく使えると思います。
 
 2020年1月時点で、Oracle Linuxには次の2種類があります。
 
@@ -566,7 +566,7 @@ dhcpv6-client http https ssh
 ウェブサーバを立てて、HTTPでサイトを表示できたので、続いてはHTTPSのサイト用にドメイン名を用意します。「自分のドメイン名？そんなの持ってないよ！」という人は、先に「DNSをはじめよう」@<fn>{boothDNS}を読んで、ドメイン名を買ってからこの先へ進むようにしてください。@<fn>{ipSsl}
 
 //footnote[boothDNS][@<href>{https://mochikoastech.booth.pm/items/881622}]
-//footnote[ipSsl][本著で使用するFujiSSLのSSL証明書は、グローバルIPアドレスに対しては発行できません。必ずドメイン名が必要です。 @<href>{https://www.fujissl.jp/faq/review/1095/}]
+//footnote[ipSsl][本書で使用するFujiSSLのSSL証明書は、グローバルIPアドレスに対しては発行できません。必ずドメイン名が必要です。 @<href>{https://www.fujissl.jp/faq/review/1095/}]
 
 あなたが買ったドメイン名を使って「ssl.自分のドメイン名」のAレコードを作成して、サーバの［パブリックIPアドレス］と紐付けてください。ネームサーバはお名前.comを使用してもいいですし、AWSのRoute53で設定しても構いません。
 
