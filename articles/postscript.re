@@ -38,8 +38,10 @@ mochikoAsTech
 
 本書（紙の書籍）をお買い上げいただいた方は、下記のURLからPDF版を無料でダウンロードできます。
 
- * ダウンロードURL：@<href>{https://mochikoastech.booth.pm/items/1834443}
- * パスワード：@<ttb>{xxxxxx}
+ * ダウンロードURL
+ ** @<href>{https://mochikoastech.booth.pm/items/1834443}
+ * パスワード
+ ** @<ttb>{xxxxxx}
 
 == Special Thanks:
 

@@ -21,7 +21,7 @@ SSL証明書を取得して、実際にHTTPSのサイトを公開できました
 
 === SSL証明書はどんなときに使われている？
 
-そんなSSL証明書は、どんなときに使われているのでしょうか？SSL証明書は、あなたがブラウザで「@<ttb>{https://}」から始まるURLのサイトを開いて、次のようなマーク（@<img>{startSSL_81}、@<img>{startSSL_82}）が表示されているときに使われています。
+そんなSSL証明書は、どんなときに使われているのでしょうか？SSL証明書は、あなたがブラウザで「@<code>{https://}」から始まるURLのサイトを開いて、次のようなマーク（@<img>{startSSL_81}、@<img>{startSSL_82}）が表示されているときに使われています。
 
 //image[startSSL_81][ChromeでHTTPSのサイトを開いたとき][scale=0.6]{
 //}
@@ -29,7 +29,7 @@ SSL証明書を取得して、実際にHTTPSのサイトを公開できました
 //image[startSSL_82][FirefoxでHTTPSのサイトを開いたとき][scale=0.6]{
 //}
 
-逆に「@<ttb>{http://}」から始まるURLのサイトを開いて、次のようなマーク（@<img>{startSSL_80}、@<img>{startSSL_79}）が表示されているときは使われていません。
+逆に「@<code>{http://}」から始まるURLのサイトを開いて、次のようなマーク（@<img>{startSSL_80}、@<img>{startSSL_79}）が表示されているときは使われていません。
 
 //image[startSSL_80][ChromeでHTTPのサイトを開いたとき][scale=0.6]{
 //}
@@ -56,7 +56,7 @@ SSL証明書を取得して、実際にHTTPSのサイトを公開できました
 
 === HTTPSの実際の流れ
 
-ではHTTPSの全体を流れを掴むため、あなたが作ったサイト（@<ttb>{https://ssl.自分のドメイン名/}）をブラウザで開いたときのやりとりを、ざっくりと追いかけてみましょう。あなたのブラウザが「クライアント」で、Oracle Cloud上で立てたHTTPSのサイトが動いているのが「サーバ」です。
+ではHTTPSの全体を流れを掴むため、あなたが作ったサイト（@<code>{https://ssl.自分のドメイン名/}）をブラウザで開いたときのやりとりを、ざっくりと追いかけてみましょう。あなたのブラウザが「クライアント」で、Oracle Cloud上で立てたHTTPSのサイトが動いているのが「サーバ」です。
 
 ==== 認証を行なう
 
@@ -64,7 +64,7 @@ SSL証明書を取得して、実際にHTTPSのサイトを公開できました
 
 //footnote[rsa][もともとは認証だけでなく鍵交換もRSAで行なわれていましたが、RSAによる鍵交換は、一度秘密鍵が盗まれてしまうと、過去のやりとりもさかのぼって全ての暗号データを復号可能という問題がありました。そのためTLS1.3ではRSA鍵交換は廃止されています]
 
-1. ブラウザでHTTPSのサイト（@<ttb>{https://ssl.自分のドメイン名/}）を開く
+1. ブラウザでHTTPSのサイト（@<code>{https://ssl.自分のドメイン名/}）を開く
 
 2. クライアントからOracle Cloudのウェブサーバへリクエストを投げる
 
@@ -90,7 +90,7 @@ SSL証明書を取得して、実際にHTTPSのサイトを公開できました
 
  * これで渡されたSSL証明書本体が改ざんされていないことが分かる
 
-10. SSL証明書本体のSAN@<fn>{san}に記載されているFQDN@<fn>{fqdn}と、リクエスト先のFQDN（@<ttb>{ssl.自分のドメイン名}）が同一であることを確認
+10. SSL証明書本体のSAN@<fn>{san}に記載されているFQDN@<fn>{fqdn}と、リクエスト先のFQDN（@<code>{ssl.自分のドメイン名}）が同一であることを確認
 
  * これでレスポンスを返してきた相手がなりすましでないことが分かる
 
@@ -212,7 +212,7 @@ Chromeのメニューから［その他のツール］の［デベロッパー�
 
 あるいは「画像はページとは別のドメイン名なので、パスだけでなくドメイン名から指定しなければいけない」という場合は、@<code>{<img>}タグを@<code>{<img src="//image.example.com/images/top.png">}のようにプロトコルを省略して書くことで、先ほどと同じように、ページをHTTPで開いたときは画像もHTTPで、ページをHTTPSで開いたときは画像もHTTPSで表示されます。このようにして混在コンテンツを解消してやれば、きちんと鍵マークが表示されるようになります。
 
-ちなみに「Google HTML/CSS Style Guide@<fn>{guide}」では、このプロトコルを省略する書き方は非推奨とされています。ページがHTTPかHTTPSかに関わらず、画像はHTTPSで表示して構わない、という場合は、@<code>{<img src="https://www.example.com/images/top.png">}のように指定するのがいいでしょう。
+ちなみに「Google HTML/CSS Style Guide@<fn>{guide}」では、このプロトコルを省略する書き方は非推奨とされています。ページがHTTPかHTTPSかに関わらず、画像はHTTPSで表示して構わない、という場合は、@<code>{<img src="https://www.example.com/images/top.png">}のように指定する方法が推奨されています。
 
 //footnote[guide][@<href>{https://google.github.io/styleguide/htmlcssguide.html#Protocol}]
 
