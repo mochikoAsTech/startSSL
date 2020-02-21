@@ -166,7 +166,7 @@ ssh-rsa AAAAB3NzaC1yc2（中略）Unidb+6FjiLw== mochikoAsTech@mochikoMacBook-Ai
 
 そしてパソコンと同じようにサーバにも「Linux」や「Windows Server」といったサーバ用のOSがあります。サーバを立てるときにはLinuxを選択することが多いのですが、このLinuxの中にもさらに「RHEL（Red Hat Enterprise Linux）」や「CentOS」、「Ubuntu」などいろいろなディストリビューション（種類）があります。
 
-本書では、OSはデフォルトの［Oracle Linux 7.7］を使用します。Oracle LinuxならOracle Cloudのツールがあらかじめ入っていますので、Oracle Cloudでインスタンスを立てるときは@<ttb>{OSはOralce Linuxにする}ことをお勧めします。Oracle LinuxはRed Hat系のディストリビューションですので、RHELやCentOSのサーバを使ったことがある方なら違和感なく使えると思います。
+本書では、OSはデフォルトの［Oracle Linux 7.7］を使用します。Oracle LinuxならOracle Cloudのツールがあらかじめ入っていますので、Oracle Cloudでインスタンスを立てるときは@<ttb>{OSはOracle Linuxにする}ことをお勧めします。Oracle LinuxはRed Hat系のディストリビューションですので、RHELやCentOSのサーバを使ったことがある方なら違和感なく使えると思います。
 
 2020年1月時点で、Oracle Linuxには次の2種類があります。
 
