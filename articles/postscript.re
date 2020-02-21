@@ -16,7 +16,7 @@ People can take pictures with their smartphone--that doesn't mean people who dra
 
 Keep writing!
 
-I've written a lot of articles online with the intention of helping people. People will leave comments like “What a stupid article! You think people don't already know how to do this? Why waste your time writing this!?”
+I've written a lot of articles online with the intention of helping people. People will leave comments like "What a stupid article! You think people don't already know how to do this? Why waste your time writing this!?"
 
 But my answer is because I know my article helped someone and that makes me happy. Not everyone knows everything and if I can share my knowledge and help at least one person, then it is worth it for me.
 
@@ -67,5 +67,5 @@ mochikoAsTech
  ** @<href>{https://www.amazon.co.jp/dp/B00PHC4480}
  * SSL/TLSの基本 - Qiita
  ** @<href>{https://qiita.com/angel_p_57/items/446130934b425d90f89d}
- * 【図解】初心者も分かる”公開鍵/秘密鍵”の仕組み～公開鍵暗号方式の身近で具体的な利用例やメリット〜 | SEの道標
+ * 【図解】初心者も分かる"公開鍵/秘密鍵"の仕組み～公開鍵暗号方式の身近で具体的な利用例やメリット〜 | SEの道標
  ** @<href>{https://milestone-of-se.nesuke.com/sv-advanced/digicert/public-private-key/}
